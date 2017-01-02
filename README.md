@@ -1,9 +1,10 @@
 # sw-bot
-## Introduction
+[![Build Status](https://travis-ci.org/justindannguyen/sw-bot.svg?branch=develop)](https://travis-ci.org/justindannguyen/sw-bot)
+### Introduction
 My friends are playing summoner wars everydays and it tooks more than 1 hour to complete the game scenarios which is repeatative and kind of time consuming, that's why we have the *sw-bot* to automate the boring scenarios PVE.
 Let's use that time to have more fun with PvP instead.
 
-## Technologies stack
+### Technologies stack
 | Name  | Version | Description |
 | ----- |---------|-------------|
 | Java  | 1.8     | Java is being used to have the basic logic flow and Swing is being used to develop the UI.|
@@ -12,5 +13,5 @@ Let's use that time to have more fun with PvP instead.
 | Maven | -       | Build platform|
 | Eclipse | Oxygen | Development IDE|
 
-## How to use?
+### How to use?
 TBD
