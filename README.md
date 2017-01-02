@@ -1,5 +1,4 @@
-# sw-bot
-[![Build Status](https://travis-ci.org/justindannguyen/sw-bot.svg?branch=develop)](https://travis-ci.org/justindannguyen/sw-bot)
+# sw-bot [![codecov](https://codecov.io/gh/justindannguyen/sw-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/justindannguyen/sw-bot) [![Build Status](https://travis-ci.org/justindannguyen/sw-bot.svg?branch=develop)](https://travis-ci.org/justindannguyen/sw-bot)
 ### Introduction
 My friends are playing summoner wars everydays and it tooks more than 1 hour to complete the game scenarios which is repeatative and kind of time consuming, that's why we have the *sw-bot* to automate the boring scenarios PVE.
 Let's use that time to have more fun with PvP instead.
