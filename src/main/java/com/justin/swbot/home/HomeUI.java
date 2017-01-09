@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 public final class HomeUI extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    private StatusBar statusBar;
+    private StatusBarUI statusBar;
     private JPanel actionPanel;
     private JComboBox<String> scenarioCombobox;
     private JToggleButton toggeButton;
@@ -57,9 +57,9 @@ public final class HomeUI extends JFrame {
         return scenarioCombobox;
     }
 
-    private StatusBar getStatusBar() {
+    private StatusBarUI getStatusBar() {
         if (statusBar == null) {
-            statusBar = new StatusBar();
+            statusBar = new StatusBarUI();
         }
         return statusBar;
     }

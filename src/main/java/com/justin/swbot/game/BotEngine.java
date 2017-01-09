@@ -24,6 +24,20 @@ public final class BotEngine extends Thread {
 
     private BotEngine() {
         // This is the hidden constructor for singleton classes to make sure it can't be instanced by mistake.
+        start();
+    }
+
+    /**
+     * <p>
+     * Check if the bot engine is running or fall into sleep mode.
+     *
+     * <p>
+     * When the bot engine is in sleep mode, it still keep the infinitive loop but does nothings.
+     *
+     * @return <code>true</code> if the bot is running.
+     */
+    public boolean isRunning() {
+        return running;
     }
 
     /**
@@ -39,10 +53,22 @@ public final class BotEngine extends Thread {
                     sleep(500);
                 }
 
-            } catch (Exception e) {
+                // TODO to be implemented
+            } catch (final Exception e) {
                 // Provide the global catch exception so that the engine loop is infinitive.
+                // TODO to be implemented
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Set the bot engine as running or fall into sleep mode.
+     *
+     * @param running
+     *            <code>true</code> to active the running mode, otherwise fall into sleep mode.
+     */
+    public void setRunning(final boolean running) {
+        this.running = running;
     }
 }

@@ -3,10 +3,9 @@
  */
 package com.justin.swbot.home;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-
 import com.justin.swbot.game.director.ScenarioDirector;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -67,6 +66,7 @@ public final class HomeModel extends Observable {
      * Load all configured profiles in the store.
      */
     private void loadProfiles() {
+        profiles.clear();
         profiles.add("--Select profile--");
         profiles.add("Configure new profile...");
         setChanged();
