@@ -38,7 +38,8 @@ public final class ImageUtil {
      * @return the location in pixel and size of the template file in source file, <code>null</code> if not match in
      *         term of similarity and threshold
      */
-    public static Rectangle contains(String sourceFilePath, String templateFilePath, double threshold) {
+    public static Rectangle contains(final String sourceFilePath, final String templateFilePath,
+            final double threshold) {
         // read in image default colors
         Mat sourceColor = imread(sourceFilePath);
         Mat sourceGrey = new Mat(sourceColor.size(), CV_8UC1);
@@ -59,5 +60,9 @@ public final class ImageUtil {
         double similarity = maxVal.get() * 100;
         return similarity >= threshold ? new Rectangle(maxLoc.x(), maxLoc.y(), templateGrey.cols(), templateGrey.rows())
                 : null;
+    }
+
+    private ImageUtil() {
+        // This is the hidden constructor for utility classes to make sure it can't be instanced by mistake.
     }
 }
