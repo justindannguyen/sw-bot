@@ -66,10 +66,14 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>**/*UI.java</exclude>
-						<exclude>**/*Controller.java</exclude>
-						<exclude>**/*ControllerAction.java</exclude>
-						<exclude>**/Main.java</exclude>
+						<exclude>**/*UI.**</exclude>
+						<exclude>**/*UI$*.**</exclude>
+						<exclude>**/*Controller.*</exclude>
+						<exclude>**/*Controller$*.*</exclude>
+						<exclude>**/*ControllerAction.*</exclude>
+						<exclude>**/*ControllerAction$*.*</exclude>
+						<exclude>**/Main.*</exclude>
+						<exclude>**/Main$*.*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
