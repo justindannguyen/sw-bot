@@ -21,4 +21,8 @@ public class Main {
             }
         });
     }
+
+    private Main() {
+        // Hidden constructor
+    }
 }

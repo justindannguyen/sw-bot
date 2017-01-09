@@ -16,7 +16,12 @@ public final class BotEngine extends Thread {
 
     private static final BotEngine ENGINE = new BotEngine();
 
-    public static final BotEngine get() {
+    /**
+     * Get the singleton instance of {@link BotEngine}
+     *
+     * @return singleton instance.
+     */
+    public static BotEngine get() {
         return ENGINE;
     }
 

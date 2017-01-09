@@ -13,7 +13,7 @@ import net.miginfocom.swing.MigLayout;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class StatusBarUI extends JPanel {
+public final class StatusBarUI extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private JLabel statusLabel;

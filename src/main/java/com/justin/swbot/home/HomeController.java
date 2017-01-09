@@ -11,14 +11,6 @@ public final class HomeController {
     private HomeModel homeModel;
     private HomeControllerAction homeControllerAction;
 
-    HomeModel getHomeModel() {
-        return homeModel;
-    }
-
-    HomeUI getHomeUI() {
-        return homeUI;
-    }
-
     public void initialize() {
         if (homeModel == null) {
             homeModel = new HomeModel();
@@ -36,5 +28,13 @@ public final class HomeController {
             homeControllerAction = new HomeControllerAction(this);
         }
         homeControllerAction.initialize();
+    }
+
+    protected HomeModel getHomeModel() {
+        return homeModel;
+    }
+
+    protected HomeUI getHomeUI() {
+        return homeUI;
     }
 }

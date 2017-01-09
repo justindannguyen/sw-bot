@@ -18,14 +18,16 @@ import javax.swing.SwingUtilities;
  *
  * @author tuan3.nguyen@gmail.com
  */
-public class HomeControllerAction implements HomeModelListener, ActionListener {
+public final class HomeControllerAction implements HomeModelListener, ActionListener {
     private final HomeController homeController;
 
-    public HomeControllerAction(final HomeController homeController) {
-        this.homeController = homeController;
+    public HomeControllerAction(final HomeController initialHomeController) {
+        this.homeController = initialHomeController;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
@@ -33,6 +35,7 @@ public class HomeControllerAction implements HomeModelListener, ActionListener {
         final HomeUI homeUI = homeController.getHomeUI();
         final Object source = e.getSource();
         if (source == homeUI.getToggeButton()) {
+            // TODO to be implemented.
         }
     }
 
@@ -76,7 +79,8 @@ public class HomeControllerAction implements HomeModelListener, ActionListener {
         final HomeUI homeUI = homeController.getHomeUI();
 
         final Runnable runnable = () -> {
-            final DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) homeUI.getProfileComboBox().getModel();
+            final DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) homeUI.getProfileComboBox()
+                    .getModel();
             model.removeAllElements();
             homeModel.getProfiles().stream().forEach(profile -> model.addElement(profile));
         };
@@ -95,7 +99,8 @@ public class HomeControllerAction implements HomeModelListener, ActionListener {
         final HomeUI homeUI = homeController.getHomeUI();
 
         final Runnable runnable = () -> {
-            final DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) homeUI.getScenarioCombobox().getModel();
+            final DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) homeUI.getScenarioCombobox()
+                    .getModel();
             model.removeAllElements();
             homeModel.getScenarios().stream().map(pair -> pair.getKey()).forEach(key -> model.addElement(key));
         };

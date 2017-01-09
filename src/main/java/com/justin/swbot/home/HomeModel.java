@@ -18,11 +18,11 @@ import java.util.ServiceLoader;
  */
 public final class HomeModel extends Observable {
     /**
-     * Notification event key
+     * Notification event key.
      */
     public static final String PROFILES_LOADED = "PROFILES_LOADED";
     /**
-     * Notification event key
+     * Notification event key.
      */
     public static final String SCENARIOS_LOADED = "SCENARIOS_LOADED";
 
@@ -80,7 +80,7 @@ public final class HomeModel extends Observable {
         scenarios.clear();
         scenarios.add(new SimpleImmutableEntry<String, Object>("--Select scenario--", null));
         ServiceLoader.load(ScenarioDirector.class).forEach(
-                director -> scenarios.add(new SimpleImmutableEntry<String, Object>(director.getName(), director)));
+            director -> scenarios.add(new SimpleImmutableEntry<String, Object>(director.getName(), director)));
         setChanged();
         notifyObservers(SCENARIOS_LOADED);
     }

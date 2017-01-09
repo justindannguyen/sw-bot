@@ -36,13 +36,13 @@ import java.util.ServiceLoader;
 public interface ScenarioDirector {
     /**
      * Get the unique name of the director.
-     * 
+     *
      * @return unique identification name.
      */
     String getName();
 
     /**
-     * Base on the give game state, the director give suggestion what to do, where to click as a {@link Runnable}
+     * Base on the give game state, the director give suggestion what to do, where to click as a {@link Runnable}.
      *
      * @param gameState
      *            current game state.
