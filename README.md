@@ -17,3 +17,6 @@ Let's use that time to have more fun with PvP instead.
 
 ### How to use?
 TBD
+
+### Info
+This project has been discontinued.
