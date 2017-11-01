@@ -3,7 +3,9 @@
  */
 package com.justin.swbot;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 /**
@@ -25,8 +27,15 @@ public class CommandUtil {
       throw new IllegalArgumentException("command is null or empty");
     }
     final ProcessBuilder pb = new ProcessBuilder(Arrays.asList(params));
+
     try {
-      final Process process = pb.start();
+      final Process process = pb.redirectErrorStream(true).start();
+      final BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()));
+      while ((reader.readLine()) != null) {
+        // Just make buffer empty to prevent process from endless execution, especially on platform
+        // that limited buffer size for standard input and output streams.
+      }
       return process.waitFor() == 0;
     } catch (IOException | InterruptedException ex) {
       return false;
