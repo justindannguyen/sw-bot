@@ -6,6 +6,7 @@ package com.justin.swbot;
 import java.io.IOException;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -38,7 +39,16 @@ public class CommandUtilTest {
   }
 
   @Test
+  public void testRunCmd_withLinuxPingCommand() {
+    // This test only run on Linux
+    Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("linux"));
+    Assert.assertTrue(CommandUtil.get().runCmd("ping", "8.8.8.8", "-c", "1"));
+  }
+
+  @Test
   public void testRunCmd_withWindowsPingCommand() {
+    // This test only run on Windows
+    Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("win"));
     Assert.assertTrue(CommandUtil.get().runCmd("ping", "8.8.8.8", "-n", "1"));
   }
 }
