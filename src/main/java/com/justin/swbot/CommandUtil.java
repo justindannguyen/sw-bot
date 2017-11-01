@@ -32,7 +32,9 @@ public class CommandUtil {
       final Process process = pb.redirectErrorStream(true).start();
       final BufferedReader reader =
           new BufferedReader(new InputStreamReader(process.getInputStream()));
-      while ((reader.readLine()) != null) {
+      String consoleLine;
+      while ((consoleLine = reader.readLine()) != null) {
+        System.out.println(consoleLine);
         // Just make buffer empty to prevent process from endless execution, especially on platform
         // that limited buffer size for standard input and output streams.
       }
