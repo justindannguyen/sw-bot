@@ -8,7 +8,7 @@ import java.awt.Image;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class BoxPicker extends AbstractPicker<Image> {
+public class BoxPicker extends AbstractPicker {
   private static final long serialVersionUID = 1L;
 
   public BoxPicker() {
@@ -23,7 +23,7 @@ public class BoxPicker extends AbstractPicker<Image> {
       getTextLabel().setText("Image Available");
     }
     if (valueListener != null) {
-      valueListener.valueChanged(selectedBox);
+      valueListener.valueChanged(this, selectedBox);
     }
   }
 

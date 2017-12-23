@@ -8,7 +8,7 @@ import java.awt.Point;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class PointPicker extends AbstractPicker<Point> {
+public class PointPicker extends AbstractPicker {
   private static final long serialVersionUID = 1L;
 
   public PointPicker() {
@@ -25,7 +25,7 @@ public class PointPicker extends AbstractPicker<Point> {
       getTextLabel().setText(String.format("Point (%s, %s)", selectedPoint.x, selectedPoint.y));
     }
     if (valueListener != null) {
-      valueListener.valueChanged(selectedPoint);
+      valueListener.valueChanged(this, selectedPoint);
     }
   }
 }

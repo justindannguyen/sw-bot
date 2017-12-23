@@ -3,9 +3,15 @@
  */
 package com.justin.swbot.game;
 
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -44,12 +50,24 @@ public class GameConfig {
   public static final String RESEND_BATTLE_INFO_Y = "resendBattleInfoY";
 
   private static final GameConfig INSTANCE = new GameConfig();
+  private static final String IMAGE_FORMAT = "png";
 
   public static GameConfig get() {
     return INSTANCE;
   }
 
   private final Properties props = new Properties();
+  private String profileName;
+  private BufferedImage replayBattleIndicator;
+  private BufferedImage startBattleIndicator;
+  private BufferedImage battleEndIndicator;
+  private BufferedImage runeRewardIndiator;
+  private BufferedImage confirmSellRuneIndicator;
+  private BufferedImage otherRewardIndicator;
+  private BufferedImage manualAttackIndicator;
+  private BufferedImage noEnergyIndicator;
+  private BufferedImage networkDelayIndicator;
+  private BufferedImage networkUnstableIndicator;
 
   public String getAckRechargeEnergyOkX() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_X);
@@ -57,6 +75,10 @@ public class GameConfig {
 
   public String getAckRechargeEnergyOkY() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_Y);
+  }
+
+  public BufferedImage getBattleEndIndicator() {
+    return battleEndIndicator;
   }
 
   public String getCloseRechargeEnergyX() {
@@ -83,6 +105,10 @@ public class GameConfig {
     return props.getProperty(CONFIRM_RECHARGE_ENERGY_Y);
   }
 
+  public BufferedImage getConfirmSellRuneIndicator() {
+    return confirmSellRuneIndicator;
+  }
+
   public String getEnableAutoModeX() {
     return props.getProperty(ENABLE_AUTO_MODE_X);
   }
@@ -105,6 +131,34 @@ public class GameConfig {
 
   public String getGetRuneLocationY() {
     return props.getProperty(GET_RUNE_LOC_Y);
+  }
+
+  public BufferedImage getManualAttackIndicator() {
+    return manualAttackIndicator;
+  }
+
+  public BufferedImage getNetworkDelayIndicator() {
+    return networkDelayIndicator;
+  }
+
+  public BufferedImage getNetworkUnstableIndicator() {
+    return networkUnstableIndicator;
+  }
+
+  public BufferedImage getNoEnergyIndicator() {
+    return noEnergyIndicator;
+  }
+
+  public BufferedImage getOtherRewardIndicator() {
+    return otherRewardIndicator;
+  }
+
+  public String getProfileName() {
+    return profileName;
+  }
+
+  public File getProfilesFolder() {
+    return new File("profiles");
   }
 
   public String getRechargeEnergyNoX() {
@@ -135,6 +189,10 @@ public class GameConfig {
     return props.getProperty(REFILL_TIMES);
   }
 
+  public BufferedImage getReplayBattleIndicator() {
+    return replayBattleIndicator;
+  }
+
   public String getReplayBattleX() {
     return props.getProperty(REPLAY_BATTLE_X);
   }
@@ -149,6 +207,10 @@ public class GameConfig {
 
   public String getResendBattleInfoY() {
     return props.getProperty(RESEND_BATTLE_INFO_Y);
+  }
+
+  public BufferedImage getRuneRewardIndiator() {
+    return runeRewardIndiator;
   }
 
   public String getSellRuneConfirmationX() {
@@ -167,6 +229,10 @@ public class GameConfig {
     return props.getProperty(SELL_RUNE_LOC_Y);
   }
 
+  public BufferedImage getStartBattleIndicator() {
+    return startBattleIndicator;
+  }
+
   public String getStartBattleX() {
     return props.getProperty(START_BATTLE_X);
   }
@@ -182,5 +248,161 @@ public class GameConfig {
       System.err.println("Can't load the game configuration");
       ex.printStackTrace();
     }
+  }
+
+  public void save() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, getProfileName());
+    if (!profileFolder.exists()) {
+      profileFolder.mkdirs();
+    }
+
+    try (FileOutputStream fos = new FileOutputStream(new File(profileFolder, "index.properties"))) {
+      props.store(fos, "");
+      ImageIO.write(replayBattleIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "replayBattleIndicator"));
+      ImageIO.write(startBattleIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "startBattleIndicator"));
+      ImageIO.write(battleEndIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "battleEndIndicator"));
+      ImageIO.write(runeRewardIndiator, IMAGE_FORMAT,
+          new File(profileFolder, "runeRewardIndiator"));
+      ImageIO.write(confirmSellRuneIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "confirmSellRuneIndicator"));
+      ImageIO.write(otherRewardIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "otherRewardIndicator"));
+      ImageIO.write(manualAttackIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "manualAttackIndicator"));
+      ImageIO.write(noEnergyIndicator, IMAGE_FORMAT, new File(profileFolder, "noEnergyIndicator"));
+      ImageIO.write(networkDelayIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "networkDelayIndicator"));
+      ImageIO.write(networkUnstableIndicator, IMAGE_FORMAT,
+          new File(profileFolder, "networkUnstableIndicator"));
+    } catch (final IOException ex) {
+      throw new RuntimeException("Could not store the profile", ex);
+    }
+  }
+
+  public void setAckRechargeEnergyOk(final Point point) {
+    props.setProperty(ACK_RECHARGE_ENERGY_OK_X, String.valueOf(point.x));
+    props.setProperty(ACK_RECHARGE_ENERGY_OK_Y, String.valueOf(point.y));
+  }
+
+  public void setBattleEndIndicator(final BufferedImage battleEndIndicator) {
+    this.battleEndIndicator = battleEndIndicator;
+  }
+
+  public void setCloseRechargeEnergy(final Point point) {
+    props.setProperty(CLOSE_RECHARGE_ENERGY_X, String.valueOf(point.x));
+    props.setProperty(CLOSE_RECHARGE_ENERGY_Y, String.valueOf(point.y));
+  }
+
+  public void setConfirmNetworkDelay(final Point point) {
+    props.setProperty(CONFIRM_NETWORK_DELAY_X, String.valueOf(point.x));
+    props.setProperty(CONFIRM_NETWORK_DELAY_Y, String.valueOf(point.y));
+  }
+
+  public void setConfirmRechargeEnergy(final Point point) {
+    props.setProperty(CONFIRM_RECHARGE_ENERGY_X, String.valueOf(point.x));
+    props.setProperty(CONFIRM_RECHARGE_ENERGY_Y, String.valueOf(point.y));
+  }
+
+  public void setConfirmSellRuneIndicator(final BufferedImage confirmSellRuneIndicator) {
+    this.confirmSellRuneIndicator = confirmSellRuneIndicator;
+  }
+
+  public void setEnableAutoMode(final Point point) {
+    props.setProperty(ENABLE_AUTO_MODE_X, String.valueOf(point.x));
+    props.setProperty(ENABLE_AUTO_MODE_Y, String.valueOf(point.y));
+  }
+
+  public void setGetRewardLocation(final Point point) {
+    props.setProperty(GET_REWARD_LOC_X, String.valueOf(point.x));
+    props.setProperty(GET_REWARD_LOC_Y, String.valueOf(point.y));
+  }
+
+  public void setGetRuneLocation(final Point point) {
+    props.setProperty(GET_RUNE_LOC_X, String.valueOf(point.x));
+    props.setProperty(GET_RUNE_LOC_Y, String.valueOf(point.y));
+  }
+
+  public void setManualAttackIndicator(final BufferedImage manualAttackIndicator) {
+    this.manualAttackIndicator = manualAttackIndicator;
+  }
+
+  public void setNetworkDelayIndicator(final BufferedImage networkDelayIndicator) {
+    this.networkDelayIndicator = networkDelayIndicator;
+  }
+
+  public void setNetworkUnstableIndicator(final BufferedImage networkUnstableIndicator) {
+    this.networkUnstableIndicator = networkUnstableIndicator;
+  }
+
+  public void setNoEnergyIndicator(final BufferedImage noEnergyIndicator) {
+    this.noEnergyIndicator = noEnergyIndicator;
+  }
+
+  public void setOtherRewardIndicator(final BufferedImage otherRewardIndicator) {
+    this.otherRewardIndicator = otherRewardIndicator;
+  }
+
+  public void setProfileName(final String profileName) {
+    this.profileName = profileName;
+  }
+
+  public void setRechargeEnergy(final Point point) {
+    props.setProperty(RECHARGE_ENERGY_X, String.valueOf(point.x));
+    props.setProperty(RECHARGE_ENERGY_Y, String.valueOf(point.y));
+  }
+
+  public void setRechargeEnergyNo(final Point point) {
+    props.setProperty(RECHARGE_ENGERGY_NO_X, String.valueOf(point.x));
+    props.setProperty(RECHARGE_ENGERGY_NO_Y, String.valueOf(point.y));
+  }
+
+  public void setRechargeEnergyYes(final Point point) {
+    props.setProperty(RECHARGE_ENGERGY_YES_X, String.valueOf(point.x));
+    props.setProperty(RECHARGE_ENGERGY_YES_Y, String.valueOf(point.y));
+  }
+
+  public void setRefillTimes(final int refillTimes) {
+    props.setProperty(REFILL_TIMES, String.valueOf(refillTimes));
+  }
+
+  public void setReplayBattle(final Point point) {
+    props.setProperty(REPLAY_BATTLE_X, String.valueOf(point.x));
+    props.setProperty(REPLAY_BATTLE_Y, String.valueOf(point.y));
+  }
+
+  public void setReplayBattleIndicator(final BufferedImage replayBattleIndicator) {
+    this.replayBattleIndicator = replayBattleIndicator;
+  }
+
+  public void setResendBattleInfoX(final Point point) {
+    props.setProperty(RESEND_BATTLE_INFO_X, String.valueOf(point.x));
+    props.setProperty(RESEND_BATTLE_INFO_Y, String.valueOf(point.y));
+  }
+
+  public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {
+    this.runeRewardIndiator = runeRewardIndiator;
+  }
+
+  public void setSellRuneConfirmation(final Point point) {
+    props.setProperty(SELL_RUNE_CONFIRM_X, String.valueOf(point.x));
+    props.setProperty(SELL_RUNE_CONFIRM_Y, String.valueOf(point.y));
+  }
+
+  public void setSellRuneLocation(final Point point) {
+    props.setProperty(SELL_RUNE_LOC_X, String.valueOf(point.x));
+    props.setProperty(SELL_RUNE_LOC_Y, String.valueOf(point.y));
+  }
+
+  public void setStartBattle(final Point point) {
+    props.setProperty(START_BATTLE_X, String.valueOf(point.y));
+    props.setProperty(START_BATTLE_Y, String.valueOf(point.y));
+  }
+
+  public void setStartBattleIndicator(final BufferedImage startBattleIndicator) {
+    this.startBattleIndicator = startBattleIndicator;
   }
 }

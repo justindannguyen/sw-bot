@@ -3,38 +3,53 @@
  */
 package com.justin.swbot.home;
 
+import com.justin.swbot.game.Controller;
+import com.justin.swbot.game.ControllerRegistry;
+
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public final class HomeController {
-    private HomeUI homeUI;
-    private HomeModel homeModel;
-    private HomeControllerAction homeControllerAction;
+public final class HomeController implements Controller {
+  private HomeUI homeUI;
+  private HomeModel homeModel;
+  private HomeControllerAction homeControllerAction;
 
-    public void initialize() {
-        if (homeModel == null) {
-            homeModel = new HomeModel();
-        }
+  public void initialize() {
+    ControllerRegistry.register(this);
+    if (homeModel == null) {
+      homeModel = new HomeModel();
     }
+  }
 
-    public void launchUI() {
-        if (homeUI == null) {
-            homeUI = new HomeUI();
-            homeUI.pack();
-        }
-        homeUI.setVisible(true);
-
-        if (homeControllerAction == null) {
-            homeControllerAction = new HomeControllerAction(this);
-        }
-        homeControllerAction.initialize();
+  @Override
+  public void launchUI() {
+    if (homeUI == null) {
+      homeUI = new HomeUI();
+      homeUI.pack();
     }
+    homeUI.setVisible(true);
 
-    protected HomeModel getHomeModel() {
-        return homeModel;
+    if (homeControllerAction == null) {
+      homeControllerAction = new HomeControllerAction(this);
+      homeControllerAction.initialize();
     }
+    homeModel.loadData();
+  }
 
-    protected HomeUI getHomeUI() {
-        return homeUI;
-    }
+  public void selectProfile(final String profileName) {
+    homeModel.setSelectedProfile(profileName);
+  }
+
+  @Override
+  public void unlaunchUI() {
+    homeUI.setVisible(false);
+  }
+
+  protected HomeModel getHomeModel() {
+    return homeModel;
+  }
+
+  protected HomeUI getHomeUI() {
+    return homeUI;
+  }
 }

@@ -6,6 +6,6 @@ package com.justin.swbot.component.event;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public interface ValueListener<T> {
-  void valueChanged(T newValue);
+public interface ValueListener {
+  void valueChanged(Object source, Object newValue);
 }

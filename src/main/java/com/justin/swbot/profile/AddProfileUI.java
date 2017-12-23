@@ -4,8 +4,10 @@
 package com.justin.swbot.profile;
 
 import java.awt.Color;
+import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,122 +35,266 @@ public class AddProfileUI extends JFrame {
   private JSpinner spinner;
   private JLabel lblReplayBattleLocation;
   private JLabel lblStartBattleLocation;
-  private PointPicker replayPointPicker;
-  private PointPicker startBattlePointPicker;
+  public PointPicker replayPointPicker;
+  public PointPicker startBattlePointPicker;
   private JPanel pointConfigurationPanel;
   private JLabel lblSellRuneLocation;
-  private PointPicker sellRunePointPicker;
+  public PointPicker sellRunePointPicker;
   private JLabel lblGetRuneLocation;
-  private PointPicker getRunePointPicker;
+  public PointPicker getRunePointPicker;
   private JLabel lblGetRewardLocation;
-  private PointPicker getRewardPointPicker;
+  public PointPicker getRewardPointPicker;
   private JLabel lblEnableAutoAttack;
-  private PointPicker autoAttackPointPicker;
+  public PointPicker autoAttackPointPicker;
   private JLabel lblSellRuneConfirm;
-  private PointPicker sellRuneConfirmPointPicker;
+  public PointPicker sellRuneConfirmPointPicker;
   private JLabel lblRechargeEnergyLocation;
-  private PointPicker rechargeYesPointPicker;
+  public PointPicker rechargeYesPointPicker;
   private JLabel lblNotRechargeEnergy;
-  private PointPicker rechargeNoPointPicker;
+  public PointPicker rechargeNoPointPicker;
   private JLabel lblEnergyOptionLocation;
-  private PointPicker energyShopPointPicker;
+  public PointPicker energyShopPointPicker;
   private JLabel lblConfirmRechargeEnergy;
-  private PointPicker confirmRechargePointPicker;
+  public PointPicker confirmRechargePointPicker;
   private JLabel lblAckRechargeSuccessful;
-  private PointPicker ackRefillPointPicker;
+  public PointPicker ackRefillPointPicker;
   private JLabel lblCloseRefillShop;
-  private PointPicker closeShopPointPicker;
+  public PointPicker closeShopPointPicker;
   private JLabel lblNetworkDelay;
   private JLabel lblUnstableNetwork;
-  private PointPicker networkDelayPointPicker;
-  private PointPicker resendBattleInfoPointPicker;
+  public PointPicker networkDelayPointPicker;
+  public PointPicker resendBattleInfoPointPicker;
   private JPanel panel;
   private JLabel lblReplayBattleIndicator;
-  private BoxPicker replayBattleBoxPicker;
+  public BoxPicker replayBattleBoxPicker;
   private JLabel lblStartBattleIndicator;
-  private BoxPicker startBattleBoxPicker;
+  public BoxPicker startBattleBoxPicker;
   private JLabel lblBattleEndIndicator;
-  private BoxPicker endBattleBoxPicker;
+  public BoxPicker endBattleBoxPicker;
   private JLabel lblSellRuneIndiator;
-  private BoxPicker runeRewardBoxPicker;
+  public BoxPicker runeRewardBoxPicker;
   private JLabel lblConfirmRune;
-  private BoxPicker confirmSellRuneBoxPicker;
+  public BoxPicker confirmSellRuneBoxPicker;
   private JLabel lblOtherRewardIndicator;
-  private BoxPicker otherRewardBoxPicker;
+  public BoxPicker otherRewardBoxPicker;
   private JLabel lblManualAttackIndicator;
-  private BoxPicker manualAttBoxPicker;
+  public BoxPicker manualAttBoxPicker;
   private JLabel lblNoEnergyIndicator;
-  private BoxPicker noEnergyBoxPicker;
+  public BoxPicker noEnergyBoxPicker;
   private JLabel lblNetworkDelayIndicator;
-  private BoxPicker networkDelayBoxPicker;
+  public BoxPicker networkDelayBoxPicker;
   private JLabel lblUnstableNetworkIndicator;
-  private BoxPicker unstableNetworkBoxPicker;
+  public BoxPicker unstableNetworkBoxPicker;
+  private JButton createButton;
+  private JButton cancelButton;
 
   public AddProfileUI() {
     initGUI();
   }
 
-  private PointPicker getAckRefillPointPicker() {
+  public PointPicker getAckRefillPointPicker() {
     if (ackRefillPointPicker == null) {
       ackRefillPointPicker = new PointPicker();
     }
     return ackRefillPointPicker;
   }
 
-  private PointPicker getAutoAttackPointPicker() {
+  public PointPicker getAutoAttackPointPicker() {
     if (autoAttackPointPicker == null) {
       autoAttackPointPicker = new PointPicker();
     }
     return autoAttackPointPicker;
   }
 
-  private PointPicker getCloseShopPointPicker() {
+  public JButton getCancelButton() {
+    if (cancelButton == null) {
+      cancelButton = new JButton("Cancel");
+    }
+    return cancelButton;
+  }
+
+  public PointPicker getCloseShopPointPicker() {
     if (closeShopPointPicker == null) {
       closeShopPointPicker = new PointPicker();
     }
     return closeShopPointPicker;
   }
 
-  private PointPicker getConfirmRechargePointPicker() {
+  public PointPicker getConfirmRechargePointPicker() {
     if (confirmRechargePointPicker == null) {
       confirmRechargePointPicker = new PointPicker();
     }
     return confirmRechargePointPicker;
   }
 
-  private BoxPicker getConfirmSellRuneBoxPicker() {
+  public BoxPicker getConfirmSellRuneBoxPicker() {
     if (confirmSellRuneBoxPicker == null) {
       confirmSellRuneBoxPicker = new BoxPicker();
     }
     return confirmSellRuneBoxPicker;
   }
 
-  private BoxPicker getEndBattleBoxPicker() {
+  public JButton getCreateButton() {
+    if (createButton == null) {
+      createButton = new JButton("Create");
+    }
+    return createButton;
+  }
+
+  public BoxPicker getEndBattleBoxPicker() {
     if (endBattleBoxPicker == null) {
       endBattleBoxPicker = new BoxPicker();
     }
     return endBattleBoxPicker;
   }
 
-  private PointPicker getEnergyShopPointPicker() {
+  public PointPicker getEnergyShopPointPicker() {
     if (energyShopPointPicker == null) {
       energyShopPointPicker = new PointPicker();
     }
     return energyShopPointPicker;
   }
 
-  private PointPicker getGetRewardPointPicker() {
+  public PointPicker getGetRewardPointPicker() {
     if (getRewardPointPicker == null) {
       getRewardPointPicker = new PointPicker();
     }
     return getRewardPointPicker;
   }
 
-  private PointPicker getGetRunePointPicker() {
+  public PointPicker getGetRunePointPicker() {
     if (getRunePointPicker == null) {
       getRunePointPicker = new PointPicker();
     }
     return getRunePointPicker;
+  }
+
+  public BoxPicker getManualAttBoxPicker() {
+    if (manualAttBoxPicker == null) {
+      manualAttBoxPicker = new BoxPicker();
+    }
+    return manualAttBoxPicker;
+  }
+
+  public BoxPicker getNetworkDelayBoxPicker() {
+    if (networkDelayBoxPicker == null) {
+      networkDelayBoxPicker = new BoxPicker();
+    }
+    return networkDelayBoxPicker;
+  }
+
+  public PointPicker getNetworkDelayPointPicker() {
+    if (networkDelayPointPicker == null) {
+      networkDelayPointPicker = new PointPicker();
+    }
+    return networkDelayPointPicker;
+  }
+
+  public BoxPicker getNoEnergyBoxPicker() {
+    if (noEnergyBoxPicker == null) {
+      noEnergyBoxPicker = new BoxPicker();
+    }
+    return noEnergyBoxPicker;
+  }
+
+  public BoxPicker getOtherRewardBoxPicker() {
+    if (otherRewardBoxPicker == null) {
+      otherRewardBoxPicker = new BoxPicker();
+    }
+    return otherRewardBoxPicker;
+  }
+
+  public PointPicker getRechargeNoPointPicker() {
+    if (rechargeNoPointPicker == null) {
+      rechargeNoPointPicker = new PointPicker();
+    }
+    return rechargeNoPointPicker;
+  }
+
+  public PointPicker getRechargeYesPointPicker() {
+    if (rechargeYesPointPicker == null) {
+      rechargeYesPointPicker = new PointPicker();
+    }
+    return rechargeYesPointPicker;
+  }
+
+  public BoxPicker getReplayBattleBoxPicker() {
+    if (replayBattleBoxPicker == null) {
+      replayBattleBoxPicker = new BoxPicker();
+    }
+    return replayBattleBoxPicker;
+  }
+
+  public PointPicker getReplayPointPicker() {
+    if (replayPointPicker == null) {
+      replayPointPicker = new PointPicker();
+    }
+    return replayPointPicker;
+  }
+
+  public PointPicker getResendBattleInfoPointPicker() {
+    if (resendBattleInfoPointPicker == null) {
+      resendBattleInfoPointPicker = new PointPicker();
+    }
+    return resendBattleInfoPointPicker;
+  }
+
+  public BoxPicker getRuneRewardBoxPicker() {
+    if (runeRewardBoxPicker == null) {
+      runeRewardBoxPicker = new BoxPicker();
+    }
+    return runeRewardBoxPicker;
+  }
+
+  public PointPicker getSellRuneConfirmPointPicker() {
+    if (sellRuneConfirmPointPicker == null) {
+      sellRuneConfirmPointPicker = new PointPicker();
+    }
+    return sellRuneConfirmPointPicker;
+  }
+
+  public PointPicker getSellRunePointPicker() {
+    if (sellRunePointPicker == null) {
+      sellRunePointPicker = new PointPicker();
+    }
+    return sellRunePointPicker;
+  }
+
+  public JSpinner getSpinner() {
+    if (spinner == null) {
+      spinner = new JSpinner();
+      spinner.setModel(new SpinnerNumberModel(0, 0, 20, 1));
+    }
+    return spinner;
+  }
+
+  public BoxPicker getStartBattleBoxPicker() {
+    if (startBattleBoxPicker == null) {
+      startBattleBoxPicker = new BoxPicker();
+    }
+    return startBattleBoxPicker;
+  }
+
+  public PointPicker getStartBattlePointPicker() {
+    if (startBattlePointPicker == null) {
+      startBattlePointPicker = new PointPicker();
+    }
+    return startBattlePointPicker;
+  }
+
+  public JTextField getTextField() {
+    if (textField == null) {
+      textField = new JTextField();
+      textField.setColumns(10);
+    }
+    return textField;
+  }
+
+  public BoxPicker getUnstableNetworkBoxPicker() {
+    if (unstableNetworkBoxPicker == null) {
+      unstableNetworkBoxPicker = new BoxPicker();
+    }
+    return unstableNetworkBoxPicker;
   }
 
   private JLabel getLblAckRechargeSuccessful() {
@@ -274,7 +420,7 @@ public class AddProfileUI extends JFrame {
 
   private JLabel getLblProfileName() {
     if (lblProfileName == null) {
-      lblProfileName = new JLabel("Profile Name");
+      lblProfileName = new JLabel("Profile Name*");
     }
     return lblProfileName;
   }
@@ -374,41 +520,6 @@ public class AddProfileUI extends JFrame {
     return lblUnstableNetworkIndicator;
   }
 
-  private BoxPicker getManualAttBoxPicker() {
-    if (manualAttBoxPicker == null) {
-      manualAttBoxPicker = new BoxPicker();
-    }
-    return manualAttBoxPicker;
-  }
-
-  private BoxPicker getNetworkDelayBoxPicker() {
-    if (networkDelayBoxPicker == null) {
-      networkDelayBoxPicker = new BoxPicker();
-    }
-    return networkDelayBoxPicker;
-  }
-
-  private PointPicker getNetworkDelayPointPicker() {
-    if (networkDelayPointPicker == null) {
-      networkDelayPointPicker = new PointPicker();
-    }
-    return networkDelayPointPicker;
-  }
-
-  private BoxPicker getNoEnergyBoxPicker() {
-    if (noEnergyBoxPicker == null) {
-      noEnergyBoxPicker = new BoxPicker();
-    }
-    return noEnergyBoxPicker;
-  }
-
-  private BoxPicker getOtherRewardBoxPicker() {
-    if (otherRewardBoxPicker == null) {
-      otherRewardBoxPicker = new BoxPicker();
-    }
-    return otherRewardBoxPicker;
-  }
-
   private JPanel getPanel() {
     if (panel == null) {
       panel = new JPanel();
@@ -483,110 +594,20 @@ public class AddProfileUI extends JFrame {
     return pointConfigurationPanel;
   }
 
-  private PointPicker getRechargeNoPointPicker() {
-    if (rechargeNoPointPicker == null) {
-      rechargeNoPointPicker = new PointPicker();
-    }
-    return rechargeNoPointPicker;
-  }
-
-  private PointPicker getRechargeYesPointPicker() {
-    if (rechargeYesPointPicker == null) {
-      rechargeYesPointPicker = new PointPicker();
-    }
-    return rechargeYesPointPicker;
-  }
-
-  private BoxPicker getReplayBattleBoxPicker() {
-    if (replayBattleBoxPicker == null) {
-      replayBattleBoxPicker = new BoxPicker();
-    }
-    return replayBattleBoxPicker;
-  }
-
-  private PointPicker getReplayPointPicker() {
-    if (replayPointPicker == null) {
-      replayPointPicker = new PointPicker();
-    }
-    return replayPointPicker;
-  }
-
-  private PointPicker getResendBattleInfoPointPicker() {
-    if (resendBattleInfoPointPicker == null) {
-      resendBattleInfoPointPicker = new PointPicker();
-    }
-    return resendBattleInfoPointPicker;
-  }
-
-  private BoxPicker getRuneRewardBoxPicker() {
-    if (runeRewardBoxPicker == null) {
-      runeRewardBoxPicker = new BoxPicker();
-    }
-    return runeRewardBoxPicker;
-  }
-
-  private PointPicker getSellRuneConfirmPointPicker() {
-    if (sellRuneConfirmPointPicker == null) {
-      sellRuneConfirmPointPicker = new PointPicker();
-    }
-    return sellRuneConfirmPointPicker;
-  }
-
-  private PointPicker getSellRunePointPicker() {
-    if (sellRunePointPicker == null) {
-      sellRunePointPicker = new PointPicker();
-    }
-    return sellRunePointPicker;
-  }
-
-  private JSpinner getSpinner() {
-    if (spinner == null) {
-      spinner = new JSpinner();
-      spinner.setModel(new SpinnerNumberModel(0, 0, 20, 1));
-    }
-    return spinner;
-  }
-
-  private BoxPicker getStartBattleBoxPicker() {
-    if (startBattleBoxPicker == null) {
-      startBattleBoxPicker = new BoxPicker();
-    }
-    return startBattleBoxPicker;
-  }
-
-  private PointPicker getStartBattlePointPicker() {
-    if (startBattlePointPicker == null) {
-      startBattlePointPicker = new PointPicker();
-    }
-    return startBattlePointPicker;
-  }
-
-  private JTextField getTextField() {
-    if (textField == null) {
-      textField = new JTextField();
-      textField.setColumns(10);
-    }
-    return textField;
-  }
-
-  private BoxPicker getUnstableNetworkBoxPicker() {
-    if (unstableNetworkBoxPicker == null) {
-      unstableNetworkBoxPicker = new BoxPicker();
-    }
-    return unstableNetworkBoxPicker;
-  }
-
   private void initGUI() {
+    setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
     setPreferredSize(new Dimension(800, 800));
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setTitle("Profile Editor");
     getContentPane()
-        .setLayout(new MigLayout("", "[400px,grow,fill][450px,grow,fill]", "[][][grow]"));
+        .setLayout(new MigLayout("", "[400px,grow,fill][450px,grow,fill]", "[][][grow][]"));
     getContentPane().add(getLblProfileName(), "flowx,cell 0 0");
     getContentPane().add(getLblRefillTimes(), "flowx,cell 1 0");
     getContentPane().add(getPointConfigurationPanel(), "cell 0 2,grow");
     getContentPane().add(getTextField(), "cell 0 0");
     getContentPane().add(getPanel(), "cell 1 2,grow");
     getContentPane().add(getSpinner(), "cell 1 0");
+    getContentPane().add(getCreateButton(), "flowx,cell 1 3");
+    getContentPane().add(getCancelButton(), "cell 1 3");
   }
 }

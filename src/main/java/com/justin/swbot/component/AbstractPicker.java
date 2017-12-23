@@ -17,12 +17,12 @@ import net.miginfocom.swing.MigLayout;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public abstract class AbstractPicker<T> extends JPanel implements ActionListener {
+public abstract class AbstractPicker extends JPanel implements ActionListener {
   private static final long serialVersionUID = 1L;
 
   private JLabel textLabel;
   private JButton browseButton;
-  protected ValueListener<T> valueListener;
+  protected ValueListener valueListener;
   private JButton infoButton;
 
   public AbstractPicker() {
@@ -41,7 +41,7 @@ public abstract class AbstractPicker<T> extends JPanel implements ActionListener
     }
   }
 
-  public void setValueListener(final ValueListener<T> valueListener) {
+  public void setValueListener(final ValueListener valueListener) {
     this.valueListener = valueListener;
   }
 
