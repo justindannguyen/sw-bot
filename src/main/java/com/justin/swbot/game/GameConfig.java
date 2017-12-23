@@ -16,7 +16,7 @@ public class GameConfig {
   public static final String GET_RUNE_LOC_X = "getRuneLocationX";
   public static final String GET_RUNE_LOC_Y = "getRuneLocationY";
   public static final String GET_REWARD_LOC_X = "getRewardLocationX";
-  public static final String GET_REWORD_LOC_Y = "getRewardLocationY";
+  public static final String GET_REWARD_LOC_Y = "getRewardLocationY";
   public static final String ENABLE_AUTO_MODE_X = "enableAutoModeX";
   public static final String ENABLE_AUTO_MODE_Y = "enableAutoModeY";
   public static final String REPLAY_BATTLE_X = "replayBattleX";
@@ -96,7 +96,7 @@ public class GameConfig {
   }
 
   public String getGetRewardLocationY() {
-    return props.getProperty(GET_REWORD_LOC_Y);
+    return props.getProperty(GET_REWARD_LOC_Y);
   }
 
   public String getGetRuneLocationX() {
