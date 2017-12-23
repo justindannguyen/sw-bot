@@ -14,17 +14,9 @@ import org.junit.Test;
  */
 public class CommandUtilTest {
 
-  /**
-   * Test method for {@link com.justin.swbot.CommandUtil#get()}.
-   */
-  @Test
-  public void testGet() {
-    Assert.assertNotNull(CommandUtil.get());
-  }
-
   @Test
   public void testRunCmd_withInvalidCommand() {
-    Assert.assertFalse(CommandUtil.get().runCmd("this-is-an-invalid-command"));
+    Assert.assertFalse(CommandUtil.runCmd("this-is-an-invalid-command"));
   }
 
   /**
@@ -35,20 +27,20 @@ public class CommandUtilTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testRunCmd_withInvalidParams() {
-    CommandUtil.get().runCmd();
+    CommandUtil.runCmd();
   }
 
   @Test
   public void testRunCmd_withLinuxPingCommand() {
     // This test only run on Linux
     Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("linux"));
-    Assert.assertTrue(CommandUtil.get().runCmd("ping", "8.8.8.8", "-c", "1"));
+    Assert.assertTrue(CommandUtil.runCmd("ping", "8.8.8.8", "-c", "1"));
   }
 
   @Test
   public void testRunCmd_withWindowsPingCommand() {
     // This test only run on Windows
     Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("win"));
-    Assert.assertTrue(CommandUtil.get().runCmd("ping", "8.8.8.8", "-n", "1"));
+    Assert.assertTrue(CommandUtil.runCmd("ping", "8.8.8.8", "-n", "1"));
   }
 }
