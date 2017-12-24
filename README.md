@@ -3,20 +3,30 @@
 [![Build Status](https://travis-ci.org/justindannguyen/sw-bot.svg?branch=master)](https://travis-ci.org/justindannguyen/sw-bot)
 # sw-bot
 ### Introduction
-My friends are playing summoner wars everydays and it tooks more than 1 hour to complete the game scenarios which is repeatative and kind of time consuming, that's why we have the *sw-bot* to automate the boring scenarios PVE.
-Let's use that time to have more fun with PvP instead.
+This is the fun project and use it as your own risk. We will not responsible for any bane or account lock.
 
 ### Technologies stack
 | Name  | Version | Description |
 | ----- |---------|-------------|
 | Java  | 1.8     | Java is being used to have the basic logic flow and Swing is being used to develop the UI.|
-| JavaCV| 1.3     | To detect the game status, we use [javacv](https://github.com/bytedeco/javacv) on top of opencv|
+| JavaCV| 1.3.3     | To detect the game status, we use [javacv](https://github.com/bytedeco/javacv) on top of opencv|
 | ADB   | -       | Communication with phone and have click command.|
 | Maven | -       | Build platform|
-| Eclipse | Oxygen | Development IDE|
+| Eclipse | Phonton | Development IDE|
 
 ### How to use?
-TBD
++ Create configuration profile for your phone e.g. location, game picture.
++ Connect phone with PC.
++ Select profile & dungeon type then click start.
++ Enjoy your life!!!
 
-### Info
-This project has been discontinued.
+### Roadmap
+- [x] UI for screen location & image configuration.
+- [x] Elemental rift dungeon farming. 
+- [x] Rune farming in dungeon e.g. DB10, GB10.
+- [x] Auto refill energy with number of time configuration.
+- [x] Retry if network delay or network unstable.
+- [ ] Food monster farming to upgrade 6*.
+- [ ] Rune filtering rule e.g. sell all rune except 6* or legend, etc.
+- [ ] Rift raid farming.
+
