@@ -8,6 +8,8 @@ import static com.justin.swbot.profile.AddProfileModel.MODEL_LOADED;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -29,7 +31,7 @@ import com.justin.swbot.home.HomeController;
  */
 public class AddProfileControllerAction
     implements AddProfileModelListener, ActionListener, KeyListener, ChangeListener,
-    ValueListener {
+    ValueListener, ItemListener {
   private final AddProfileController controller;
 
   public AddProfileControllerAction(final AddProfileController addProfileController) {
@@ -77,6 +79,7 @@ public class AddProfileControllerAction
     ui.getCloseShopPointPicker().setValueListener(this);
     ui.getNetworkDelayPointPicker().setValueListener(this);
     ui.getResendBattleInfoPointPicker().setValueListener(this);
+    ui.getRandomClickCheckbox().addItemListener(this);
 
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
@@ -95,6 +98,16 @@ public class AddProfileControllerAction
         cancel();
       }
     });
+  }
+
+  @Override
+  public void itemStateChanged(final ItemEvent e) {
+    final AddProfileUI ui = controller.getUI();
+    final AddProfileModel model = controller.getModel();
+    final Object source = e.getSource();
+    if (source == ui.getRandomClickCheckbox()) {
+      model.setRandomClick(ui.getRandomClickCheckbox().isSelected());
+    }
   }
 
   @Override
@@ -276,6 +289,7 @@ public class AddProfileControllerAction
     if (model.getNetworkUnstableIndicator() != null) {
       config.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
     }
+    config.setClickRandom(model.isRandomClick());
     config.save();
 
     controller.unlaunchUI();
@@ -304,6 +318,7 @@ public class AddProfileControllerAction
     ui.getCloseShopPointPicker().setData(model.getCloseRefillShopLocation());
     ui.getNetworkDelayPointPicker().setData(model.getConfirmNetworkDelayLocation());
     ui.getResendBattleInfoPointPicker().setData(model.getResendBattleInfoLocation());
+    ui.getRandomClickCheckbox().setSelected(model.isRandomClick());
 
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());

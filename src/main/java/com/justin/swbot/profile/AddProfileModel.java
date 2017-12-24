@@ -16,25 +16,29 @@ public class AddProfileModel extends Observable {
   public static final String MODEL_LOADED = "MODEL_LOADED";
 
   private String profileName;
-  private int refillTimes;
   private Point replayBattleLocation;
   private Point startBattleLocation;
+  private Point confirmNetworkDelayLocation;
+  private Point resendBattleInfoLocation;
+  private Point enableAutoAttackLocation;
+  private boolean randomClick;
+
+  private int refillTimes;
+
   private Point sellRuneLocation;
+
   private Point sellRuneConfirmLocation;
   private Point getRuneRewardLocation;
   private Point getRewardLocation;
-  private Point enableAutoAttackLocation;
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
   private Point energyLocationOnShop;
   private Point confirmRechargeEnergyLoation;
   private Point ackRefillSuccessLocation;
   private Point closeRefillShopLocation;
-  private Point confirmNetworkDelayLocation;
-  private Point resendBattleInfoLocation;
-
   private BufferedImage replayBattleIndicator;
   private BufferedImage startBattleIndicator;
+
   private BufferedImage battleEndIndicator;
   private BufferedImage runeRewardIndiator;
   private BufferedImage confirmSellRuneIndicator;
@@ -43,11 +47,9 @@ public class AddProfileModel extends Observable {
   private BufferedImage noEnergyIndicator;
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
-
   public Point getAckRefillSuccessLocation() {
     return ackRefillSuccessLocation;
   }
-
   public BufferedImage getBattleEndIndicator() {
     return battleEndIndicator;
   }
@@ -152,6 +154,10 @@ public class AddProfileModel extends Observable {
     return startBattleLocation;
   }
 
+  public boolean isRandomClick() {
+    return randomClick;
+  }
+
   public void loadData() {
     final GameConfig config = GameConfig.get();
     profileName = config.getProfileName();
@@ -201,6 +207,7 @@ public class AddProfileModel extends Observable {
     resendBattleInfoLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getResendBattleInfoX()),
         Integer.valueOf(config.getResendBattleInfoY()));
+    randomClick = config.isClickRandom();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -279,6 +286,10 @@ public class AddProfileModel extends Observable {
 
   public void setProfileName(final String profileName) {
     this.profileName = profileName;
+  }
+
+  public void setRandomClick(final boolean randomClick) {
+    this.randomClick = randomClick;
   }
 
   public void setRechargeEnergyNoLocation(final Point rechargeEnergyNoLocation) {

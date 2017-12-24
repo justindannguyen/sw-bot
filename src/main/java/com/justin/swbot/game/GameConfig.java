@@ -48,6 +48,7 @@ public class GameConfig {
   public static final String CONFIRM_NETWORK_DELAY_Y = "confirmNetworkDelayY";
   public static final String RESEND_BATTLE_INFO_X = "resendBattleInfoX";
   public static final String RESEND_BATTLE_INFO_Y = "resendBattleInfoY";
+  public static final String RANDOM_CLICK = "RANDOM_CLICK";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -289,9 +290,11 @@ public class GameConfig {
   public String getSellRuneConfirmationY() {
     return props.getProperty(SELL_RUNE_CONFIRM_Y);
   }
+
   public String getSellRuneLocationX() {
     return props.getProperty(SELL_RUNE_LOC_X);
   }
+
   public String getSellRuneLocationY() {
     return props.getProperty(SELL_RUNE_LOC_Y);
   }
@@ -309,7 +312,9 @@ public class GameConfig {
   public String getStartBattleY() {
     return props.getProperty(START_BATTLE_Y);
   }
-
+  public boolean isClickRandom() {
+    return Boolean.valueOf(props.getProperty(RANDOM_CLICK, "true"));
+  }
   public boolean isEmpty() {
     return profileName == null && props.isEmpty();
   }
@@ -370,6 +375,10 @@ public class GameConfig {
 
   public void setBattleEndIndicator(final BufferedImage battleEndIndicator) {
     this.battleEndIndicator = battleEndIndicator;
+  }
+
+  public void  setClickRandom(final boolean value) {
+    props.setProperty(RANDOM_CLICK, String.valueOf(value));
   }
 
   public void setCloseRechargeEnergy(final Point point) {

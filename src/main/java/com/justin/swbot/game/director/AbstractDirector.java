@@ -3,8 +3,7 @@
  */
 package com.justin.swbot.game.director;
 
-import static com.justin.swbot.CommandUtil.tapScreen;
-
+import com.justin.swbot.CommandUtil;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameConfig;
 import com.justin.swbot.game.GameState;
@@ -189,5 +188,16 @@ public abstract class AbstractDirector implements ScenarioDirector {
     progressMessage("Network unstable! resending information...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getResendBattleInfoX(), gameConfig.getResendBattleInfoY());
+  }
+
+  private void tapScreen(final String x, final String y) {
+    final GameConfig gameConfig = GameConfig.get();
+    String tapX = x;
+    String tapY = y;
+    if (gameConfig.isClickRandom()) {
+      tapX = String.valueOf(Integer.valueOf(x) + (int) (10 * (Math.random() - Math.random())));
+      tapY = String.valueOf(Integer.valueOf(y) + (int) (10 * (Math.random() - Math.random())));
+    }
+    CommandUtil.tapScreen(tapX, tapY);
   }
 }
