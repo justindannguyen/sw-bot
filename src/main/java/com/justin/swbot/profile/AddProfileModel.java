@@ -4,6 +4,7 @@
 package com.justin.swbot.profile;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
@@ -30,6 +31,7 @@ public class AddProfileModel extends Observable {
   private Point sellRuneConfirmLocation;
   private Point getRuneRewardLocation;
   private Point getRewardLocation;
+  private Rectangle rareLevelArea;
   private boolean runLog;
   private boolean pickAllRune;
   private boolean pickLegendRune;
@@ -117,6 +119,10 @@ public class AddProfileModel extends Observable {
     return profileName;
   }
 
+  public Rectangle getRareLevelArea() {
+    return rareLevelArea;
+  }
+
   public Point getRechargeEnergyNoLocation() {
     return rechargeEnergyNoLocation;
   }
@@ -191,55 +197,56 @@ public class AddProfileModel extends Observable {
     refillTimes = config.isEmpty() ? 0 : Integer.valueOf(config.getRefillTimes());
     replayBattleLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getReplayBattleX()),
-        Integer.valueOf(config.getReplayBattleY()));
+            Integer.valueOf(config.getReplayBattleY()));
     startBattleLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getStartBattleX()),
-        Integer.valueOf(config.getStartBattleY()));
+            Integer.valueOf(config.getStartBattleY()));
     sellRuneLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getSellRuneLocationX()),
-        Integer.valueOf(config.getSellRuneLocationY()));
+            Integer.valueOf(config.getSellRuneLocationY()));
     sellRuneConfirmLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getSellRuneConfirmationX()),
-        Integer.valueOf(config.getSellRuneConfirmationY()));
+            Integer.valueOf(config.getSellRuneConfirmationY()));
     getRuneRewardLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getGetRuneLocationX()),
-        Integer.valueOf(config.getGetRuneLocationY()));
+            Integer.valueOf(config.getGetRuneLocationY()));
     getRewardLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getGetRewardLocationX()),
-        Integer.valueOf(config.getGetRewardLocationY()));
+            Integer.valueOf(config.getGetRewardLocationY()));
     enableAutoAttackLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getEnableAutoModeX()),
-        Integer.valueOf(config.getEnableAutoModeY()));
+            Integer.valueOf(config.getEnableAutoModeY()));
     rechargeEneryYesLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getRechargeEnergyYesX()),
-        Integer.valueOf(config.getRechargeEnergyYesY()));
+            Integer.valueOf(config.getRechargeEnergyYesY()));
     rechargeEnergyNoLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getRechargeEnergyNoX()),
-        Integer.valueOf(config.getRechargeEnergyNoY()));
+            Integer.valueOf(config.getRechargeEnergyNoY()));
     energyLocationOnShop = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getRechargeEnergyX()),
-        Integer.valueOf(config.getRechargeEnergyY()));
+            Integer.valueOf(config.getRechargeEnergyY()));
     confirmRechargeEnergyLoation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getConfirmRechargeEnergyX()),
-        Integer.valueOf(config.getConfirmRechargeEnergyY()));
+            Integer.valueOf(config.getConfirmRechargeEnergyY()));
     ackRefillSuccessLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getAckRechargeEnergyOkX()),
-        Integer.valueOf(config.getAckRechargeEnergyOkY()));
+            Integer.valueOf(config.getAckRechargeEnergyOkY()));
     closeRefillShopLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getCloseRechargeEnergyX()),
-        Integer.valueOf(config.getCloseRechargeEnergyY()));
+            Integer.valueOf(config.getCloseRechargeEnergyY()));
     confirmNetworkDelayLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getConfirmNetworkDelayX()),
-        Integer.valueOf(config.getConfirmNetworkDelayY()));
+            Integer.valueOf(config.getConfirmNetworkDelayY()));
     resendBattleInfoLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getResendBattleInfoX()),
-        Integer.valueOf(config.getResendBattleInfoY()));
+            Integer.valueOf(config.getResendBattleInfoY()));
     randomClick = config.isClickRandom();
     sellAllRune = config.isSellAllRune();
     runLog = config.isRuneLog();
     pickAllRune = config.isPickAllRune();
     pickLegendRune = config.isPickLegendRune();
     pickHeroRune = config.isPickHeroRune();
+    rareLevelArea = config.getRareLevelAreaBox();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -334,6 +341,10 @@ public class AddProfileModel extends Observable {
 
   public void setRandomClick(final boolean randomClick) {
     this.randomClick = randomClick;
+  }
+
+  public void setRareLevelArea(final Rectangle rareLevelArea) {
+    this.rareLevelArea = rareLevelArea;
   }
 
   public void setRechargeEnergyNoLocation(final Point rechargeEnergyNoLocation) {

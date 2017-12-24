@@ -5,8 +5,8 @@ package com.justin.swbot.component;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -63,7 +63,7 @@ public class BoxPickerDialog extends AbstractPickerDialog {
     getMainLabel().addMouseMotionListener(mouseAdapter);
   }
 
-  public Image pickBox() {
+  public Rectangle pickBox() {
     pack();
     refreshScreenshot();
     setVisible(true);
@@ -74,16 +74,16 @@ public class BoxPickerDialog extends AbstractPickerDialog {
     final int y = Math.min(startPoint.y, endPoint.y);
     final int width = Math.abs(startPoint.x - endPoint.x);
     final int height = Math.abs(startPoint.y - endPoint.y);
-    if (width == 0 || height == 0 || screenImage == null) {
+    if (width == 0 || height == 0) {
       return null;
     }
-    return screenImage.getSubimage(x, y, width, height);
+    return new Rectangle(x, y, width, height);
   }
 
   @Override
   protected void customPaint(final Graphics g) {
     super.customPaint(g);
-    if(startPoint != null && endPoint != null) {
+    if (startPoint != null && endPoint != null) {
       final Graphics g2 = g.create();
       final int x = Math.min(startPoint.x, endPoint.x);
       final int y = Math.min(startPoint.y, endPoint.y);

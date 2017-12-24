@@ -3,12 +3,7 @@
  */
 package com.justin.swbot.component;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import java.awt.Rectangle;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -18,33 +13,26 @@ public class BoxPicker extends AbstractPicker {
 
   public BoxPicker() {
     super();
+
+    remove(getInfoButton());
   }
 
   @Override
   protected String getDataText(final Object data) {
-    return data == null ? "Not Available" : "Available";
+    final Rectangle rect = (Rectangle) data;
+    return data == null ? "Not Available"
+        : String.format("x: %s, y: %s, w:%s, h: %s", rect.x, rect.y, rect.width, rect.height);
   }
 
   @Override
   protected void pickData() {
     final BoxPickerDialog pickerDialog = new BoxPickerDialog();
-    final Image selectedBox = pickerDialog.pickBox();
+    final Rectangle selectedBox = pickerDialog.pickBox();
     if (selectedBox != null) {
       setData(selectedBox);
       if (valueListener != null) {
         valueListener.valueChanged(this, selectedBox);
       }
-    }
-  }
-
-  @Override
-  protected void viewData() {
-    super.viewData();
-    if (data != null) {
-      final BufferedImage image = (BufferedImage) getData();
-      final JLabel label = new JLabel();
-      label.setIcon(new ImageIcon(image));
-      JOptionPane.showMessageDialog(this, label);
     }
   }
 }

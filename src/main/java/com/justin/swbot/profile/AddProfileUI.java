@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import com.justin.swbot.component.BoxPicker;
+import com.justin.swbot.component.ImagePicker;
 import com.justin.swbot.component.PointPicker;
 
 import net.miginfocom.swing.MigLayout;
@@ -65,25 +66,25 @@ public class AddProfileUI extends JFrame {
   private PointPicker resendBattleInfoPointPicker;
   private JPanel statusIndicatorTab;
   private JLabel lblReplayBattleIndicator;
-  private BoxPicker replayBattleBoxPicker;
+  private ImagePicker replayBattleBoxPicker;
   private JLabel lblStartBattleIndicator;
-  private BoxPicker startBattleBoxPicker;
+  private ImagePicker startBattleBoxPicker;
   private JLabel lblBattleEndIndicator;
-  private BoxPicker endBattleBoxPicker;
+  private ImagePicker endBattleBoxPicker;
   private JLabel lblSellRuneIndiator;
-  private BoxPicker runeRewardBoxPicker;
+  private ImagePicker runeRewardBoxPicker;
   private JLabel lblConfirmRune;
-  private BoxPicker confirmSellRuneBoxPicker;
+  private ImagePicker confirmSellRuneBoxPicker;
   private JLabel lblOtherRewardIndicator;
-  private BoxPicker otherRewardBoxPicker;
+  private ImagePicker otherRewardBoxPicker;
   private JLabel lblManualAttackIndicator;
-  private BoxPicker manualAttBoxPicker;
+  private ImagePicker manualAttBoxPicker;
   private JLabel lblNoEnergyIndicator;
-  private BoxPicker noEnergyBoxPicker;
+  private ImagePicker noEnergyBoxPicker;
   private JLabel lblNetworkDelayIndicator;
-  private BoxPicker networkDelayBoxPicker;
+  private ImagePicker networkDelayBoxPicker;
   private JLabel lblUnstableNetworkIndicator;
-  private BoxPicker unstableNetworkBoxPicker;
+  private ImagePicker unstableNetworkBoxPicker;
   private JButton createButton;
   private JButton cancelButton;
   private JTabbedPane tabbedPane;
@@ -97,13 +98,14 @@ public class AddProfileUI extends JFrame {
   private JCheckBox heroRuneCheckbox;
   private JCheckBox allRuneCheckbox;
   private JCheckBox sixStartRuneCheckBox;
-  private BoxPicker sixStartRuneBoxPicker;
+  private ImagePicker sixStartRuneBoxPicker;
   private JCheckBox fiveStarRuneCheckBox;
-  private BoxPicker fiveStartRuneBoxPicker;
+  private ImagePicker fiveStartRuneBoxPicker;
   private JCheckBox grindPercentCheckbox;
   private JCheckBox randomClickCheckbox;
   private JCheckBox runLogCheckbox;
   private JLabel lblRareBoundary;
+  private BoxPicker rareLevelBoxPicker;
 
   public AddProfileUI() {
     initGUI();
@@ -155,9 +157,9 @@ public class AddProfileUI extends JFrame {
     return confirmRechargePointPicker;
   }
 
-  public BoxPicker getConfirmSellRuneBoxPicker() {
+  public ImagePicker getConfirmSellRuneBoxPicker() {
     if (confirmSellRuneBoxPicker == null) {
-      confirmSellRuneBoxPicker = new BoxPicker();
+      confirmSellRuneBoxPicker = new ImagePicker();
     }
     return confirmSellRuneBoxPicker;
   }
@@ -169,9 +171,9 @@ public class AddProfileUI extends JFrame {
     return createButton;
   }
 
-  public BoxPicker getEndBattleBoxPicker() {
+  public ImagePicker getEndBattleBoxPicker() {
     if (endBattleBoxPicker == null) {
-      endBattleBoxPicker = new BoxPicker();
+      endBattleBoxPicker = new ImagePicker();
     }
     return endBattleBoxPicker;
   }
@@ -190,9 +192,9 @@ public class AddProfileUI extends JFrame {
     return fiveStarRuneCheckBox;
   }
 
-  public BoxPicker getFiveStartRuneBoxPicker() {
+  public ImagePicker getFiveStartRuneBoxPicker() {
     if (fiveStartRuneBoxPicker == null) {
-      fiveStartRuneBoxPicker = new BoxPicker();
+      fiveStartRuneBoxPicker = new ImagePicker();
     }
     return fiveStartRuneBoxPicker;
   }
@@ -232,16 +234,16 @@ public class AddProfileUI extends JFrame {
     return legendRuneCheckbox;
   }
 
-  public BoxPicker getManualAttBoxPicker() {
+  public ImagePicker getManualAttBoxPicker() {
     if (manualAttBoxPicker == null) {
-      manualAttBoxPicker = new BoxPicker();
+      manualAttBoxPicker = new ImagePicker();
     }
     return manualAttBoxPicker;
   }
 
-  public BoxPicker getNetworkDelayBoxPicker() {
+  public ImagePicker getNetworkDelayBoxPicker() {
     if (networkDelayBoxPicker == null) {
-      networkDelayBoxPicker = new BoxPicker();
+      networkDelayBoxPicker = new ImagePicker();
     }
     return networkDelayBoxPicker;
   }
@@ -253,25 +255,32 @@ public class AddProfileUI extends JFrame {
     return networkDelayPointPicker;
   }
 
-  public BoxPicker getNoEnergyBoxPicker() {
+  public ImagePicker getNoEnergyBoxPicker() {
     if (noEnergyBoxPicker == null) {
-      noEnergyBoxPicker = new BoxPicker();
+      noEnergyBoxPicker = new ImagePicker();
     }
     return noEnergyBoxPicker;
   }
 
-  public BoxPicker getOtherRewardBoxPicker() {
+  public ImagePicker getOtherRewardBoxPicker() {
     if (otherRewardBoxPicker == null) {
-      otherRewardBoxPicker = new BoxPicker();
+      otherRewardBoxPicker = new ImagePicker();
     }
     return otherRewardBoxPicker;
   }
 
   public JCheckBox getRandomClickCheckbox() {
     if (randomClickCheckbox == null) {
-    	randomClickCheckbox = new JCheckBox("Random Click");
+      randomClickCheckbox = new JCheckBox("Random Click");
     }
     return randomClickCheckbox;
+  }
+
+  public BoxPicker getRareLevelBoxPicker() {
+    if (rareLevelBoxPicker == null) {
+      rareLevelBoxPicker = new BoxPicker();
+    }
+    return rareLevelBoxPicker;
   }
 
   public PointPicker getRechargeNoPointPicker() {
@@ -288,9 +297,9 @@ public class AddProfileUI extends JFrame {
     return rechargeYesPointPicker;
   }
 
-  public BoxPicker getReplayBattleBoxPicker() {
+  public ImagePicker getReplayBattleBoxPicker() {
     if (replayBattleBoxPicker == null) {
-      replayBattleBoxPicker = new BoxPicker();
+      replayBattleBoxPicker = new ImagePicker();
     }
     return replayBattleBoxPicker;
   }
@@ -309,16 +318,16 @@ public class AddProfileUI extends JFrame {
     return resendBattleInfoPointPicker;
   }
 
-  public BoxPicker getRuneRewardBoxPicker() {
+  public ImagePicker getRuneRewardBoxPicker() {
     if (runeRewardBoxPicker == null) {
-      runeRewardBoxPicker = new BoxPicker();
+      runeRewardBoxPicker = new ImagePicker();
     }
     return runeRewardBoxPicker;
   }
 
   public JCheckBox getRunLogCheckbox() {
     if (runLogCheckbox == null) {
-    	runLogCheckbox = new JCheckBox("Log");
+      runLogCheckbox = new JCheckBox("Log");
     }
     return runLogCheckbox;
   }
@@ -344,9 +353,9 @@ public class AddProfileUI extends JFrame {
     return sellRunePointPicker;
   }
 
-  public BoxPicker getSixStartRuneBoxPicker() {
+  public ImagePicker getSixStartRuneBoxPicker() {
     if (sixStartRuneBoxPicker == null) {
-      sixStartRuneBoxPicker = new BoxPicker();
+      sixStartRuneBoxPicker = new ImagePicker();
     }
     return sixStartRuneBoxPicker;
   }
@@ -366,9 +375,9 @@ public class AddProfileUI extends JFrame {
     return spinner;
   }
 
-  public BoxPicker getStartBattleBoxPicker() {
+  public ImagePicker getStartBattleBoxPicker() {
     if (startBattleBoxPicker == null) {
-      startBattleBoxPicker = new BoxPicker();
+      startBattleBoxPicker = new ImagePicker();
     }
     return startBattleBoxPicker;
   }
@@ -388,9 +397,9 @@ public class AddProfileUI extends JFrame {
     return textField;
   }
 
-  public BoxPicker getUnstableNetworkBoxPicker() {
+  public ImagePicker getUnstableNetworkBoxPicker() {
     if (unstableNetworkBoxPicker == null) {
-      unstableNetworkBoxPicker = new BoxPicker();
+      unstableNetworkBoxPicker = new ImagePicker();
     }
     return unstableNetworkBoxPicker;
   }
@@ -695,7 +704,7 @@ public class AddProfileUI extends JFrame {
   private JPanel getRuneTab() {
     if (runeTab == null) {
       runeTab = new JPanel();
-      runeTab.setLayout(new MigLayout("", "[170px][grow,fill]", "[][][][][][][][grow,fill]"));
+      runeTab.setLayout(new MigLayout("", "[170px][grow,fill]", "[][][][][][grow][][grow,fill]"));
       runeTab.add(getSellAllRuneCheckbox(), "cell 0 0");
       runeTab.add(getLblSellRuneLocation(), "cell 0 1");
       runeTab.add(getSellRunePointPicker(), "cell 1 1");
@@ -706,6 +715,7 @@ public class AddProfileUI extends JFrame {
       runeTab.add(getLblGetRewardLocation(), "cell 0 4");
       runeTab.add(getGetRewardPointPicker(), "cell 1 4");
       runeTab.add(getLblRareBoundary(), "cell 0 5");
+      runeTab.add(getRareLevelBoxPicker(), "cell 1 5,grow");
       runeTab.add(getLblRuneRules(), "cell 0 6 2 1");
       runeTab.add(getPanel(), "cell 0 7 2 1,grow");
     }

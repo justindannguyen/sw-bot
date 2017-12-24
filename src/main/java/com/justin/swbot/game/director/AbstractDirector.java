@@ -3,6 +3,7 @@
  */
 package com.justin.swbot.game.director;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -234,10 +235,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
     final GameConfig gameConfig = GameConfig.get();
     final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
     if (gameConfig.isPickLegendRune() || gameConfig.isPickHeroRune()) {
-      final String[] rareLevelBox = gameConfig.getRareLevelArea().split(",");
-      final BufferedImage rareLevelImage = screenImage.getSubimage(Integer.valueOf(rareLevelBox[0]),
-          Integer.valueOf(rareLevelBox[1]), Integer.valueOf(rareLevelBox[2]),
-          Integer.valueOf(rareLevelBox[3]));
+      final Rectangle box = gameConfig.getRareLevelAreaBox();
+      final BufferedImage rareLevelImage =
+          screenImage.getSubimage(box.x, box.y, box.width, box.height);
       final String rareLevel = OcrUtil.text(rareLevelImage);
       final boolean legend = rareLevel.equals("Legend");
       final boolean hero = rareLevel.equals("Hero");

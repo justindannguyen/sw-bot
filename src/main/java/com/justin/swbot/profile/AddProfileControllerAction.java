@@ -6,6 +6,7 @@ package com.justin.swbot.profile;
 import static com.justin.swbot.profile.AddProfileModel.MODEL_LOADED;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -85,6 +86,7 @@ public class AddProfileControllerAction
     ui.getAllRuneCheckbox().addItemListener(this);
     ui.getLegendRuneCheckbox().addItemListener(this);
     ui.getHeroRuneCheckbox().addItemListener(this);
+    ui.getRareLevelBoxPicker().setValueListener(this);
 
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
@@ -212,6 +214,8 @@ public class AddProfileControllerAction
       model.setNetworkDelayIndicator((BufferedImage) newValue);
     } else if (source == ui.getUnstableNetworkBoxPicker()) {
       model.setNetworkUnstableIndicator((BufferedImage) newValue);
+    } else if (source == ui.getRareLevelBoxPicker()) {
+      model.setRareLevelArea((Rectangle) newValue);
     }
   }
 
@@ -309,6 +313,8 @@ public class AddProfileControllerAction
     config.setPickAllRune(model.isPickAllRune());
     config.setPickLegendRune(model.isPickLegendRune());
     config.setPickHeroRune(model.isPickHeroRune());
+    final Rectangle box = model.getRareLevelArea();
+    config.setRareLevelArea(box.x, box.y, box.width, box.height);
     config.save();
 
     controller.unlaunchUI();
@@ -343,6 +349,7 @@ public class AddProfileControllerAction
     ui.getAllRuneCheckbox().setSelected(model.isPickAllRune());
     ui.getLegendRuneCheckbox().setSelected(model.isPickLegendRune());
     ui.getHeroRuneCheckbox().setSelected(model.isPickHeroRune());
+    ui.getRareLevelBoxPicker().setData(model.getRareLevelArea());
 
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());

@@ -4,6 +4,7 @@
 package com.justin.swbot.game;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -124,6 +125,7 @@ public class GameConfig {
   public String getConfirmNetworkDelayY() {
     return props.getProperty(CONFIRM_NETWORK_DELAY_Y);
   }
+
   public String getConfirmRechargeEnergyX() {
     return props.getProperty(CONFIRM_RECHARGE_ENERGY_X);
   }
@@ -226,6 +228,12 @@ public class GameConfig {
 
   public String getRareLevelArea() {
     return props.getProperty(RARE_LEVEL_AREA, "0,0,0,0");
+  }
+
+  public Rectangle getRareLevelAreaBox() {
+    final String[] box = props.getProperty(RARE_LEVEL_AREA, "0,0,0,0").split(",");
+    return new Rectangle(Integer.valueOf(box[0]), Integer.valueOf(box[1]), Integer.valueOf(box[2]),
+        Integer.valueOf(box[3]));
   }
 
   public String getRechargeEnergyNoX() {
@@ -412,7 +420,7 @@ public class GameConfig {
     this.battleEndIndicator = battleEndIndicator;
   }
 
-  public void  setClickRandom(final boolean value) {
+  public void setClickRandom(final boolean value) {
     props.setProperty(RANDOM_CLICK, String.valueOf(value));
   }
 
