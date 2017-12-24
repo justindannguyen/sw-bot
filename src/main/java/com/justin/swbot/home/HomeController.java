@@ -3,8 +3,11 @@
  */
 package com.justin.swbot.home;
 
+import javax.swing.SwingUtilities;
+
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
+import com.justin.swbot.game.GameState;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -36,13 +39,18 @@ public final class HomeController implements Controller {
     homeModel.loadData();
   }
 
-  public void selectProfile(final String profileName) {
-    homeModel.setSelectedProfile(profileName);
-  }
-
   @Override
   public void unlaunchUI() {
     homeUI.setVisible(false);
+  }
+
+  public void updateGameStatus(final GameState state) {
+    updateStatus(state.toString());
+  }
+
+  public void updateStatus(final String status) {
+    SwingUtilities.invokeLater(() -> homeUI.getStatusBar().getStatusLabel().setText(status));
+
   }
 
   protected HomeModel getHomeModel() {

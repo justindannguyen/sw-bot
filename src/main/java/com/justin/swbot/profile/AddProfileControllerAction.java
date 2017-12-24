@@ -40,8 +40,6 @@ public class AddProfileControllerAction
       ControllerRegistry.get(HomeController.class).launchUI();
     } else if (e.getSource() == ui.getCreateButton()) {
       createProfile();
-    } else if (e.getSource() == ui.getTextField()) {
-      System.out.println(ui.getTextField().getText());
     }
   }
 
@@ -216,6 +214,5 @@ public class AddProfileControllerAction
     controller.unlaunchUI();
     final Controller homeController = ControllerRegistry.get(HomeController.class);
     homeController.launchUI();
-    ((HomeController) homeController).selectProfile(model.getProfileName());
   }
 }

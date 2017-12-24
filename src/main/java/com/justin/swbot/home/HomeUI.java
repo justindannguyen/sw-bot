@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -30,6 +31,36 @@ public final class HomeUI extends JFrame {
         initGUI();
     }
 
+    public JComboBox<String> getProfileComboBox() {
+        if (profileComboBox == null) {
+            profileComboBox = new JComboBox<>();
+            profileComboBox.setModel(new DefaultComboBoxModel<>());
+        }
+        return profileComboBox;
+    }
+
+    public JComboBox<String> getScenarioCombobox() {
+        if (scenarioCombobox == null) {
+            scenarioCombobox = new JComboBox<>();
+            scenarioCombobox.setModel(new DefaultComboBoxModel<>());
+        }
+        return scenarioCombobox;
+    }
+
+    public StatusBarUI getStatusBar() {
+        if (statusBar == null) {
+            statusBar = new StatusBarUI();
+        }
+        return statusBar;
+    }
+
+  public JToggleButton getToggeButton() {
+        if (toggeButton == null) {
+            toggeButton = new JToggleButton("Start");
+        }
+        return toggeButton;
+    }
+
     private JPanel getActionPanel() {
         if (actionPanel == null) {
             actionPanel = new JPanel();
@@ -41,39 +72,9 @@ public final class HomeUI extends JFrame {
         return actionPanel;
     }
 
-    public JComboBox<String> getProfileComboBox() {
-        if (profileComboBox == null) {
-            profileComboBox = new JComboBox<String>();
-            profileComboBox.setModel(new DefaultComboBoxModel<>());
-        }
-        return profileComboBox;
-    }
-
-    public JComboBox<String> getScenarioCombobox() {
-        if (scenarioCombobox == null) {
-            scenarioCombobox = new JComboBox<String>();
-            scenarioCombobox.setModel(new DefaultComboBoxModel<>());
-        }
-        return scenarioCombobox;
-    }
-
-    private StatusBarUI getStatusBar() {
-        if (statusBar == null) {
-            statusBar = new StatusBarUI();
-        }
-        return statusBar;
-    }
-
-    public JToggleButton getToggeButton() {
-        if (toggeButton == null) {
-            toggeButton = new JToggleButton("Start");
-        }
-        return toggeButton;
-    }
-
     private void initGUI() {
         setPreferredSize(new Dimension(450, 100));
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Summoner War Bot");
         getContentPane().setLayout(new BorderLayout(0, 0));
         getContentPane().add(getStatusBar(), BorderLayout.SOUTH);

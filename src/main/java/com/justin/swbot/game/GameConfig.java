@@ -69,6 +69,21 @@ public class GameConfig {
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
 
+  public void clear() {
+    this.profileName = null;
+    this.props.clear();
+    replayBattleIndicator = null;
+    startBattleIndicator = null;
+    battleEndIndicator = null;
+    runeRewardIndiator = null;
+    confirmSellRuneIndicator = null;
+    otherRewardIndicator = null;
+    manualAttackIndicator = null;
+    noEnergyIndicator = null;
+    networkDelayIndicator = null;
+    networkUnstableIndicator = null;
+  }
+
   public String getAckRechargeEnergyOkX() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_X);
   }
@@ -79,6 +94,12 @@ public class GameConfig {
 
   public BufferedImage getBattleEndIndicator() {
     return battleEndIndicator;
+  }
+
+  public File getBattleEndIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "battleEndIndicator");
   }
 
   public String getCloseRechargeEnergyX() {
@@ -109,6 +130,12 @@ public class GameConfig {
     return confirmSellRuneIndicator;
   }
 
+  public File getConfirmSellRuneIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "confirmSellRuneIndicator");
+  }
+
   public String getEnableAutoModeX() {
     return props.getProperty(ENABLE_AUTO_MODE_X);
   }
@@ -137,20 +164,50 @@ public class GameConfig {
     return manualAttackIndicator;
   }
 
+  public File getManualAttackIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "manualAttackIndicator");
+  }
+
   public BufferedImage getNetworkDelayIndicator() {
     return networkDelayIndicator;
+  }
+
+  public File getNetworkDelayIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "networkDelayIndicator");
   }
 
   public BufferedImage getNetworkUnstableIndicator() {
     return networkUnstableIndicator;
   }
 
+  public File getNetworkUnstableIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "networkUnstableIndicator");
+  }
+
   public BufferedImage getNoEnergyIndicator() {
     return noEnergyIndicator;
   }
 
+  public File getNoEnergyIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "noEnergyIndicator");
+  }
+
   public BufferedImage getOtherRewardIndicator() {
     return otherRewardIndicator;
+  }
+
+  public File getOtherRewardIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "otherRewardIndicator");
   }
 
   public String getProfileName() {
@@ -193,6 +250,12 @@ public class GameConfig {
     return replayBattleIndicator;
   }
 
+  public File getReplayBattleIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "replayBattleIndicator");
+  }
+
   public String getReplayBattleX() {
     return props.getProperty(REPLAY_BATTLE_X);
   }
@@ -213,26 +276,32 @@ public class GameConfig {
     return runeRewardIndiator;
   }
 
+  public File getRuneRewardIndiatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "runeRewardIndiator");
+  }
+
   public String getSellRuneConfirmationX() {
     return props.getProperty(SELL_RUNE_CONFIRM_X);
   }
-
   public String getSellRuneConfirmationY() {
     return props.getProperty(SELL_RUNE_CONFIRM_Y);
   }
-
   public String getSellRuneLocationX() {
     return props.getProperty(SELL_RUNE_LOC_X);
   }
-
   public String getSellRuneLocationY() {
     return props.getProperty(SELL_RUNE_LOC_Y);
   }
-
   public BufferedImage getStartBattleIndicator() {
     return startBattleIndicator;
   }
-
+  public File getStartBattleIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "startBattleIndicator");
+  }
   public String getStartBattleX() {
     return props.getProperty(START_BATTLE_X);
   }
@@ -242,8 +311,24 @@ public class GameConfig {
   }
 
   public void load(final String file) {
+    profileName = file;
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    if (!profileFolder.exists()) {
+      profileFolder.mkdirs();
+    }
     try {
-      props.load(new FileInputStream(file));
+      props.load(new FileInputStream(new File(profileFolder, "index.properties")));
+      replayBattleIndicator = loadImage(getReplayBattleIndicatorFile());
+      startBattleIndicator = loadImage(getStartBattleIndicatorFile());
+      battleEndIndicator = loadImage(getBattleEndIndicatorFile());
+      runeRewardIndiator = loadImage(getRuneRewardIndiatorFile());
+      confirmSellRuneIndicator = loadImage(getConfirmSellRuneIndicatorFile());
+      otherRewardIndicator = loadImage(getOtherRewardIndicatorFile());
+      manualAttackIndicator = loadImage(getManualAttackIndicatorFile());
+      noEnergyIndicator = loadImage(getNoEnergyIndicatorFile());
+      networkDelayIndicator = loadImage(getNetworkDelayIndicatorFile());
+      networkUnstableIndicator = loadImage(getNetworkUnstableIndicatorFile());
     } catch (final IOException ex) {
       System.err.println("Can't load the game configuration");
       ex.printStackTrace();
@@ -259,25 +344,16 @@ public class GameConfig {
 
     try (FileOutputStream fos = new FileOutputStream(new File(profileFolder, "index.properties"))) {
       props.store(fos, "");
-      ImageIO.write(replayBattleIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "replayBattleIndicator"));
-      ImageIO.write(startBattleIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "startBattleIndicator"));
-      ImageIO.write(battleEndIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "battleEndIndicator"));
-      ImageIO.write(runeRewardIndiator, IMAGE_FORMAT,
-          new File(profileFolder, "runeRewardIndiator"));
-      ImageIO.write(confirmSellRuneIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "confirmSellRuneIndicator"));
-      ImageIO.write(otherRewardIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "otherRewardIndicator"));
-      ImageIO.write(manualAttackIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "manualAttackIndicator"));
-      ImageIO.write(noEnergyIndicator, IMAGE_FORMAT, new File(profileFolder, "noEnergyIndicator"));
-      ImageIO.write(networkDelayIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "networkDelayIndicator"));
-      ImageIO.write(networkUnstableIndicator, IMAGE_FORMAT,
-          new File(profileFolder, "networkUnstableIndicator"));
+      storeImage(replayBattleIndicator, getReplayBattleIndicatorFile());
+      storeImage(startBattleIndicator, getStartBattleIndicatorFile());
+      storeImage(battleEndIndicator, getBattleEndIndicatorFile());
+      storeImage(runeRewardIndiator, getRuneRewardIndiatorFile());
+      storeImage(confirmSellRuneIndicator, getConfirmSellRuneIndicatorFile());
+      storeImage(otherRewardIndicator, getOtherRewardIndicatorFile());
+      storeImage(manualAttackIndicator, getManualAttackIndicatorFile());
+      storeImage(noEnergyIndicator, getNoEnergyIndicatorFile());
+      storeImage(networkDelayIndicator, getNetworkDelayIndicatorFile());
+      storeImage(networkUnstableIndicator, getNetworkUnstableIndicatorFile());
     } catch (final IOException ex) {
       throw new RuntimeException("Could not store the profile", ex);
     }
@@ -404,5 +480,18 @@ public class GameConfig {
 
   public void setStartBattleIndicator(final BufferedImage startBattleIndicator) {
     this.startBattleIndicator = startBattleIndicator;
+  }
+
+  private BufferedImage loadImage(final File imageFile) throws IOException {
+    if (imageFile != null && imageFile.exists()) {
+      return ImageIO.read(imageFile);
+    }
+    return null;
+  }
+
+  private void storeImage(final BufferedImage image, final File location) throws IOException {
+    if (image != null) {
+      ImageIO.write(image, IMAGE_FORMAT, location);
+    }
   }
 }

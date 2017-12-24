@@ -3,77 +3,138 @@
  */
 package com.justin.swbot.game;
 
+import java.io.File;
+
+import com.justin.swbot.CommandUtil;
+import com.justin.swbot.ImageUtil;
+import com.justin.swbot.game.director.ScenarioDirector;
+import com.justin.swbot.home.HomeController;
+
 /**
  * <p>
  * General, main purpose is to hold the bot loop.
  * <p>
- * Bot engine contains the infinitive loop in order to identify the current game state. It asks suggestion, command from
- * the directors for what to do, where to click.
+ * Bot engine contains the infinitive loop in order to identify the current game state. It asks
+ * suggestion, command from the directors for what to do, where to click.
  *
  * @author tuan3.nguyen@gmail.com
  */
 public final class BotEngine extends Thread {
 
-    private static final BotEngine ENGINE = new BotEngine();
+  private static final BotEngine ENGINE = new BotEngine();
 
-    /**
-     * Get the singleton instance of {@link BotEngine}
-     *
-     * @return singleton instance.
-     */
-    public static BotEngine get() {
-        return ENGINE;
-    }
+  /**
+   * Get the singleton instance of {@link BotEngine}
+   *
+   * @return singleton instance.
+   */
+  public static BotEngine get() {
+    return ENGINE;
+  }
 
-    private volatile boolean running = false;
+  private volatile boolean running = false;
 
-    private BotEngine() {
-        // This is the hidden constructor for singleton classes to make sure it can't be instanced by mistake.
-        start();
-    }
+  private ScenarioDirector director;
 
-    /**
-     * <p>
-     * Check if the bot engine is running or fall into sleep mode.
-     *
-     * <p>
-     * When the bot engine is in sleep mode, it still keep the infinitive loop but does nothings.
-     *
-     * @return <code>true</code> if the bot is running.
-     */
-    public boolean isRunning() {
-        return running;
-    }
+  private BotEngine() {
+    // This is the hidden constructor for singleton classes to make sure it can't be instanced by
+    // mistake.
+    start();
+  }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                if (!running) {
-                    sleep(500);
-                }
+  /**
+   * <p>
+   * Check if the bot engine is running or fall into sleep mode.
+   *
+   * <p>
+   * When the bot engine is in sleep mode, it still keep the infinitive loop but does nothings.
+   *
+   * @return <code>true</code> if the bot is running.
+   */
+  public boolean isRunning() {
+    return running;
+  }
 
-                // TODO to be implemented
-            } catch (final Exception e) {
-                // Provide the global catch exception so that the engine loop is infinitive.
-                // TODO to be implemented
-                e.printStackTrace();
-            }
+  /**
+   * (non-Javadoc)
+   *
+   * @see java.lang.Thread#run()
+   */
+  @Override
+  public void run() {
+    while (true) {
+      try {
+        if (!running || director == null) {
+          sleep(500);
         }
-    }
 
-    /**
-     * Set the bot engine as running or fall into sleep mode.
-     *
-     * @param running
-     *            <code>true</code> to active the running mode, otherwise fall into sleep mode.
-     */
-    public void setRunning(final boolean running) {
-        this.running = running;
+        final GameState gameState = detectGameState();
+        ((HomeController) ControllerRegistry.get(HomeController.class)).updateGameStatus(gameState);
+        director.direct(gameState);
+      } catch (final Exception e) {
+        // Provide the global catch exception so that the engine loop is infinitive.
+        // TODO to be implemented
+        e.printStackTrace();
+      }
     }
+  }
+
+  public void setDirector(final ScenarioDirector selectedDirector) {
+    this.director = selectedDirector;
+  }
+
+  /**
+   * Set the bot engine as running or fall into sleep mode.
+   *
+   * @param running <code>true</code> to active the running mode, otherwise fall into sleep mode.
+   */
+  public void setRunning(final boolean running) {
+    this.running = running;
+  }
+
+  private GameState detectGameState() {
+    final String screenshot = CommandUtil.capturePhoneScreen();
+    final GameConfig config = GameConfig.get();
+    if (screenshot == null) {
+      return GameState.UNKNOWN;
+    }
+    if (doesStateMatch(screenshot, config.getManualAttackIndicatorFile())) {
+      return GameState.BATTLE_MANUAL;
+    }
+    if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
+      return GameState.BATTLE_RESULT_WIN;
+    }
+    if (doesStateMatch(screenshot, config.getReplayBattleIndicatorFile())) {
+      return GameState.REPLAY_BATTLE_CONFIRMATION;
+    }
+    if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
+      return GameState.START_BATTLE;
+    }
+    if (doesStateMatch(screenshot, config.getRuneRewardIndiatorFile())) {
+      return GameState.RUNE_REWARD;
+    }
+    if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
+      return GameState.OTHER_REWARD;
+    }
+    if (doesStateMatch(screenshot, config.getConfirmSellRuneIndicatorFile())) {
+      return GameState.SELL_RUNE_CONFIRMATION;
+    }
+    if (doesStateMatch(screenshot, config.getNoEnergyIndicatorFile())) {
+      return GameState.NOT_ENOUGH_ENERGY;
+    }
+    if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
+      return GameState.NETWORK_DELAY;
+    }
+    if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
+      return GameState.UNSTABLE_NETWORK;
+    }
+    return GameState.UNKNOWN;
+  }
+
+  private boolean doesStateMatch(final String screenshot, final File template) {
+    if (template == null) {
+      return false;
+    }
+    return ImageUtil.contains(screenshot, template.getAbsolutePath(), 95) != null;
+  }
 }

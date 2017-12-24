@@ -32,6 +32,8 @@ public final class HomeModel extends Observable {
 
   public static final String PROFILE_SELECTED = "PROFILE_SELECTED";
 
+  public static final String SCENARIO_SELECTED = "SCENARIO_SELECTED";
+
   /**
    * Store the target phone to run the bot e.g. samsung galaxy s3, sony z1, etc. User has to
    * configure new phone profile, basically it contains the mouse click location and screen shot
@@ -41,9 +43,11 @@ public final class HomeModel extends Observable {
   /**
    * Store all the available {@link ScenarioDirector}.
    */
-  private final List<SimpleImmutableEntry<String, Object>> scenarios = new ArrayList<>();
+  private final List<SimpleImmutableEntry<String, ScenarioDirector>> scenarios = new ArrayList<>();
 
   private String selectedProfile;
+
+  private String selectedScenario;
 
   /**
    * Get all available profiles.
@@ -59,12 +63,16 @@ public final class HomeModel extends Observable {
    *
    * @return the scenarios
    */
-  public List<SimpleImmutableEntry<String, Object>> getScenarios() {
+  public List<SimpleImmutableEntry<String, ScenarioDirector>> getScenarios() {
     return scenarios;
   }
 
   public String getSelectedProfile() {
     return selectedProfile;
+  }
+
+  public String getSelectedScenario() {
+    return selectedScenario;
   }
 
   /**
@@ -82,6 +90,12 @@ public final class HomeModel extends Observable {
     return profiles.indexOf(profile);
   }
 
+  public void setSelectedScenario(final String selectedScenario) {
+    this.selectedScenario = selectedScenario;
+    setChanged();
+    notifyObservers(PROFILE_SELECTED);
+  }
+
   /**
    * Load all configured profiles in the store.
    */
@@ -97,8 +111,13 @@ public final class HomeModel extends Observable {
     setChanged();
     notifyObservers(PROFILES_LOADED);
 
+    // Configure new profile if there is no
     if (profiles.size() == 2) {
       setSelectedProfile(profiles.get(1));
+    }
+    final String profileName = GameConfig.get().getProfileName();
+    if (profileName != null && profiles.contains(profileName)) {
+      setSelectedProfile(profileName);
     }
   }
 
@@ -109,7 +128,7 @@ public final class HomeModel extends Observable {
     scenarios.clear();
     scenarios.add(new SimpleImmutableEntry<>("--Select scenario--", null));
     ServiceLoader.load(ScenarioDirector.class).forEach(director -> scenarios
-        .add(new SimpleImmutableEntry<String, Object>(director.getName(), director)));
+        .add(new SimpleImmutableEntry<>(director.getName(), director)));
     setChanged();
     notifyObservers(SCENARIOS_LOADED);
   }

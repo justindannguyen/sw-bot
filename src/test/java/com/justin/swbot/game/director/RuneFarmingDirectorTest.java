@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.justin.swbot.game.GameState;
-
 /**
  * @author tuan3.nguyen@gmail.com
  */
@@ -38,23 +36,5 @@ public class RuneFarmingDirectorTest {
   @Test
   public void testGetName() {
     Assert.assertEquals("RuneFarmingDirector", instanceUnderTest.getName());
-  }
-
-  /**
-   * Test method for {@link com.justin.swbot.game.director.RuneFarmingDirector#giveDirective(com.justin.swbot.game.GameState)}.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testGiveDirective_negative_byInvalidArgurment() {
-    instanceUnderTest.giveDirective(null);
-  }
-
-  /**
-   * Test method for
-   * {@link com.justin.swbot.game.director.RuneFarmingDirector#giveDirective(com.justin.swbot.game.GameState)}.
-   */
-  @Test
-  public void testGiveDirective_positive_byValidArgurment() {
-    final Runnable command = instanceUnderTest.giveDirective(GameState.UNKNOWN);
-    Assert.assertNotNull(command);
   }
 }

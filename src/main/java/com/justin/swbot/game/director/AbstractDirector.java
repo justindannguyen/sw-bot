@@ -15,12 +15,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   private int availableRefillTime;
 
   @Override
-  public String getName() {
-    return getClass().getSimpleName();
-  }
-
-  @Override
-  public Runnable giveDirective(final GameState gameState) {
+  public void direct(final GameState gameState) {
     if (gameState == GameState.BATTLE_MANUAL) {
       enableAutoAttackMode();
     } else if (gameState == GameState.BATTLE_RESULT_WIN) {
@@ -28,9 +23,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.BATTLE_RESULT_FAIL) {
       ackBattleResult();
     } else if (gameState == GameState.RUNE_REWARD) {
-      ackBattleResult();
+      proceedRuneReward();
     } else if (gameState == GameState.OTHER_REWARD) {
-      ackBattleResult();
+      proceedOtherReward();
     } else if (gameState == GameState.REPLAY_BATTLE_CONFIRMATION) {
       replayBattle();
     } else if (gameState == GameState.START_BATTLE) {
@@ -44,7 +39,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.UNSTABLE_NETWORK) {
       resendBattleInfo();
     }
-    return null;
+  }
+
+  @Override
+  public String getName() {
+    return getClass().getSimpleName();
   }
 
   /**
@@ -52,7 +51,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void ackBattleResult() {
     tapScreen("1", "1");
-    sleep(500);
+    sleep(1000);
     tapScreen("1", "1");
   }
 
