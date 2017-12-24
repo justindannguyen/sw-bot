@@ -6,7 +6,7 @@ package com.justin.swbot.game.director;
 import java.util.ServiceLoader;
 
 import com.justin.swbot.game.BotEngine;
-import com.justin.swbot.game.GameState;
+import com.justin.swbot.game.GameStatus;
 
 /**
  * <p>
@@ -38,9 +38,9 @@ public interface ScenarioDirector {
   /**
    * Base on the give game state, the director give suggestion what to do, where to click.
    *
-   * @param gameState current game state.
+   * @param gameStatus current game status.
    */
-  void direct(GameState gameState);
+  boolean direct(GameStatus gameStatus);
 
   /**
    * Get the unique name of the director.

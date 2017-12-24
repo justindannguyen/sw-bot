@@ -104,7 +104,7 @@ public class AddProfileUI extends JFrame {
   private BoxPicker fiveStartRuneBoxPicker;
   private JCheckBox grindPercentCheckbox;
   private JCheckBox randomClickCheckbox;
-  private JCheckBox logCheckbox;
+  private JCheckBox runLogCheckbox;
 
   public AddProfileUI() {
     initGUI();
@@ -329,6 +329,13 @@ public class AddProfileUI extends JFrame {
       runeRewardBoxPicker = new BoxPicker();
     }
     return runeRewardBoxPicker;
+  }
+
+  public JCheckBox getRunLogCheckbox() {
+    if (runLogCheckbox == null) {
+    	runLogCheckbox = new JCheckBox("Log");
+    }
+    return runLogCheckbox;
   }
 
   public JCheckBox getSellAllRuneCheckbox() {
@@ -654,13 +661,6 @@ public class AddProfileUI extends JFrame {
     return lblUnstableNetworkIndicator;
   }
 
-  private JCheckBox getLogCheckbox() {
-    if (logCheckbox == null) {
-    	logCheckbox = new JCheckBox("Log");
-    }
-    return logCheckbox;
-  }
-
   private JPanel getPanel() {
     if (panel == null) {
       panel = new JPanel();
@@ -675,7 +675,7 @@ public class AddProfileUI extends JFrame {
       panel.add(getFiveStarRuneCheckBox(), "cell 0 4");
       panel.add(getFiveStartRuneBoxPicker(), "cell 1 4,grow");
       panel.add(getGrindPercentCheckbox(), "cell 0 5");
-      panel.add(getLogCheckbox(), "cell 0 6");
+      panel.add(getRunLogCheckbox(), "cell 0 6");
     }
     return panel;
   }

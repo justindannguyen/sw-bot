@@ -74,9 +74,9 @@ public final class BotEngine extends Thread {
         }
 
         homeController.updateStatus("Detecting new game state...");
-        final GameState gameState = detectGameState();
-        homeController.updateGameStatus(gameState);
-        director.direct(gameState);
+        final GameStatus gameStatus = detectGameStatus();
+        homeController.updateGameStatus(gameStatus.getGameState());
+        director.direct(gameStatus);
       } catch (final Exception e) {
         homeController.updateStatus("Error in bot loop: " + e.getMessage());
       }
@@ -96,43 +96,33 @@ public final class BotEngine extends Thread {
     this.running = running;
   }
 
-  private GameState detectGameState() {
+  private GameStatus detectGameStatus() {
     final String screenshot = CommandUtil.capturePhoneScreen();
     final GameConfig config = GameConfig.get();
-    if (screenshot == null) {
-      return GameState.UNKNOWN;
-    }
+
+    GameState gameState = GameState.UNKNOWN;
     if (doesStateMatch(screenshot, config.getManualAttackIndicatorFile())) {
-      return GameState.BATTLE_MANUAL;
+      gameState = GameState.BATTLE_MANUAL;
+    } else if (doesStateMatch(screenshot, config.getReplayBattleIndicatorFile())) {
+      gameState = GameState.REPLAY_BATTLE_CONFIRMATION;
+    } else if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
+      gameState = GameState.START_BATTLE;
+    } else if (doesStateMatch(screenshot, config.getRuneRewardIndiatorFile())) {
+      gameState = GameState.RUNE_REWARD;
+    } else if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
+      gameState = GameState.OTHER_REWARD;
+    } else if (doesStateMatch(screenshot, config.getConfirmSellRuneIndicatorFile())) {
+      gameState = GameState.SELL_RUNE_CONFIRMATION;
+    } else if (doesStateMatch(screenshot, config.getNoEnergyIndicatorFile())) {
+      gameState = GameState.NOT_ENOUGH_ENERGY;
+    } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
+      gameState = GameState.NETWORK_DELAY;
+    } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
+      gameState = GameState.UNSTABLE_NETWORK;
+    } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
+      gameState = GameState.BATTLE_ENDED;
     }
-    if (doesStateMatch(screenshot, config.getReplayBattleIndicatorFile())) {
-      return GameState.REPLAY_BATTLE_CONFIRMATION;
-    }
-    if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
-      return GameState.START_BATTLE;
-    }
-    if (doesStateMatch(screenshot, config.getRuneRewardIndiatorFile())) {
-      return GameState.RUNE_REWARD;
-    }
-    if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
-      return GameState.OTHER_REWARD;
-    }
-    if (doesStateMatch(screenshot, config.getConfirmSellRuneIndicatorFile())) {
-      return GameState.SELL_RUNE_CONFIRMATION;
-    }
-    if (doesStateMatch(screenshot, config.getNoEnergyIndicatorFile())) {
-      return GameState.NOT_ENOUGH_ENERGY;
-    }
-    if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
-      return GameState.NETWORK_DELAY;
-    }
-    if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
-      return GameState.UNSTABLE_NETWORK;
-    }
-    if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
-      return GameState.BATTLE_ENDED;
-    }
-    return GameState.UNKNOWN;
+    return GameStatus.create(gameState, screenshot);
   }
 
   private boolean doesStateMatch(final String screenshot, final File template) {

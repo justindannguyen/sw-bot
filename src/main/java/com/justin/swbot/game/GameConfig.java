@@ -50,6 +50,7 @@ public class GameConfig {
   public static final String RESEND_BATTLE_INFO_Y = "resendBattleInfoY";
   public static final String RANDOM_CLICK = "RANDOM_CLICK";
   public static final String SELL_ALL_RUNE = "SELL_ALL_RUNE";
+  public static final String RUNE_LOG = "RUNE_LOG";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -59,9 +60,7 @@ public class GameConfig {
   }
 
   private final Properties props = new Properties();
-
   private String profileName;
-
   private BufferedImage replayBattleIndicator;
   private BufferedImage startBattleIndicator;
   private BufferedImage battleEndIndicator;
@@ -72,6 +71,7 @@ public class GameConfig {
   private BufferedImage noEnergyIndicator;
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
+
   public void clear() {
     this.profileName = null;
     this.props.clear();
@@ -86,6 +86,7 @@ public class GameConfig {
     networkDelayIndicator = null;
     networkUnstableIndicator = null;
   }
+
   public String getAckRechargeEnergyOkX() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_X);
   }
@@ -93,7 +94,6 @@ public class GameConfig {
   public String getAckRechargeEnergyOkY() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_Y);
   }
-
   public BufferedImage getBattleEndIndicator() {
     return battleEndIndicator;
   }
@@ -309,21 +309,31 @@ public class GameConfig {
     final File profileFolder = new File(profilesFolder, profileName);
     return new File(profileFolder, "startBattleIndicator");
   }
+
   public String getStartBattleX() {
     return props.getProperty(START_BATTLE_X);
   }
+
   public String getStartBattleY() {
     return props.getProperty(START_BATTLE_Y);
   }
+
   public boolean isClickRandom() {
     return Boolean.valueOf(props.getProperty(RANDOM_CLICK, "true"));
   }
+
   public boolean isEmpty() {
     return profileName == null && props.isEmpty();
   }
+
+  public boolean isRuneLog() {
+    return Boolean.valueOf(props.getProperty(RUNE_LOG, "true"));
+  }
+
   public boolean isSellAllRune() {
     return Boolean.valueOf(props.getProperty(SELL_ALL_RUNE, "false"));
   }
+
   public void load(final String file) {
     profileName = file;
     final File profilesFolder = getProfilesFolder();
@@ -475,6 +485,10 @@ public class GameConfig {
   public void setResendBattleInfoX(final Point point) {
     props.setProperty(RESEND_BATTLE_INFO_X, String.valueOf(point.x));
     props.setProperty(RESEND_BATTLE_INFO_Y, String.valueOf(point.y));
+  }
+
+  public void setRuneLog(final boolean value) {
+    props.setProperty(RUNE_LOG, String.valueOf(value));
   }
 
   public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {

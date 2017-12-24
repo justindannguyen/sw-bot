@@ -30,6 +30,7 @@ public class AddProfileModel extends Observable {
   private Point sellRuneConfirmLocation;
   private Point getRuneRewardLocation;
   private Point getRewardLocation;
+  private boolean runLog;
 
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
@@ -161,6 +162,10 @@ public class AddProfileModel extends Observable {
     return randomClick;
   }
 
+  public boolean isRunLog() {
+    return runLog;
+  }
+
   public boolean isSellAllRune() {
     return sellAllRune;
   }
@@ -216,6 +221,7 @@ public class AddProfileModel extends Observable {
         Integer.valueOf(config.getResendBattleInfoY()));
     randomClick = config.isClickRandom();
     sellAllRune = config.isSellAllRune();
+    runLog = config.isRuneLog();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -326,6 +332,10 @@ public class AddProfileModel extends Observable {
 
   public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {
     this.runeRewardIndiator = runeRewardIndiator;
+  }
+
+  public void setRunLog(final boolean runLog) {
+    this.runLog = runLog;
   }
 
   public void setSellAllRune(final boolean sellAllRune) {

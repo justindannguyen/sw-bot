@@ -81,6 +81,7 @@ public class AddProfileControllerAction
     ui.getResendBattleInfoPointPicker().setValueListener(this);
     ui.getRandomClickCheckbox().addItemListener(this);
     ui.getSellAllRuneCheckbox().addItemListener(this);
+    ui.getRunLogCheckbox().addItemListener(this);
 
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
@@ -110,6 +111,8 @@ public class AddProfileControllerAction
       model.setRandomClick(ui.getRandomClickCheckbox().isSelected());
     } else if (source == ui.getSellAllRuneCheckbox()) {
       model.setSellAllRune(ui.getSellAllRuneCheckbox().isSelected());
+    } else if (source == ui.getRunLogCheckbox()) {
+      model.setRunLog(ui.getRunLogCheckbox().isSelected());
     }
   }
 
@@ -294,6 +297,7 @@ public class AddProfileControllerAction
     }
     config.setClickRandom(model.isRandomClick());
     config.setSellAllRune(model.isSellAllRune());
+    config.setRuneLog(model.isRunLog());
     config.save();
 
     controller.unlaunchUI();
@@ -324,6 +328,7 @@ public class AddProfileControllerAction
     ui.getResendBattleInfoPointPicker().setData(model.getResendBattleInfoLocation());
     ui.getRandomClickCheckbox().setSelected(model.isRandomClick());
     ui.getSellAllRuneCheckbox().setSelected(model.isSellAllRune());
+    ui.getRunLogCheckbox().setSelected(model.isRunLog());
 
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());

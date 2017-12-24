@@ -3,10 +3,15 @@
  */
 package com.justin.swbot.game.director;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import com.justin.swbot.CommandUtil;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameConfig;
 import com.justin.swbot.game.GameState;
+import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.home.HomeController;
 
 /**
@@ -16,28 +21,44 @@ public abstract class AbstractDirector implements ScenarioDirector {
   private int availableRefillTime;
 
   @Override
-  public void direct(final GameState gameState) {
+  public boolean direct(final GameStatus gameStatus) {
+    final GameState gameState = gameStatus.getGameState();
     if (gameState == GameState.BATTLE_MANUAL) {
       enableAutoAttackMode();
+      return true;
     } else if (gameState == GameState.BATTLE_ENDED) {
       ackBattleResult();
+      return true;
     } else if (gameState == GameState.RUNE_REWARD) {
-      proceedRuneReward();
+      proceedRuneReward(gameStatus);
+      return true;
     } else if (gameState == GameState.OTHER_REWARD) {
       proceedOtherReward();
+      return true;
     } else if (gameState == GameState.REPLAY_BATTLE_CONFIRMATION) {
       replayBattle();
+      return true;
     } else if (gameState == GameState.START_BATTLE) {
       startBattle();
+      return true;
     } else if (gameState == GameState.SELL_RUNE_CONFIRMATION) {
       confirmSellRune();
+      return true;
     } else if (gameState == GameState.NOT_ENOUGH_ENERGY) {
       proceedNotEnoughEnergy();
+      return true;
     } else if (gameState == GameState.NETWORK_DELAY) {
       confirmNetworkDelay();
+      return true;
     } else if (gameState == GameState.UNSTABLE_NETWORK) {
       resendBattleInfo();
+      return true;
+    } else if (gameState == GameState.UNKNOWN) {
+      // Log unknown situation where directive can't handle
+      screenLog(gameStatus, new File("unknownStates"));
+      return true;
     }
+    return false;
   }
 
   @Override
@@ -58,10 +79,14 @@ public abstract class AbstractDirector implements ScenarioDirector {
   /**
    * Collect rune on battle result screen.
    */
-  protected void collectRune() {
+  protected void collectRune(final GameStatus gameStatus) {
     progressMessage("Collecting rune...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getGetRuneLocationX(), gameConfig.getGetRuneLocationY());
+
+    if (gameConfig.isRuneLog()) {
+      screenLog(gameStatus, new File("runeLog"));
+    }
   }
 
   protected void confirmSellRune() {
@@ -88,12 +113,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
     tapScreen(gameConfig.getGetRewardLocationX(), gameConfig.getGetRewardLocationY());
   }
 
-  protected void proceedRuneReward() {
+  protected void proceedRuneReward(final GameStatus gameStatus) {
     final GameConfig gameConfig = GameConfig.get();
     if (gameConfig.isSellAllRune()) {
-      sellRune();
+      sellRune(gameStatus);
     } else {
-      collectRune();
+      collectRune(gameStatus);
     }
   }
 
@@ -131,13 +156,29 @@ public abstract class AbstractDirector implements ScenarioDirector {
     startBattle();
   }
 
+  protected void screenLog(final GameStatus status, final File folder) {
+    if (!folder.exists()) {
+      folder.mkdirs();
+    }
+    try {
+      Files.copy(new File(status.getScreenFile()).toPath(),
+          new File(folder, String.format("%s.png", System.currentTimeMillis())).toPath());
+    } catch (final IOException ex) {
+      System.err.println("Could not log screenshoot");
+    }
+  }
+
   /**
    * Sell the rune on battle result screen.
    */
-  protected void sellRune() {
+  protected void sellRune(final GameStatus gameStatus) {
     progressMessage("Selling rune...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getSellRuneLocationX(), gameConfig.getSellRuneLocationY());
+
+    if (gameConfig.isRuneLog()) {
+      screenLog(gameStatus, new File("runeLog", "sold"));
+    }
   }
 
   protected void sleep(final long sleepMs) {
