@@ -597,7 +597,7 @@ public class AddProfileUI extends JFrame {
 
   private JLabel getLblRuneRules() {
     if (lblRuneRules == null) {
-      lblRuneRules = new JLabel("Rune Rules");
+      lblRuneRules = new JLabel("Rules apply when \"Sell all runes\" are unchecked.");
     }
     return lblRuneRules;
   }
@@ -665,7 +665,7 @@ public class AddProfileUI extends JFrame {
     if (panel == null) {
       panel = new JPanel();
       panel.setLayout(new MigLayout("", "[140px][grow,fill]", "[][][][][][][]"));
-      panel.add(getAllRuneCheckbox(), "cell 0 0");
+      panel.add(getAllRuneCheckbox(), "cell 0 0 2 1");
       panel.add(getLegendRuneCheckbox(), "cell 0 1");
       panel.add(getLegendRuneBoxPicker(), "cell 1 1,grow");
       panel.add(getHeroRuneCheckbox(), "cell 0 2");
@@ -715,7 +715,7 @@ public class AddProfileUI extends JFrame {
       runeTab.add(getGetRunePointPicker(), "cell 1 3");
       runeTab.add(getLblGetRewardLocation(), "cell 0 4");
       runeTab.add(getGetRewardPointPicker(), "cell 1 4");
-      runeTab.add(getLblRuneRules(), "cell 0 5");
+      runeTab.add(getLblRuneRules(), "cell 0 5 2 1");
       runeTab.add(getPanel(), "cell 0 6 2 1,grow");
     }
     return runeTab;

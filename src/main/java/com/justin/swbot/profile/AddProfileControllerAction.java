@@ -82,6 +82,7 @@ public class AddProfileControllerAction
     ui.getRandomClickCheckbox().addItemListener(this);
     ui.getSellAllRuneCheckbox().addItemListener(this);
     ui.getRunLogCheckbox().addItemListener(this);
+    ui.getAllRuneCheckbox().addItemListener(this);
 
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
@@ -113,6 +114,8 @@ public class AddProfileControllerAction
       model.setSellAllRune(ui.getSellAllRuneCheckbox().isSelected());
     } else if (source == ui.getRunLogCheckbox()) {
       model.setRunLog(ui.getRunLogCheckbox().isSelected());
+    } else if (source == ui.getAllRuneCheckbox()) {
+      model.setPickAllRune(ui.getAllRuneCheckbox().isSelected());
     }
   }
 
@@ -131,7 +134,6 @@ public class AddProfileControllerAction
 
   @Override
   public void keyTyped(final KeyEvent e) {
-
   }
 
   @Override
@@ -298,6 +300,7 @@ public class AddProfileControllerAction
     config.setClickRandom(model.isRandomClick());
     config.setSellAllRune(model.isSellAllRune());
     config.setRuneLog(model.isRunLog());
+    config.setPickAllRune(model.isPickAllRune());
     config.save();
 
     controller.unlaunchUI();
@@ -329,6 +332,7 @@ public class AddProfileControllerAction
     ui.getRandomClickCheckbox().setSelected(model.isRandomClick());
     ui.getSellAllRuneCheckbox().setSelected(model.isSellAllRune());
     ui.getRunLogCheckbox().setSelected(model.isRunLog());
+    ui.getAllRuneCheckbox().setSelected(model.isPickAllRune());
 
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());

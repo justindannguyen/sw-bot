@@ -51,6 +51,7 @@ public class GameConfig {
   public static final String RANDOM_CLICK = "RANDOM_CLICK";
   public static final String SELL_ALL_RUNE = "SELL_ALL_RUNE";
   public static final String RUNE_LOG = "RUNE_LOG";
+  public static final String PICK_ALL_RUNE = "PICK_ALL_RUNE";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -94,6 +95,7 @@ public class GameConfig {
   public String getAckRechargeEnergyOkY() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_Y);
   }
+
   public BufferedImage getBattleEndIndicator() {
     return battleEndIndicator;
   }
@@ -103,7 +105,6 @@ public class GameConfig {
     final File profileFolder = new File(profilesFolder, profileName);
     return new File(profileFolder, "battleEndIndicator");
   }
-
   public String getCloseRechargeEnergyX() {
     return props.getProperty(CLOSE_RECHARGE_ENERGY_X);
   }
@@ -326,6 +327,10 @@ public class GameConfig {
     return profileName == null && props.isEmpty();
   }
 
+  public boolean isPickAllRune() {
+    return Boolean.valueOf(props.getProperty(PICK_ALL_RUNE, "true"));
+  }
+
   public boolean isRuneLog() {
     return Boolean.valueOf(props.getProperty(RUNE_LOG, "true"));
   }
@@ -448,6 +453,10 @@ public class GameConfig {
 
   public void setOtherRewardIndicator(final BufferedImage otherRewardIndicator) {
     this.otherRewardIndicator = otherRewardIndicator;
+  }
+
+  public void setPickAllRune(final boolean value) {
+    props.setProperty(PICK_ALL_RUNE, String.valueOf(value));
   }
 
   public void setProfileName(final String profileName) {

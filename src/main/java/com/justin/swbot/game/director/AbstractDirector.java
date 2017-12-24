@@ -80,12 +80,20 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Collect rune on battle result screen.
    */
   protected void collectRune(final GameStatus gameStatus) {
-    progressMessage("Collecting rune...");
     final GameConfig gameConfig = GameConfig.get();
-    tapScreen(gameConfig.getGetRuneLocationX(), gameConfig.getGetRuneLocationY());
-
-    if (gameConfig.isRuneLog()) {
-      screenLog(gameStatus, new File("runeLog"));
+    final boolean pickRune = gameConfig.isPickAllRune();
+    if (!gameConfig.isPickAllRune()) {
+      // TODO Rune filtering options
+    }
+    if (pickRune) {
+      progressMessage("Collecting rune...");
+      tapScreen(gameConfig.getGetRuneLocationX(), gameConfig.getGetRuneLocationY());
+      if (gameConfig.isRuneLog()) {
+        screenLog(gameStatus, new File("runeLog"));
+      }
+    } else {
+      // Rune will be sold if non of rules are matching
+      sellRune(gameStatus);
     }
   }
 

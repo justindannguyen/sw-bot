@@ -31,6 +31,7 @@ public class AddProfileModel extends Observable {
   private Point getRuneRewardLocation;
   private Point getRewardLocation;
   private boolean runLog;
+  private boolean pickAllRune;
 
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
@@ -158,6 +159,10 @@ public class AddProfileModel extends Observable {
     return startBattleLocation;
   }
 
+  public boolean isPickAllRune() {
+    return pickAllRune;
+  }
+
   public boolean isRandomClick() {
     return randomClick;
   }
@@ -222,6 +227,7 @@ public class AddProfileModel extends Observable {
     randomClick = config.isClickRandom();
     sellAllRune = config.isSellAllRune();
     runLog = config.isRuneLog();
+    pickAllRune = config.isPickAllRune();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -296,6 +302,10 @@ public class AddProfileModel extends Observable {
 
   public void setOtherRewardIndicator(final BufferedImage otherRewardIndicator) {
     this.otherRewardIndicator = otherRewardIndicator;
+  }
+
+  public void setPickAllRune(final boolean pickAllRune) {
+    this.pickAllRune = pickAllRune;
   }
 
   public void setProfileName(final String profileName) {
