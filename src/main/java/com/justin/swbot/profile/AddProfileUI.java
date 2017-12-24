@@ -94,9 +94,7 @@ public class AddProfileUI extends JFrame {
   private JPanel panel;
   private JLabel lblRuneRules;
   private JCheckBox legendRuneCheckbox;
-  private BoxPicker legendRuneBoxPicker;
   private JCheckBox heroRuneCheckbox;
-  private BoxPicker heroRuneBoxPicker;
   private JCheckBox allRuneCheckbox;
   private JCheckBox sixStartRuneCheckBox;
   private BoxPicker sixStartRuneBoxPicker;
@@ -105,6 +103,7 @@ public class AddProfileUI extends JFrame {
   private JCheckBox grindPercentCheckbox;
   private JCheckBox randomClickCheckbox;
   private JCheckBox runLogCheckbox;
+  private JLabel lblRareBoundary;
 
   public AddProfileUI() {
     initGUI();
@@ -123,7 +122,7 @@ public class AddProfileUI extends JFrame {
 
   public JCheckBox getAllRuneCheckbox() {
     if (allRuneCheckbox == null) {
-      allRuneCheckbox = new JCheckBox("Pick all");
+      allRuneCheckbox = new JCheckBox("Pick all (ignore other rules configuration if selected)");
     }
     return allRuneCheckbox;
   }
@@ -186,7 +185,7 @@ public class AddProfileUI extends JFrame {
 
   public JCheckBox getFiveStarRuneCheckBox() {
     if (fiveStarRuneCheckBox == null) {
-      fiveStarRuneCheckBox = new JCheckBox("Five star +");
+      fiveStarRuneCheckBox = new JCheckBox("Pick 5 star +");
     }
     return fiveStarRuneCheckBox;
   }
@@ -214,35 +213,21 @@ public class AddProfileUI extends JFrame {
 
   public JCheckBox getGrindPercentCheckbox() {
     if (grindPercentCheckbox == null) {
-    	grindPercentCheckbox = new JCheckBox("Grindstone % only");
+      grindPercentCheckbox = new JCheckBox("Pick grind/gem SPD,% only");
     }
     return grindPercentCheckbox;
   }
 
-  public BoxPicker getHeroRuneBoxPicker() {
-    if (heroRuneBoxPicker == null) {
-      heroRuneBoxPicker = new BoxPicker();
-    }
-    return heroRuneBoxPicker;
-  }
-
   public JCheckBox getHeroRuneCheckbox() {
     if (heroRuneCheckbox == null) {
-      heroRuneCheckbox = new JCheckBox("Hero+");
+      heroRuneCheckbox = new JCheckBox("Pick hero+");
     }
     return heroRuneCheckbox;
   }
 
-  public BoxPicker getLegendRuneBoxPicker() {
-    if (legendRuneBoxPicker == null) {
-      legendRuneBoxPicker = new BoxPicker();
-    }
-    return legendRuneBoxPicker;
-  }
-
   public JCheckBox getLegendRuneCheckbox() {
     if (legendRuneCheckbox == null) {
-      legendRuneCheckbox = new JCheckBox("Legend only");
+      legendRuneCheckbox = new JCheckBox("Pick legend only");
     }
     return legendRuneCheckbox;
   }
@@ -368,7 +353,7 @@ public class AddProfileUI extends JFrame {
 
   public JCheckBox getSixStartRuneCheckbox() {
     if (sixStartRuneCheckBox == null) {
-      sixStartRuneCheckBox = new JCheckBox("Six star only");
+      sixStartRuneCheckBox = new JCheckBox("Pick 6 star only");
     }
     return sixStartRuneCheckBox;
   }
@@ -559,6 +544,13 @@ public class AddProfileUI extends JFrame {
     return lblProfileName;
   }
 
+  private JLabel getLblRareBoundary() {
+    if (lblRareBoundary == null) {
+      lblRareBoundary = new JLabel("Rare Level Area");
+    }
+    return lblRareBoundary;
+  }
+
   private JLabel getLblRechargeEnergyLocation() {
     if (lblRechargeEnergyLocation == null) {
       lblRechargeEnergyLocation = new JLabel("Recharge Energy YES");
@@ -664,12 +656,10 @@ public class AddProfileUI extends JFrame {
   private JPanel getPanel() {
     if (panel == null) {
       panel = new JPanel();
-      panel.setLayout(new MigLayout("", "[140px][grow,fill]", "[][][][][][][]"));
+      panel.setLayout(new MigLayout("", "[160px][grow,fill]", "[][][][][][][]"));
       panel.add(getAllRuneCheckbox(), "cell 0 0 2 1");
       panel.add(getLegendRuneCheckbox(), "cell 0 1");
-      panel.add(getLegendRuneBoxPicker(), "cell 1 1,grow");
       panel.add(getHeroRuneCheckbox(), "cell 0 2");
-      panel.add(getHeroRuneBoxPicker(), "cell 1 2,grow");
       panel.add(getSixStartRuneCheckbox(), "flowy,cell 0 3");
       panel.add(getSixStartRuneBoxPicker(), "cell 1 3,grow");
       panel.add(getFiveStarRuneCheckBox(), "cell 0 4");
@@ -705,7 +695,7 @@ public class AddProfileUI extends JFrame {
   private JPanel getRuneTab() {
     if (runeTab == null) {
       runeTab = new JPanel();
-      runeTab.setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][grow,fill]"));
+      runeTab.setLayout(new MigLayout("", "[170px][grow,fill]", "[][][][][][][][grow,fill]"));
       runeTab.add(getSellAllRuneCheckbox(), "cell 0 0");
       runeTab.add(getLblSellRuneLocation(), "cell 0 1");
       runeTab.add(getSellRunePointPicker(), "cell 1 1");
@@ -715,8 +705,9 @@ public class AddProfileUI extends JFrame {
       runeTab.add(getGetRunePointPicker(), "cell 1 3");
       runeTab.add(getLblGetRewardLocation(), "cell 0 4");
       runeTab.add(getGetRewardPointPicker(), "cell 1 4");
-      runeTab.add(getLblRuneRules(), "cell 0 5 2 1");
-      runeTab.add(getPanel(), "cell 0 6 2 1,grow");
+      runeTab.add(getLblRareBoundary(), "cell 0 5");
+      runeTab.add(getLblRuneRules(), "cell 0 6 2 1");
+      runeTab.add(getPanel(), "cell 0 7 2 1,grow");
     }
     return runeTab;
   }

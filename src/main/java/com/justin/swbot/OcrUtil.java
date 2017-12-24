@@ -17,7 +17,7 @@ public interface OcrUtil {
   public static String text(final BufferedImage imageFile) {
     final ITesseract instance = new Tesseract(); // JNA Interface Mapping
     try {
-      return instance.doOCR(imageFile);
+      return instance.doOCR(imageFile).trim();
     } catch (final TesseractException e) {
       e.printStackTrace();
       return "";
@@ -27,7 +27,7 @@ public interface OcrUtil {
   public static String text(final File imageFile) {
     final ITesseract instance = new Tesseract(); // JNA Interface Mapping
     try {
-      return instance.doOCR(imageFile);
+      return instance.doOCR(imageFile).trim();
     } catch (final TesseractException e) {
       e.printStackTrace();
       return "";

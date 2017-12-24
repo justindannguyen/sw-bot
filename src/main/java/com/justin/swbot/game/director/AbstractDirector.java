@@ -3,11 +3,15 @@
  */
 package com.justin.swbot.game.director;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import javax.imageio.ImageIO;
+
 import com.justin.swbot.CommandUtil;
+import com.justin.swbot.OcrUtil;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameConfig;
 import com.justin.swbot.game.GameState;
@@ -79,11 +83,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
   /**
    * Collect rune on battle result screen.
    */
-  protected void collectRune(final GameStatus gameStatus) {
+  protected void collectRune(final GameStatus gameStatus) throws IOException {
     final GameConfig gameConfig = GameConfig.get();
-    final boolean pickRune = gameConfig.isPickAllRune();
+    boolean pickRune = gameConfig.isPickAllRune();
     if (!gameConfig.isPickAllRune()) {
-      // TODO Rune filtering options
+      pickRune = applyRuneFilter(gameStatus);
     }
     if (pickRune) {
       progressMessage("Collecting rune...");
@@ -126,7 +130,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
     if (gameConfig.isSellAllRune()) {
       sellRune(gameStatus);
     } else {
-      collectRune(gameStatus);
+      try {
+        collectRune(gameStatus);
+      } catch (final IOException ex) {
+        throw new RuntimeException("Error when collect rune", ex);
+      }
     }
   }
 
@@ -220,6 +228,28 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
       progressMessage(String.format("No enough energy, resume in % seconds", remainingTime));
     }
+  }
+
+  private boolean applyRuneFilter(final GameStatus gameStatus) throws IOException {
+    final GameConfig gameConfig = GameConfig.get();
+    final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
+    if (gameConfig.isPickLegendRune() || gameConfig.isPickHeroRune()) {
+      final String[] rareLevelBox = gameConfig.getRareLevelArea().split(",");
+      final BufferedImage rareLevelImage = screenImage.getSubimage(Integer.valueOf(rareLevelBox[0]),
+          Integer.valueOf(rareLevelBox[1]), Integer.valueOf(rareLevelBox[2]),
+          Integer.valueOf(rareLevelBox[3]));
+      final String rareLevel = OcrUtil.text(rareLevelImage);
+      final boolean legend = rareLevel.equals("Legend");
+      final boolean hero = rareLevel.equals("Hero");
+      if (legend) {
+        return true;
+      }
+      if (hero && gameConfig.isPickHeroRune()) {
+        return true;
+      }
+    }
+    // TODO Others rune filtering options
+    return false;
   }
 
   private void confirmNetworkDelay() {

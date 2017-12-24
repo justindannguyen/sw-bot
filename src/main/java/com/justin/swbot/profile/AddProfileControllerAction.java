@@ -83,6 +83,8 @@ public class AddProfileControllerAction
     ui.getSellAllRuneCheckbox().addItemListener(this);
     ui.getRunLogCheckbox().addItemListener(this);
     ui.getAllRuneCheckbox().addItemListener(this);
+    ui.getLegendRuneCheckbox().addItemListener(this);
+    ui.getHeroRuneCheckbox().addItemListener(this);
 
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
@@ -116,6 +118,10 @@ public class AddProfileControllerAction
       model.setRunLog(ui.getRunLogCheckbox().isSelected());
     } else if (source == ui.getAllRuneCheckbox()) {
       model.setPickAllRune(ui.getAllRuneCheckbox().isSelected());
+    } else if (source == ui.getLegendRuneCheckbox()) {
+      model.setPickLegendRune(ui.getLegendRuneCheckbox().isSelected());
+    } else if (source == ui.getHeroRuneCheckbox()) {
+      model.setPickHeroRune(ui.getHeroRuneCheckbox().isSelected());
     }
   }
 
@@ -301,6 +307,8 @@ public class AddProfileControllerAction
     config.setSellAllRune(model.isSellAllRune());
     config.setRuneLog(model.isRunLog());
     config.setPickAllRune(model.isPickAllRune());
+    config.setPickLegendRune(model.isPickLegendRune());
+    config.setPickHeroRune(model.isPickHeroRune());
     config.save();
 
     controller.unlaunchUI();
@@ -333,6 +341,8 @@ public class AddProfileControllerAction
     ui.getSellAllRuneCheckbox().setSelected(model.isSellAllRune());
     ui.getRunLogCheckbox().setSelected(model.isRunLog());
     ui.getAllRuneCheckbox().setSelected(model.isPickAllRune());
+    ui.getLegendRuneCheckbox().setSelected(model.isPickLegendRune());
+    ui.getHeroRuneCheckbox().setSelected(model.isPickHeroRune());
 
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());

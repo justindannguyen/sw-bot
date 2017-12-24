@@ -52,6 +52,9 @@ public class GameConfig {
   public static final String SELL_ALL_RUNE = "SELL_ALL_RUNE";
   public static final String RUNE_LOG = "RUNE_LOG";
   public static final String PICK_ALL_RUNE = "PICK_ALL_RUNE";
+  public static final String PICK_LEGEND_RUNE = "PICK_LEGEND_RUNE";
+  public static final String PICK_HERO_RUNE = "PICK_HERO_RUNE";
+  public static final String RARE_LEVEL_AREA = "RARE_LEVEL_AREA";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -105,6 +108,7 @@ public class GameConfig {
     final File profileFolder = new File(profilesFolder, profileName);
     return new File(profileFolder, "battleEndIndicator");
   }
+
   public String getCloseRechargeEnergyX() {
     return props.getProperty(CLOSE_RECHARGE_ENERGY_X);
   }
@@ -120,7 +124,6 @@ public class GameConfig {
   public String getConfirmNetworkDelayY() {
     return props.getProperty(CONFIRM_NETWORK_DELAY_Y);
   }
-
   public String getConfirmRechargeEnergyX() {
     return props.getProperty(CONFIRM_RECHARGE_ENERGY_X);
   }
@@ -219,6 +222,10 @@ public class GameConfig {
 
   public File getProfilesFolder() {
     return new File("profiles");
+  }
+
+  public String getRareLevelArea() {
+    return props.getProperty(RARE_LEVEL_AREA, "0,0,0,0");
   }
 
   public String getRechargeEnergyNoX() {
@@ -329,6 +336,14 @@ public class GameConfig {
 
   public boolean isPickAllRune() {
     return Boolean.valueOf(props.getProperty(PICK_ALL_RUNE, "true"));
+  }
+
+  public boolean isPickHeroRune() {
+    return Boolean.valueOf(props.getProperty(PICK_HERO_RUNE, "false"));
+  }
+
+  public boolean isPickLegendRune() {
+    return Boolean.valueOf(props.getProperty(PICK_LEGEND_RUNE, "false"));
   }
 
   public boolean isRuneLog() {
@@ -459,8 +474,20 @@ public class GameConfig {
     props.setProperty(PICK_ALL_RUNE, String.valueOf(value));
   }
 
+  public void setPickHeroRune(final boolean value) {
+    props.setProperty(PICK_HERO_RUNE, String.valueOf(value));
+  }
+
+  public void setPickLegendRune(final boolean value) {
+    props.setProperty(PICK_LEGEND_RUNE, String.valueOf(value));
+  }
+
   public void setProfileName(final String profileName) {
     this.profileName = profileName;
+  }
+
+  public void setRareLevelArea(final int x, final int y, final int w, final int h) {
+    props.setProperty(RARE_LEVEL_AREA, String.format("%s,%s,%s,%s", x, y, w, h));
   }
 
   public void setRechargeEnergy(final Point point) {

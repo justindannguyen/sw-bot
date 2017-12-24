@@ -30,7 +30,7 @@ public class OcrUtilTest {
   @Test
   public void testTextBufferedImage() {
     final String sourceFile = "src/test/resources/hero.png";
-    Assert.assertEquals("Hero", OcrUtil.text(new File(sourceFile)).trim());
+    Assert.assertEquals("Hero", OcrUtil.text(new File(sourceFile)));
   }
 
   /**
@@ -39,7 +39,7 @@ public class OcrUtilTest {
   @Test
   public void testTextFile() throws IOException {
     final String sourceFile = "src/test/resources/hero.png";
-    Assert.assertEquals("Hero", OcrUtil.text(ImageIO.read(new File(sourceFile))).trim());
+    Assert.assertEquals("Hero", OcrUtil.text(ImageIO.read(new File(sourceFile))));
   }
 
 }

@@ -32,6 +32,8 @@ public class AddProfileModel extends Observable {
   private Point getRewardLocation;
   private boolean runLog;
   private boolean pickAllRune;
+  private boolean pickLegendRune;
+  private boolean pickHeroRune;
 
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
@@ -163,6 +165,14 @@ public class AddProfileModel extends Observable {
     return pickAllRune;
   }
 
+  public boolean isPickHeroRune() {
+    return pickHeroRune;
+  }
+
+  public boolean isPickLegendRune() {
+    return pickLegendRune;
+  }
+
   public boolean isRandomClick() {
     return randomClick;
   }
@@ -228,6 +238,8 @@ public class AddProfileModel extends Observable {
     sellAllRune = config.isSellAllRune();
     runLog = config.isRuneLog();
     pickAllRune = config.isPickAllRune();
+    pickLegendRune = config.isPickLegendRune();
+    pickHeroRune = config.isPickHeroRune();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -306,6 +318,14 @@ public class AddProfileModel extends Observable {
 
   public void setPickAllRune(final boolean pickAllRune) {
     this.pickAllRune = pickAllRune;
+  }
+
+  public void setPickHeroRune(final boolean pickHeroRune) {
+    this.pickHeroRune = pickHeroRune;
+  }
+
+  public void setPickLegendRune(final boolean pickLegendRune) {
+    this.pickLegendRune = pickLegendRune;
   }
 
   public void setProfileName(final String profileName) {

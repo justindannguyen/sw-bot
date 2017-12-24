@@ -40,5 +40,8 @@ This is the fun project and use it as your own risk. We will not responsible for
 * [x] Retry if network delay or network unstable.
 * [ ] Food monster farming to upgrade 6\*.
 * [ ] Rune filtering rule e.g. sell all rune except 6\* or legend, etc.
+  * [x] Pick all.
+  * [x] Pick legend only.
+  * [x] Pick Hero +.
 * [ ] Rift raid farming.
 * [ ] Full runes warehouse
