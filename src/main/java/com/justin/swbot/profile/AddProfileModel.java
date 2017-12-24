@@ -25,11 +25,12 @@ public class AddProfileModel extends Observable {
 
   private int refillTimes;
 
+  private boolean sellAllRune;
   private Point sellRuneLocation;
-
   private Point sellRuneConfirmLocation;
   private Point getRuneRewardLocation;
   private Point getRewardLocation;
+
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
   private Point energyLocationOnShop;
@@ -47,9 +48,11 @@ public class AddProfileModel extends Observable {
   private BufferedImage noEnergyIndicator;
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
+
   public Point getAckRefillSuccessLocation() {
     return ackRefillSuccessLocation;
   }
+
   public BufferedImage getBattleEndIndicator() {
     return battleEndIndicator;
   }
@@ -158,6 +161,10 @@ public class AddProfileModel extends Observable {
     return randomClick;
   }
 
+  public boolean isSellAllRune() {
+    return sellAllRune;
+  }
+
   public void loadData() {
     final GameConfig config = GameConfig.get();
     profileName = config.getProfileName();
@@ -208,6 +215,7 @@ public class AddProfileModel extends Observable {
         : new Point(Integer.valueOf(config.getResendBattleInfoX()),
         Integer.valueOf(config.getResendBattleInfoY()));
     randomClick = config.isClickRandom();
+    sellAllRune = config.isSellAllRune();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -318,6 +326,10 @@ public class AddProfileModel extends Observable {
 
   public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {
     this.runeRewardIndiator = runeRewardIndiator;
+  }
+
+  public void setSellAllRune(final boolean sellAllRune) {
+    this.sellAllRune = sellAllRune;
   }
 
   public void setSellRuneConfirmLocation(final Point sellRuneConfirmLocation) {

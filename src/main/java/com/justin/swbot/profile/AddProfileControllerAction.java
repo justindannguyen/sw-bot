@@ -80,6 +80,7 @@ public class AddProfileControllerAction
     ui.getNetworkDelayPointPicker().setValueListener(this);
     ui.getResendBattleInfoPointPicker().setValueListener(this);
     ui.getRandomClickCheckbox().addItemListener(this);
+    ui.getSellAllRuneCheckbox().addItemListener(this);
 
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
@@ -107,6 +108,8 @@ public class AddProfileControllerAction
     final Object source = e.getSource();
     if (source == ui.getRandomClickCheckbox()) {
       model.setRandomClick(ui.getRandomClickCheckbox().isSelected());
+    } else if (source == ui.getSellAllRuneCheckbox()) {
+      model.setSellAllRune(ui.getSellAllRuneCheckbox().isSelected());
     }
   }
 
@@ -290,6 +293,7 @@ public class AddProfileControllerAction
       config.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
     }
     config.setClickRandom(model.isRandomClick());
+    config.setSellAllRune(model.isSellAllRune());
     config.save();
 
     controller.unlaunchUI();
@@ -319,6 +323,7 @@ public class AddProfileControllerAction
     ui.getNetworkDelayPointPicker().setData(model.getConfirmNetworkDelayLocation());
     ui.getResendBattleInfoPointPicker().setData(model.getResendBattleInfoLocation());
     ui.getRandomClickCheckbox().setSelected(model.isRandomClick());
+    ui.getSellAllRuneCheckbox().setSelected(model.isSellAllRune());
 
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());

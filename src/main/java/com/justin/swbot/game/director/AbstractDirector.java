@@ -89,8 +89,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void proceedRuneReward() {
-    // Default options will be sell the rune.
-    sellRune();
+    final GameConfig gameConfig = GameConfig.get();
+    if (gameConfig.isSellAllRune()) {
+      sellRune();
+    } else {
+      collectRune();
+    }
   }
 
   protected void progressMessage(final String message) {

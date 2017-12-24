@@ -49,6 +49,7 @@ public class GameConfig {
   public static final String RESEND_BATTLE_INFO_X = "resendBattleInfoX";
   public static final String RESEND_BATTLE_INFO_Y = "resendBattleInfoY";
   public static final String RANDOM_CLICK = "RANDOM_CLICK";
+  public static final String SELL_ALL_RUNE = "SELL_ALL_RUNE";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -58,7 +59,9 @@ public class GameConfig {
   }
 
   private final Properties props = new Properties();
+
   private String profileName;
+
   private BufferedImage replayBattleIndicator;
   private BufferedImage startBattleIndicator;
   private BufferedImage battleEndIndicator;
@@ -69,7 +72,6 @@ public class GameConfig {
   private BufferedImage noEnergyIndicator;
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
-
   public void clear() {
     this.profileName = null;
     this.props.clear();
@@ -84,7 +86,6 @@ public class GameConfig {
     networkDelayIndicator = null;
     networkUnstableIndicator = null;
   }
-
   public String getAckRechargeEnergyOkX() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_X);
   }
@@ -298,9 +299,11 @@ public class GameConfig {
   public String getSellRuneLocationY() {
     return props.getProperty(SELL_RUNE_LOC_Y);
   }
+
   public BufferedImage getStartBattleIndicator() {
     return startBattleIndicator;
   }
+
   public File getStartBattleIndicatorFile() {
     final File profilesFolder = getProfilesFolder();
     final File profileFolder = new File(profilesFolder, profileName);
@@ -318,7 +321,9 @@ public class GameConfig {
   public boolean isEmpty() {
     return profileName == null && props.isEmpty();
   }
-
+  public boolean isSellAllRune() {
+    return Boolean.valueOf(props.getProperty(SELL_ALL_RUNE, "false"));
+  }
   public void load(final String file) {
     profileName = file;
     final File profilesFolder = getProfilesFolder();
@@ -474,6 +479,10 @@ public class GameConfig {
 
   public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {
     this.runeRewardIndiator = runeRewardIndiator;
+  }
+
+  public void setSellAllRune(final boolean value) {
+    props.setProperty(SELL_ALL_RUNE, String.valueOf(value));
   }
 
   public void setSellRuneConfirmation(final Point point) {
