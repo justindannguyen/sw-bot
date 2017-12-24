@@ -45,12 +45,13 @@ public final class HomeController implements Controller {
   }
 
   public void updateGameStatus(final GameState state) {
-    updateStatus(state.toString());
+    SwingUtilities
+        .invokeLater(() -> homeUI.getStatusBar().getGameStatusLabel()
+            .setText(state == null ? "" : state.name()));
   }
 
-  public void updateStatus(final String status) {
-    SwingUtilities.invokeLater(() -> homeUI.getStatusBar().getStatusLabel().setText(status));
-
+  public void updateStatus(final String message) {
+    SwingUtilities.invokeLater(() -> homeUI.getStatusBar().getStatusLabel().setText(message));
   }
 
   protected HomeModel getHomeModel() {

@@ -18,14 +18,22 @@ public class PointPicker extends AbstractPicker {
   }
 
   @Override
+  protected String getDataText(final Object data) {
+    final Point selectedPoint = (Point) data;
+    return selectedPoint == null ? ""
+        : String.format("Point (%s, %s)", selectedPoint.x, selectedPoint.y);
+  }
+
+  @Override
   protected void pickData() {
     final PointPickerDialog pickerDialog = new PointPickerDialog();
     final Point selectedPoint = pickerDialog.pickPoint();
+
     if (selectedPoint != null) {
-      getTextLabel().setText(String.format("Point (%s, %s)", selectedPoint.x, selectedPoint.y));
-    }
-    if (valueListener != null) {
-      valueListener.valueChanged(this, selectedPoint);
+      setData(selectedPoint);
+      if (valueListener != null) {
+        valueListener.valueChanged(this, selectedPoint);
+      }
     }
   }
 }

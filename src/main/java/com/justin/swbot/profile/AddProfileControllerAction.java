@@ -3,11 +3,15 @@
  */
 package com.justin.swbot.profile;
 
+import static com.justin.swbot.profile.AddProfileModel.MODEL_LOADED;
+
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
@@ -36,8 +40,7 @@ public class AddProfileControllerAction
   public void actionPerformed(final ActionEvent e) {
     final AddProfileUI ui = controller.getUI();
     if (e.getSource() == ui.getCancelButton()) {
-      controller.unlaunchUI();
-      ControllerRegistry.get(HomeController.class).launchUI();
+      cancel();
     } else if (e.getSource() == ui.getCreateButton()) {
       createProfile();
     }
@@ -85,6 +88,13 @@ public class AddProfileControllerAction
     ui.getNoEnergyBoxPicker().setValueListener(this);
     ui.getNetworkDelayBoxPicker().setValueListener(this);
     ui.getUnstableNetworkBoxPicker().setValueListener(this);
+
+    ui.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(final WindowEvent e) {
+        cancel();
+      }
+    });
   }
 
   @Override
@@ -116,8 +126,9 @@ public class AddProfileControllerAction
 
   @Override
   public void update(final Observable o, final Object arg) {
-    // TODO Auto-generated method stub
-
+    if (MODEL_LOADED.equals(arg)) {
+      reloadUIFromModel();
+    }
   }
 
   @Override
@@ -177,42 +188,132 @@ public class AddProfileControllerAction
     }
   }
 
+  private void cancel() {
+    controller.unlaunchUI();
+    ControllerRegistry.get(HomeController.class).launchUI();
+  }
+
   private void createProfile() {
     // TODO validation all fields, for now assume all are valid.
     final GameConfig config = GameConfig.get();
     final AddProfileModel model = controller.getModel();
-    config.setProfileName(model.getProfileName());
+    if (model.getProfileName() != null) {
+      config.setProfileName(model.getProfileName());
+    }
     config.setRefillTimes(model.getRefillTimes());
-    config.setReplayBattle(model.getReplayBattleLocation());
-    config.setStartBattle(model.getStartBattleLocation());
-    config.setSellRuneLocation(model.getSellRuneLocation());
-    config.setSellRuneConfirmation(model.getSellRuneConfirmLocation());
-    config.setGetRuneLocation(model.getGetRuneRewardLocation());
-    config.setGetRewardLocation(model.getGetRewardLocation());
-    config.setEnableAutoMode(model.getEnableAutoAttackLocation());
-    config.setRechargeEnergyYes(model.getRechargeEneryYesLocation());
-    config.setRechargeEnergyNo(model.getRechargeEnergyNoLocation());
-    config.setRechargeEnergy(model.getEnergyLocationOnShop());
-    config.setConfirmRechargeEnergy(model.getConfirmRechargeEnergyLoation());
-    config.setAckRechargeEnergyOk(model.getAckRefillSuccessLocation());
-    config.setCloseRechargeEnergy(model.getCloseRefillShopLocation());
-    config.setConfirmNetworkDelay(model.getConfirmNetworkDelayLocation());
-    config.setResendBattleInfoX(model.getResendBattleInfoLocation());
-    config.setReplayBattleIndicator(model.getReplayBattleIndicator());
-    config.setStartBattleIndicator(model.getStartBattleIndicator());
-    config.setBattleEndIndicator(model.getBattleEndIndicator());
-    config.setRuneRewardIndiator(model.getRuneRewardIndiator());
-    config.setConfirmSellRuneIndicator(model.getConfirmSellRuneIndicator());
-    config.setOtherRewardIndicator(model.getOtherRewardIndicator());
-    config.setManualAttackIndicator(model.getManualAttackIndicator());
-    config.setNoEnergyIndicator(model.getNoEnergyIndicator());
-    config.setNetworkDelayIndicator(model.getNetworkDelayIndicator());
-    config.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
-
+    if (model.getReplayBattleLocation() != null) {
+      config.setReplayBattle(model.getReplayBattleLocation());
+    }
+    if (model.getStartBattleLocation() != null) {
+      config.setStartBattle(model.getStartBattleLocation());
+    }
+    if (model.getSellRuneLocation() != null) {
+      config.setSellRuneLocation(model.getSellRuneLocation());
+    }
+    if (model.getSellRuneConfirmLocation() != null) {
+      config.setSellRuneConfirmation(model.getSellRuneConfirmLocation());
+    }
+    if (model.getGetRuneRewardLocation() != null) {
+      config.setGetRuneLocation(model.getGetRuneRewardLocation());
+    }
+    if (model.getGetRewardLocation() != null) {
+      config.setGetRewardLocation(model.getGetRewardLocation());
+    }
+    if (model.getEnableAutoAttackLocation() != null) {
+      config.setEnableAutoMode(model.getEnableAutoAttackLocation());
+    }
+    if (model.getRechargeEneryYesLocation() != null) {
+      config.setRechargeEnergyYes(model.getRechargeEneryYesLocation());
+    }
+    if (model.getRechargeEnergyNoLocation() != null) {
+      config.setRechargeEnergyNo(model.getRechargeEnergyNoLocation());
+    }
+    if (model.getEnergyLocationOnShop() != null) {
+      config.setRechargeEnergy(model.getEnergyLocationOnShop());
+    }
+    if (model.getConfirmRechargeEnergyLoation() != null) {
+      config.setConfirmRechargeEnergy(model.getConfirmRechargeEnergyLoation());
+    }
+    if (model.getAckRefillSuccessLocation() != null) {
+      config.setAckRechargeEnergyOk(model.getAckRefillSuccessLocation());
+    }
+    if (model.getCloseRefillShopLocation() != null) {
+      config.setCloseRechargeEnergy(model.getCloseRefillShopLocation());
+    }
+    if (model.getConfirmNetworkDelayLocation() != null) {
+      config.setConfirmNetworkDelay(model.getConfirmNetworkDelayLocation());
+    }
+    if (model.getResendBattleInfoLocation() != null) {
+      config.setResendBattleInfoX(model.getResendBattleInfoLocation());
+    }
+    if (model.getReplayBattleIndicator() != null) {
+      config.setReplayBattleIndicator(model.getReplayBattleIndicator());
+    }
+    if (model.getStartBattleIndicator() != null) {
+      config.setStartBattleIndicator(model.getStartBattleIndicator());
+    }
+    if (model.getBattleEndIndicator() != null) {
+      config.setBattleEndIndicator(model.getBattleEndIndicator());
+    }
+    if (model.getRuneRewardIndiator() != null) {
+      config.setRuneRewardIndiator(model.getRuneRewardIndiator());
+    }
+    if (model.getConfirmSellRuneIndicator() != null) {
+      config.setConfirmSellRuneIndicator(model.getConfirmSellRuneIndicator());
+    }
+    if (model.getOtherRewardIndicator() != null) {
+      config.setOtherRewardIndicator(model.getOtherRewardIndicator());
+    }
+    if (model.getManualAttackIndicator() != null) {
+      config.setManualAttackIndicator(model.getManualAttackIndicator());
+    }
+    if (model.getNoEnergyIndicator() != null) {
+      config.setNoEnergyIndicator(model.getNoEnergyIndicator());
+    }
+    if (model.getNetworkDelayIndicator() != null) {
+      config.setNetworkDelayIndicator(model.getNetworkDelayIndicator());
+    }
+    if (model.getNetworkUnstableIndicator() != null) {
+      config.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
+    }
     config.save();
 
     controller.unlaunchUI();
     final Controller homeController = ControllerRegistry.get(HomeController.class);
     homeController.launchUI();
+  }
+
+  private void reloadUIFromModel() {
+    final AddProfileModel model = controller.getModel();
+    final AddProfileUI ui = controller.getUI();
+
+    ui.getTextField().setText(model.getProfileName());
+    ui.getSpinner().setValue(model.getRefillTimes());
+    ui.getReplayPointPicker().setData(model.getReplayBattleLocation());
+    ui.getStartBattlePointPicker().setData(model.getStartBattleLocation());
+    ui.getSellRunePointPicker().setData(model.getSellRuneLocation());
+    ui.getSellRuneConfirmPointPicker().setData(model.getSellRuneConfirmLocation());
+    ui.getGetRunePointPicker().setData(model.getGetRuneRewardLocation());
+    ui.getGetRewardPointPicker().setData(model.getGetRewardLocation());
+    ui.getAutoAttackPointPicker().setData(model.getEnableAutoAttackLocation());
+    ui.getRechargeYesPointPicker().setData(model.getRechargeEneryYesLocation());
+    ui.getRechargeNoPointPicker().setData(model.getRechargeEnergyNoLocation());
+    ui.getEnergyShopPointPicker().setData(model.getEnergyLocationOnShop());
+    ui.getConfirmRechargePointPicker().setData(model.getConfirmRechargeEnergyLoation());
+    ui.getAckRefillPointPicker().setData(model.getAckRefillSuccessLocation());
+    ui.getCloseShopPointPicker().setData(model.getCloseRefillShopLocation());
+    ui.getNetworkDelayPointPicker().setData(model.getConfirmNetworkDelayLocation());
+    ui.getResendBattleInfoPointPicker().setData(model.getResendBattleInfoLocation());
+
+    ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
+    ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());
+    ui.getEndBattleBoxPicker().setData(model.getBattleEndIndicator());
+    ui.getRuneRewardBoxPicker().setData(model.getRuneRewardIndiator());
+    ui.getConfirmSellRuneBoxPicker().setData(model.getConfirmSellRuneIndicator());
+    ui.getOtherRewardBoxPicker().setData(model.getOtherRewardIndicator());
+    ui.getManualAttBoxPicker().setData(model.getManualAttackIndicator());
+    ui.getNoEnergyBoxPicker().setData(model.getNoEnergyIndicator());
+    ui.getNetworkDelayBoxPicker().setData(model.getNetworkDelayIndicator());
+    ui.getUnstableNetworkBoxPicker().setData(model.getNetworkUnstableIndicator());
   }
 }

@@ -134,8 +134,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
       // Check condition so that we can start the auto
       final HomeModel model = homeController.getHomeModel();
       if (model.getProfiles().indexOf(model.getSelectedProfile()) <= 1) {
-        // TODO add message in status bar.
-        System.out.println("Select profile to start");
+        homeController.updateStatus("Select profile to start...");
         return;
       }
       ScenarioDirector selectedDirector = null;
@@ -146,8 +145,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
         }
       }
       if (selectedDirector == null) {
-        // TODO add message in status bar.
-        System.out.println("Select scenario to start");
+        homeController.updateStatus("Select scenario to start...");
         return;
       }
 

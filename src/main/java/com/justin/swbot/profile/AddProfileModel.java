@@ -7,10 +7,14 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
+import com.justin.swbot.game.GameConfig;
+
 /**
  * @author tuan3.nguyen@gmail.com
  */
 public class AddProfileModel extends Observable {
+  public static final String MODEL_LOADED = "MODEL_LOADED";
+
   private String profileName;
   private int refillTimes;
   private Point replayBattleLocation;
@@ -146,6 +150,71 @@ public class AddProfileModel extends Observable {
 
   public Point getStartBattleLocation() {
     return startBattleLocation;
+  }
+
+  public void loadData() {
+    final GameConfig config = GameConfig.get();
+    profileName = config.getProfileName();
+    refillTimes = config.isEmpty() ? 0 : Integer.valueOf(config.getRefillTimes());
+    replayBattleLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getReplayBattleX()),
+        Integer.valueOf(config.getReplayBattleY()));
+    startBattleLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getStartBattleX()),
+        Integer.valueOf(config.getStartBattleY()));
+    sellRuneLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getSellRuneLocationX()),
+        Integer.valueOf(config.getSellRuneLocationY()));
+    sellRuneConfirmLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getSellRuneConfirmationX()),
+        Integer.valueOf(config.getSellRuneConfirmationY()));
+    getRuneRewardLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getGetRuneLocationX()),
+        Integer.valueOf(config.getGetRuneLocationY()));
+    getRewardLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getGetRewardLocationX()),
+        Integer.valueOf(config.getGetRewardLocationY()));
+    enableAutoAttackLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getEnableAutoModeX()),
+        Integer.valueOf(config.getEnableAutoModeY()));
+    rechargeEneryYesLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getRechargeEnergyYesX()),
+        Integer.valueOf(config.getRechargeEnergyYesY()));
+    rechargeEnergyNoLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getRechargeEnergyNoX()),
+        Integer.valueOf(config.getRechargeEnergyNoY()));
+    energyLocationOnShop = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getRechargeEnergyX()),
+        Integer.valueOf(config.getRechargeEnergyY()));
+    confirmRechargeEnergyLoation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getConfirmRechargeEnergyX()),
+        Integer.valueOf(config.getConfirmRechargeEnergyY()));
+    ackRefillSuccessLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getAckRechargeEnergyOkX()),
+        Integer.valueOf(config.getAckRechargeEnergyOkY()));
+    closeRefillShopLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getCloseRechargeEnergyX()),
+        Integer.valueOf(config.getCloseRechargeEnergyY()));
+    confirmNetworkDelayLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getConfirmNetworkDelayX()),
+        Integer.valueOf(config.getConfirmNetworkDelayY()));
+    resendBattleInfoLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getResendBattleInfoX()),
+        Integer.valueOf(config.getResendBattleInfoY()));
+
+    replayBattleIndicator = config.getReplayBattleIndicator();
+    startBattleIndicator = config.getStartBattleIndicator();
+    battleEndIndicator = config.getBattleEndIndicator();
+    runeRewardIndiator = config.getRuneRewardIndiator();
+    confirmSellRuneIndicator = config.getConfirmSellRuneIndicator();
+    otherRewardIndicator = config.getOtherRewardIndicator();
+    manualAttackIndicator = config.getManualAttackIndicator();
+    noEnergyIndicator = config.getNoEnergyIndicator();
+    networkDelayIndicator = config.getNetworkDelayIndicator();
+    networkUnstableIndicator = config.getNetworkUnstableIndicator();
+
+    setChanged();
+    notifyObservers(MODEL_LOADED);
   }
 
   public void setAckRefillSuccessLocation(final Point ackRefillSuccessLocation) {

@@ -73,7 +73,7 @@ public final class HomeUI extends JFrame {
     }
 
     private void initGUI() {
-        setPreferredSize(new Dimension(450, 100));
+    setPreferredSize(new Dimension(600, 100));
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Summoner War Bot");
         getContentPane().setLayout(new BorderLayout(0, 0));

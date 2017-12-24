@@ -6,6 +6,7 @@ package com.justin.swbot.component;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -35,11 +36,24 @@ public abstract class AbstractPickerDialog extends JDialog {
 
   public AbstractPickerDialog() {
     initGUI();
+
+    final Toolkit toolkit = Toolkit.getDefaultToolkit();
+    final Dimension screenSize = toolkit.getScreenSize();
+    setPreferredSize(screenSize);
   }
+
+  protected void customPaint(final Graphics g) {}
 
   protected JLabel getMainLabel() {
     if (lblLoadingScreenshotFrom == null) {
-      lblLoadingScreenshotFrom = new JLabel("...");
+      lblLoadingScreenshotFrom = new JLabel("...") {
+        private static final long serialVersionUID = 1L;
+        @Override
+        protected void paintComponent(final Graphics g) {
+          super.paintComponent(g);
+          customPaint(g);
+        }
+      };
       lblLoadingScreenshotFrom.setFont(new Font("Tahoma", Font.PLAIN, 38));
     }
     return lblLoadingScreenshotFrom;
@@ -79,17 +93,17 @@ public abstract class AbstractPickerDialog extends JDialog {
 
   private void initGUI() {
     setModal(true);
-    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setTitle("Point Picker - click to select point");
     getContentPane().setLayout(new BorderLayout(0, 0));
     getContentPane().add(getScrollPane(), BorderLayout.CENTER);
-
-    final Toolkit toolkit = Toolkit.getDefaultToolkit();
-    final Dimension screenSize = toolkit.getScreenSize();
-    setPreferredSize(screenSize);
   }
 
   private void setScreenshot(final String filename) {
+    if (!isVisible()) {
+      return;
+    }
+
     if (filename == null) {
       getMainLabel().setText("Could not load screenshot, right click to refresh");
     } else {

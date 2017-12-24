@@ -5,8 +5,10 @@ package com.justin.swbot.game.director;
 
 import static com.justin.swbot.CommandUtil.tapScreen;
 
+import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameConfig;
 import com.justin.swbot.game.GameState;
+import com.justin.swbot.home.HomeController;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -18,9 +20,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   public void direct(final GameState gameState) {
     if (gameState == GameState.BATTLE_MANUAL) {
       enableAutoAttackMode();
-    } else if (gameState == GameState.BATTLE_RESULT_WIN) {
-      ackBattleResult();
-    } else if (gameState == GameState.BATTLE_RESULT_FAIL) {
+    } else if (gameState == GameState.BATTLE_ENDED) {
       ackBattleResult();
     } else if (gameState == GameState.RUNE_REWARD) {
       proceedRuneReward();
@@ -50,6 +50,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Acknowledge the battle result by click somewhere on the screen
    */
   protected void ackBattleResult() {
+    progressMessage("Ending battle...");
     tapScreen("1", "1");
     sleep(1000);
     tapScreen("1", "1");
@@ -59,11 +60,13 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Collect rune on battle result screen.
    */
   protected void collectRune() {
+    progressMessage("Collecting rune...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getGetRuneLocationX(), gameConfig.getGetRuneLocationY());
   }
 
   protected void confirmSellRune() {
+    progressMessage("Confirm to sell rune...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getSellRuneConfirmationX(), gameConfig.getSellRuneConfirmationY());
 
@@ -75,11 +78,13 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Enable auto attack mode by clicking on play icon (third button) at bottom left
    */
   protected void enableAutoAttackMode() {
+    progressMessage("Enabling auto mode...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getEnableAutoModeX(), gameConfig.getEnableAutoModeY());
   }
 
   protected void proceedOtherReward() {
+    progressMessage("Collecting rewards...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getGetRewardLocationX(), gameConfig.getGetRewardLocationY());
   }
@@ -89,7 +94,14 @@ public abstract class AbstractDirector implements ScenarioDirector {
     sellRune();
   }
 
+  protected void progressMessage(final String message) {
+    final HomeController homeController =
+        (HomeController) ControllerRegistry.get(HomeController.class);
+    homeController.updateStatus(message);
+  }
+
   protected void refillEnergy() {
+    progressMessage("Refilling energy...");
     final GameConfig gameConfig = GameConfig.get();
     // On screen of not enough energy, select YES on to recharges energy
     tapScreen(gameConfig.getRechargeEnergyYesX(), gameConfig.getRechargeEnergyYesY());
@@ -108,6 +120,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void replayBattle() {
+    progressMessage("Replaying battle...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getReplayBattleX(), gameConfig.getReplayBattleY());
 
@@ -119,6 +132,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Sell the rune on battle result screen.
    */
   protected void sellRune() {
+    progressMessage("Selling rune...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getSellRuneLocationX(), gameConfig.getSellRuneLocationY());
   }
@@ -132,19 +146,32 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void startBattle() {
+    progressMessage("Starting new battle...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getStartBattleX(), gameConfig.getStartBattleY());
   }
 
   protected void waitForEnergy() {
+    progressMessage("Insuffience energy and waiting...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getRechargeEnergyNoX(), gameConfig.getRechargeEnergyNoY());
 
     // Wait for 10 minutes
-    sleep(10 * 60 * 1000);
+    final long time = System.currentTimeMillis();
+    final long timeToWait = time + 30 * 60 * 1000;
+    while (true) {
+      sleep(1000);
+      final long remainingTime = timeToWait - System.currentTimeMillis();
+      if (remainingTime <= 0) {
+        break;
+      }
+
+      progressMessage(String.format("No enough energy, resume in % seconds", remainingTime));
+    }
   }
 
   private void confirmNetworkDelay() {
+    progressMessage("Network delay!");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getConfirmNetworkDelayX(), gameConfig.getConfirmNetworkDelayY());
   }
@@ -159,6 +186,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private void resendBattleInfo() {
+    progressMessage("Network unstable! resending information...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getResendBattleInfoX(), gameConfig.getResendBattleInfoY());
   }

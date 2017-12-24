@@ -285,6 +285,7 @@ public class GameConfig {
   public String getSellRuneConfirmationX() {
     return props.getProperty(SELL_RUNE_CONFIRM_X);
   }
+
   public String getSellRuneConfirmationY() {
     return props.getProperty(SELL_RUNE_CONFIRM_Y);
   }
@@ -305,9 +306,12 @@ public class GameConfig {
   public String getStartBattleX() {
     return props.getProperty(START_BATTLE_X);
   }
-
   public String getStartBattleY() {
     return props.getProperty(START_BATTLE_Y);
+  }
+
+  public boolean isEmpty() {
+    return profileName == null && props.isEmpty();
   }
 
   public void load(final String file) {

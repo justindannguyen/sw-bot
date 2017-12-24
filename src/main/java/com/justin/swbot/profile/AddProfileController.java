@@ -31,8 +31,9 @@ public class AddProfileController implements Controller {
 
     if (controllerAction == null) {
       controllerAction = new AddProfileControllerAction(this);
+      controllerAction.initialize();
     }
-    controllerAction.initialize();
+    model.loadData();
   }
 
   @Override

@@ -26,11 +26,7 @@ public enum GameState {
   /**
    * Battle end with successful.
    */
-  BATTLE_RESULT_WIN,
-  /**
-   * Battle end with fail
-   */
-  BATTLE_RESULT_FAIL,
+  BATTLE_ENDED,
   /**
    * Rune & rune enchant materials are considered in this category. Ideally, it will have get or
    * sell actions.

@@ -4,6 +4,11 @@
 package com.justin.swbot.component;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -16,20 +21,30 @@ public class BoxPicker extends AbstractPicker {
   }
 
   @Override
+  protected String getDataText(final Object data) {
+    return data == null ? "Not Available" : "Available";
+  }
+
+  @Override
   protected void pickData() {
     final BoxPickerDialog pickerDialog = new BoxPickerDialog();
     final Image selectedBox = pickerDialog.pickBox();
     if (selectedBox != null) {
-      getTextLabel().setText("Image Available");
-    }
-    if (valueListener != null) {
-      valueListener.valueChanged(this, selectedBox);
+      setData(selectedBox);
+      if (valueListener != null) {
+        valueListener.valueChanged(this, selectedBox);
+      }
     }
   }
 
   @Override
   protected void viewData() {
-    // TODO Auto-generated method stub
     super.viewData();
+    if (data != null) {
+      final BufferedImage image = (BufferedImage) getData();
+      final JLabel label = new JLabel();
+      label.setIcon(new ImageIcon(image));
+      JOptionPane.showMessageDialog(this, label);
+    }
   }
 }

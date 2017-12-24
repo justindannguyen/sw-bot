@@ -63,18 +63,22 @@ public final class BotEngine extends Thread {
   @Override
   public void run() {
     while (true) {
+      final HomeController homeController =
+          (HomeController) ControllerRegistry.get(HomeController.class);
       try {
         if (!running || director == null) {
           sleep(500);
+          homeController.updateStatus("Bot is idling, click start to begin...");
+          homeController.updateGameStatus(null);
+          continue;
         }
 
+        homeController.updateStatus("Detecting new game state...");
         final GameState gameState = detectGameState();
-        ((HomeController) ControllerRegistry.get(HomeController.class)).updateGameStatus(gameState);
+        homeController.updateGameStatus(gameState);
         director.direct(gameState);
       } catch (final Exception e) {
-        // Provide the global catch exception so that the engine loop is infinitive.
-        // TODO to be implemented
-        e.printStackTrace();
+        homeController.updateStatus("Error in bot loop: " + e.getMessage());
       }
     }
   }
@@ -101,9 +105,6 @@ public final class BotEngine extends Thread {
     if (doesStateMatch(screenshot, config.getManualAttackIndicatorFile())) {
       return GameState.BATTLE_MANUAL;
     }
-    if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
-      return GameState.BATTLE_RESULT_WIN;
-    }
     if (doesStateMatch(screenshot, config.getReplayBattleIndicatorFile())) {
       return GameState.REPLAY_BATTLE_CONFIRMATION;
     }
@@ -127,6 +128,9 @@ public final class BotEngine extends Thread {
     }
     if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
       return GameState.UNSTABLE_NETWORK;
+    }
+    if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
+      return GameState.BATTLE_ENDED;
     }
     return GameState.UNKNOWN;
   }

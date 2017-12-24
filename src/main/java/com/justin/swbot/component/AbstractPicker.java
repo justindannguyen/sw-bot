@@ -24,6 +24,7 @@ public abstract class AbstractPicker extends JPanel implements ActionListener {
   private JButton browseButton;
   protected ValueListener valueListener;
   private JButton infoButton;
+  protected Object data;
 
   public AbstractPicker() {
     initGUI();
@@ -41,6 +42,15 @@ public abstract class AbstractPicker extends JPanel implements ActionListener {
     }
   }
 
+  public Object getData() {
+    return data;
+  }
+
+  public void setData(final Object data) {
+    getTextLabel().setText(getDataText(data));
+    this.data = data;
+  }
+
   public void setValueListener(final ValueListener valueListener) {
     this.valueListener = valueListener;
   }
@@ -52,6 +62,8 @@ public abstract class AbstractPicker extends JPanel implements ActionListener {
     return browseButton;
   }
 
+  protected abstract String getDataText(Object data);
+
   protected JButton getInfoButton() {
     if (infoButton == null) {
       infoButton = new JButton("i");
@@ -61,7 +73,7 @@ public abstract class AbstractPicker extends JPanel implements ActionListener {
 
   protected JLabel getTextLabel() {
     if (textLabel == null) {
-      textLabel = new JLabel("Text");
+      textLabel = new JLabel("Not Available");
     }
     return textLabel;
   }

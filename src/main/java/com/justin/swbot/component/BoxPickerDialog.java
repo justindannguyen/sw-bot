@@ -63,10 +63,26 @@ public class BoxPickerDialog extends AbstractPickerDialog {
     getMainLabel().addMouseMotionListener(mouseAdapter);
   }
 
-  @Override
-  public void paint(final Graphics g) {
-    super.paint(g);
+  public Image pickBox() {
+    pack();
+    refreshScreenshot();
+    setVisible(true);
+    if (startPoint == null || endPoint == null) {
+      return null;
+    }
+    final int x = Math.min(startPoint.x, endPoint.x);
+    final int y = Math.min(startPoint.y, endPoint.y);
+    final int width = Math.abs(startPoint.x - endPoint.x);
+    final int height = Math.abs(startPoint.y - endPoint.y);
+    if (width == 0 || height == 0 || screenImage == null) {
+      return null;
+    }
+    return screenImage.getSubimage(x, y, width, height);
+  }
 
+  @Override
+  protected void customPaint(final Graphics g) {
+    super.customPaint(g);
     if(startPoint != null && endPoint != null) {
       final Graphics g2 = g.create();
       final int x = Math.min(startPoint.x, endPoint.x);
@@ -77,21 +93,5 @@ public class BoxPickerDialog extends AbstractPickerDialog {
       g2.drawRect(x, y, width, height);
       g2.dispose();
     }
-  }
-
-
-  public Image pickBox() {
-    pack();
-    refreshScreenshot();
-    setVisible(true);
-
-    final int x = Math.min(startPoint.x, endPoint.x);
-    final int y = Math.min(startPoint.y, endPoint.y);
-    final int width = Math.abs(startPoint.x - endPoint.x);
-    final int height = Math.abs(startPoint.y - endPoint.y);
-    if (width == 0 || height == 0 || screenImage == null) {
-      return null;
-    }
-    return screenImage.getSubimage(x, y, width, height);
   }
 }
