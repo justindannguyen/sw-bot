@@ -11,6 +11,7 @@ import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.skin.SaharaSkin;
 import org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel;
 
+import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.home.HomeController;
 
 /**
@@ -20,6 +21,8 @@ public class Main {
   public static void main(final String[] args) throws UnsupportedLookAndFeelException {
     SubstanceLookAndFeel.setSkin(new SaharaSkin());
     UIManager.setLookAndFeel(new SubstanceSaharaLookAndFeel());
+
+    BotEngine.get().start();
     final HomeController homeController = new HomeController();
     homeController.initialize();
     SwingUtilities.invokeLater(() -> homeController.launchUI());

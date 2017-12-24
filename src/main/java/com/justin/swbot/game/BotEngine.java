@@ -39,7 +39,6 @@ public final class BotEngine extends Thread {
   private BotEngine() {
     // This is the hidden constructor for singleton classes to make sure it can't be instanced by
     // mistake.
-    start();
   }
 
   /**

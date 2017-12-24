@@ -10,10 +10,6 @@ import org.junit.Test;
  * @author tuan3.nguyen@gmail.com
  */
 public class BotEngineTest {
-    @Test
-    public void testGet_activeByDefault() {
-        Assert.assertTrue(BotEngine.get().isAlive());
-    }
 
     @Test
     public void testGet_neverNull() {
