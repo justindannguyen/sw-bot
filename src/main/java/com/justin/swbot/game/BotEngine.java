@@ -90,7 +90,7 @@ public final class BotEngine extends Thread {
   public void setRunning(final boolean running) {
     this.running = running;
 
-    if(running) {
+    if (running && director != null) {
       director.restart();
     }
   }
