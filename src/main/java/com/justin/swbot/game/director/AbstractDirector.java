@@ -53,6 +53,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.SELL_RUNE_CONFIRMATION) {
       confirmSellRune();
       return true;
+    } else if (gameState == GameState.SELL_STONE_CONFIRMATION) {
+      confirmSellStone();
+      return true;
     } else if (gameState == GameState.NOT_ENOUGH_ENERGY) {
       proceedNotEnoughEnergy();
       return true;
@@ -62,9 +65,14 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.UNSTABLE_NETWORK) {
       resendBattleInfo();
       return true;
+    } else if (gameState == GameState.IN_BATTLE) {
+      progressMessage("Wait till battle end...");
+      sleep(5000);
+      return true;
     } else if (gameState == GameState.UNKNOWN) {
       // Log unknown situation where directive can't handle
       screenLog(gameStatus, new File("unknownStates"));
+      sleep(10000);
       return true;
     }
     return false;
@@ -80,9 +88,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void ackBattleResult() {
     progressMessage("Ending battle...");
-    tapScreen("1", "1");
+    tapScreen("50", "50");
     sleep(1000);
-    tapScreen("1", "1");
+    tapScreen("50", "50");
   }
 
   /**
@@ -128,6 +136,15 @@ public abstract class AbstractDirector implements ScenarioDirector {
     progressMessage("Confirm to sell rune...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getSellRuneConfirmationX(), gameConfig.getSellRuneConfirmationY());
+
+    sleep(100);
+    replayBattle();
+  }
+
+  protected void confirmSellStone() {
+    progressMessage("Confirm to sell stone...");
+    final GameConfig gameConfig = GameConfig.get();
+    tapScreen(gameConfig.getSellStoneConfirmationX(), gameConfig.getSellStoneConfirmationY());
 
     sleep(100);
     replayBattle();
@@ -255,6 +272,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     progressMessage("Starting new battle...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getStartBattleX(), gameConfig.getStartBattleY());
+    sleep(10000);
   }
 
   protected void waitForEnergy() {
@@ -293,15 +311,22 @@ public abstract class AbstractDirector implements ScenarioDirector {
         return true;
       }
     }
-    if (gameConfig.isPick5StarRune() || gameConfig.isPick6StarRune()) {
+    if (gameConfig.isPick6StarRune()) {
       final boolean sixStar = ImageUtil.contains(gameStatus.getScreenFile(),
           gameConfig.getSixStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
       if (sixStar) {
         return true;
       }
+    }
+    if (gameConfig.isPick5StarRune()) {
       final boolean fiveStar = ImageUtil.contains(gameStatus.getScreenFile(),
           gameConfig.getFiveStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
-      if (fiveStar && gameConfig.isPick5StarRune()) {
+      if (fiveStar) {
+        return true;
+      }
+      final boolean sixStar = ImageUtil.contains(gameStatus.getScreenFile(),
+          gameConfig.getSixStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
+      if (sixStar) {
         return true;
       }
     }

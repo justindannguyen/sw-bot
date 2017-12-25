@@ -105,6 +105,9 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getSellStonePointPicker().setValueListener(this);
     ui.getGetStonePointPicker().setValueListener(this);
     ui.getStoneRewardImagePicker().setValueListener(this);
+    ui.getInBattleImagePicker().setValueListener(this);
+    ui.getSellStoneConfirmPointPicker().setValueListener(this);
+    ui.getConfirmSellStoneImagePicker().setValueListener(this);
 
     ui.addWindowListener(new WindowAdapter() {
       @Override
@@ -239,6 +242,12 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       model.setGetStoneRewardLocation((Point) newValue);
     } else if (source == ui.getStoneRewardImagePicker()) {
       model.setStoneRewardIndicator((BufferedImage) newValue);
+    } else if (source == ui.getInBattleImagePicker()) {
+      model.setInBattleIndicator((BufferedImage) newValue);
+    } else if (source == ui.getSellStoneConfirmPointPicker()) {
+      model.setSellStoneConfirmLocation((Point) newValue);
+    } else if (source == ui.getConfirmSellStoneImagePicker()) {
+      model.setConfirmSellStoneIndicator((BufferedImage) newValue);
     }
   }
 
@@ -339,6 +348,15 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     if (model.getSellStoneLocation() != null) {
       config.setSellGemLocation(model.getSellStoneLocation());
     }
+    if (model.getInBattleIndicator() != null) {
+      config.setInBattleIndicator(model.getInBattleIndicator());
+    }
+    if (model.getSellStoneConfirmLocation() != null) {
+      config.setSellStoneConfirmation(model.getSellStoneConfirmLocation());
+    }
+    if (model.getConfirmSellStoneIndicator() != null) {
+      config.setConfirmSellStoneIndicator(model.getConfirmSellStoneIndicator());
+    }
     config.setClickRandom(model.isRandomClick());
     config.setSellAllRune(model.isSellAllRune());
     config.setRuneLog(model.isRunLog());
@@ -408,5 +426,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getSellStonePointPicker().setData(model.getSellStoneLocation());
     ui.getGetStonePointPicker().setData(model.getGetStoneRewardLocation());
     ui.getStoneRewardImagePicker().setData(model.getStoneRewardIndicator());
+    ui.getInBattleImagePicker().setData(model.getInBattleIndicator());
+    ui.getSellStoneConfirmPointPicker().setData(model.getSellStoneConfirmLocation());
+    ui.getConfirmSellStoneImagePicker().setData(model.getConfirmSellStoneIndicator());
   }
 }

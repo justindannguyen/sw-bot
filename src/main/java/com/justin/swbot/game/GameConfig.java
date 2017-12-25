@@ -36,6 +36,8 @@ public class GameConfig {
   public static final String START_BATTLE_Y = "startBattleY";
   public static final String SELL_RUNE_CONFIRM_X = "sellRuneConfirmationX";
   public static final String SELL_RUNE_CONFIRM_Y = "sellRuneConfirmationY";
+  public static final String SELL_GEM_CONFIRM_X = "sellStoneConfirmationX";
+  public static final String SELL_GEM_CONFIRM_Y = "sellStoneConfirmationY";
   public static final String RECHARGE_ENGERGY_YES_X = "rechargeEnergyYesX";
   public static final String RECHARGE_ENGERGY_YES_Y = "rechargeEnergyYesY";
   public static final String RECHARGE_ENGERGY_NO_X = "rechargeEnergyNoX";
@@ -87,6 +89,8 @@ public class GameConfig {
   private BufferedImage sixStarRuneIndicator;
   private BufferedImage fiveStarRuneIndicator;
   private BufferedImage stoneRewardIndicator;
+  private BufferedImage inBattleIndicator;
+  private BufferedImage confirmSellStoneIndicator;
 
   public void clear() {
     this.profileName = null;
@@ -104,6 +108,8 @@ public class GameConfig {
     sixStarRuneIndicator = null;
     fiveStarRuneIndicator = null;
     stoneRewardIndicator = null;
+    inBattleIndicator = null;
+    confirmSellStoneIndicator = null;
   }
 
   public String getAckRechargeEnergyOkX() {
@@ -158,6 +164,16 @@ public class GameConfig {
     return new File(profileFolder, "confirmSellRuneIndicator");
   }
 
+  public BufferedImage getConfirmSellStoneIndicator() {
+    return confirmSellStoneIndicator;
+  }
+
+  public File getConfirmSellStoneIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "confirmSellStoneIndicator");
+  }
+
   public String getEnableAutoModeX() {
     return props.getProperty(ENABLE_AUTO_MODE_X);
   }
@@ -208,6 +224,16 @@ public class GameConfig {
     final String[] box = getGrindstoneStatArea().split(",");
     return new Rectangle(Integer.valueOf(box[0]), Integer.valueOf(box[1]), Integer.valueOf(box[2]),
         Integer.valueOf(box[3]));
+  }
+
+  public BufferedImage getInBattleIndicator() {
+    return inBattleIndicator;
+  }
+
+  public File getInBattleIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "inBattleIndicator");
   }
 
   public BufferedImage getManualAttackIndicator() {
@@ -366,6 +392,14 @@ public class GameConfig {
     return props.getProperty(SELL_RUNE_LOC_Y);
   }
 
+  public String getSellStoneConfirmationX() {
+    return props.getProperty(SELL_GEM_CONFIRM_X);
+  }
+
+  public String getSellStoneConfirmationY() {
+    return props.getProperty(SELL_GEM_CONFIRM_Y);
+  }
+
   public BufferedImage getSixStarRuneIndicator() {
     return sixStarRuneIndicator;
   }
@@ -463,6 +497,11 @@ public class GameConfig {
       noEnergyIndicator = loadImage(getNoEnergyIndicatorFile());
       networkDelayIndicator = loadImage(getNetworkDelayIndicatorFile());
       networkUnstableIndicator = loadImage(getNetworkUnstableIndicatorFile());
+      sixStarRuneIndicator = loadImage(getSixStarRuneIndicatorFile());
+      fiveStarRuneIndicator = loadImage(getFiveStarRuneIndicatorFile());
+      stoneRewardIndicator = loadImage(getStoneRewardIndicatorFile());
+      inBattleIndicator = loadImage(getInBattleIndicatorFile());
+      confirmSellStoneIndicator = loadImage(getConfirmSellStoneIndicatorFile());
     } catch (final IOException ex) {
       System.err.println("Can't load the game configuration");
       ex.printStackTrace();
@@ -488,6 +527,11 @@ public class GameConfig {
       storeImage(noEnergyIndicator, getNoEnergyIndicatorFile());
       storeImage(networkDelayIndicator, getNetworkDelayIndicatorFile());
       storeImage(networkUnstableIndicator, getNetworkUnstableIndicatorFile());
+      storeImage(sixStarRuneIndicator, getSixStarRuneIndicatorFile());
+      storeImage(fiveStarRuneIndicator, getFiveStarRuneIndicatorFile());
+      storeImage(stoneRewardIndicator, getStoneRewardIndicatorFile());
+      storeImage(inBattleIndicator, getInBattleIndicatorFile());
+      storeImage(confirmSellStoneIndicator, getConfirmSellStoneIndicatorFile());
     } catch (final IOException ex) {
       throw new RuntimeException("Could not store the profile", ex);
     }
@@ -525,6 +569,10 @@ public class GameConfig {
     this.confirmSellRuneIndicator = confirmSellRuneIndicator;
   }
 
+  public void setConfirmSellStoneIndicator(final BufferedImage confirmSellStoneIndicator) {
+    this.confirmSellStoneIndicator = confirmSellStoneIndicator;
+  }
+
   public void setEnableAutoMode(final Point point) {
     props.setProperty(ENABLE_AUTO_MODE_X, String.valueOf(point.x));
     props.setProperty(ENABLE_AUTO_MODE_Y, String.valueOf(point.y));
@@ -551,6 +599,10 @@ public class GameConfig {
 
   public void setGrindstoneStatArea(final int x, final int y, final int w, final int h) {
     props.setProperty(GRINDSTONE_STAT_AREA, String.format("%s,%s,%s,%s", x, y, w, h));
+  }
+
+  public void setInBattleIndicator(final BufferedImage inBattleIndicator) {
+    this.inBattleIndicator = inBattleIndicator;
   }
 
   public void setManualAttackIndicator(final BufferedImage manualAttackIndicator) {
@@ -665,12 +717,17 @@ public class GameConfig {
     props.setProperty(SELL_RUNE_LOC_Y, String.valueOf(point.y));
   }
 
+  public void setSellStoneConfirmation(final Point point) {
+    props.setProperty(SELL_GEM_CONFIRM_X, String.valueOf(point.x));
+    props.setProperty(SELL_GEM_CONFIRM_Y, String.valueOf(point.y));
+  }
+
   public void setSixStarRuneIndicator(final BufferedImage sixStarRuneIndicator) {
     this.sixStarRuneIndicator = sixStarRuneIndicator;
   }
 
   public void setStartBattle(final Point point) {
-    props.setProperty(START_BATTLE_X, String.valueOf(point.y));
+    props.setProperty(START_BATTLE_X, String.valueOf(point.x));
     props.setProperty(START_BATTLE_Y, String.valueOf(point.y));
   }
 

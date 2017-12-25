@@ -39,11 +39,12 @@ This is the fun project and use it as your own risk. We will not responsible for
 * [x] Auto refill energy with number of time configuration.
 * [x] Retry if network delay or network unstable.
 * [ ] Food monster farming to upgrade 6\*.
-* [ ] Rune filtering rule e.g. sell all rune except 6\* or legend, etc.
+* [x] Rune filtering rule e.g. sell all rune except 6\* or legend, etc.
   * [x] Pick all.
   * [x] Pick legend only.
   * [x] Pick Hero +.
   * [x] Pick ★★★★★★.
   * [x] Pick ★★★★★ +.
+  * [x] Pick grindstone and gem with SPD or %.
 * [ ] Rift raid farming.
 * [ ] Full runes warehouse

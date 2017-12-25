@@ -23,6 +23,7 @@ public enum GameState {
    * Game battle are in manual mode.
    */
   BATTLE_MANUAL,
+  IN_BATTLE,
   /**
    * Battle end with successful.
    */
@@ -51,6 +52,7 @@ public enum GameState {
    * Sell rune yes, no confirmation with 5* or +9
    */
   SELL_RUNE_CONFIRMATION,
+  SELL_STONE_CONFIRMATION,
   /**
    * Not enough energy
    */

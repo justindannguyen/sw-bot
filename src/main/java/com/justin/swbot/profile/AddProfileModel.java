@@ -42,6 +42,7 @@ public class AddProfileModel extends Observable {
   private BufferedImage fiveStarRuneIndicator;
   private boolean pickGrindSpdPercent;
   private Rectangle grindStatArea;
+  private Point sellStoneConfirmLocation;
 
   private int refillTimes;
   private Point rechargeEneryYesLocation;
@@ -62,6 +63,8 @@ public class AddProfileModel extends Observable {
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
   private BufferedImage stoneRewardIndicator;
+  private BufferedImage inBattleIndicator;
+  private BufferedImage confirmSellStoneIndicator;
 
   public Point getAckRefillSuccessLocation() {
     return ackRefillSuccessLocation;
@@ -85,6 +88,10 @@ public class AddProfileModel extends Observable {
 
   public BufferedImage getConfirmSellRuneIndicator() {
     return confirmSellRuneIndicator;
+  }
+
+  public BufferedImage getConfirmSellStoneIndicator() {
+    return confirmSellStoneIndicator;
   }
 
   public Point getEnableAutoAttackLocation() {
@@ -113,6 +120,10 @@ public class AddProfileModel extends Observable {
 
   public Rectangle getGrindStatArea() {
     return grindStatArea;
+  }
+
+  public BufferedImage getInBattleIndicator() {
+    return inBattleIndicator;
   }
 
   public BufferedImage getManualAttackIndicator() {
@@ -179,6 +190,10 @@ public class AddProfileModel extends Observable {
     return sellRuneLocation;
   }
 
+  public Point getSellStoneConfirmLocation() {
+    return sellStoneConfirmLocation;
+  }
+
   public Point getSellStoneLocation() {
     return sellStoneLocation;
   }
@@ -239,57 +254,34 @@ public class AddProfileModel extends Observable {
     final GameConfig config = GameConfig.get();
     profileName = config.getProfileName();
     refillTimes = config.isEmpty() ? 0 : Integer.valueOf(config.getRefillTimes());
-    replayBattleLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getReplayBattleX()),
-            Integer.valueOf(config.getReplayBattleY()));
-    startBattleLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getStartBattleX()),
-            Integer.valueOf(config.getStartBattleY()));
-    sellRuneLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getSellRuneLocationX()),
-            Integer.valueOf(config.getSellRuneLocationY()));
-    sellRuneConfirmLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getSellRuneConfirmationX()),
-            Integer.valueOf(config.getSellRuneConfirmationY()));
-    getRuneRewardLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getGetRuneLocationX()),
-            Integer.valueOf(config.getGetRuneLocationY()));
-    getRewardLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getGetRewardLocationX()),
-            Integer.valueOf(config.getGetRewardLocationY()));
-    enableAutoAttackLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getEnableAutoModeX()),
-            Integer.valueOf(config.getEnableAutoModeY()));
-    rechargeEneryYesLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getRechargeEnergyYesX()),
-            Integer.valueOf(config.getRechargeEnergyYesY()));
-    rechargeEnergyNoLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getRechargeEnergyNoX()),
-            Integer.valueOf(config.getRechargeEnergyNoY()));
-    energyLocationOnShop = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getRechargeEnergyX()),
-            Integer.valueOf(config.getRechargeEnergyY()));
-    confirmRechargeEnergyLoation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getConfirmRechargeEnergyX()),
-            Integer.valueOf(config.getConfirmRechargeEnergyY()));
-    ackRefillSuccessLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getAckRechargeEnergyOkX()),
-            Integer.valueOf(config.getAckRechargeEnergyOkY()));
-    closeRefillShopLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getCloseRechargeEnergyX()),
-            Integer.valueOf(config.getCloseRechargeEnergyY()));
-    confirmNetworkDelayLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getConfirmNetworkDelayX()),
-            Integer.valueOf(config.getConfirmNetworkDelayY()));
-    resendBattleInfoLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getResendBattleInfoX()),
-            Integer.valueOf(config.getResendBattleInfoY()));
-    getStoneRewardLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getGetGemLocationX()),
-            Integer.valueOf(config.getGetGemLocationY()));
-    sellStoneLocation = config.isEmpty() ? null
-        : new Point(Integer.valueOf(config.getSellGemLocationX()),
-            Integer.valueOf(config.getSellGemLocationY()));
+    replayBattleLocation = getLocation(config.getReplayBattleX(), config.getReplayBattleY());
+    startBattleLocation = getLocation(config.getStartBattleX(), config.getStartBattleY());
+    sellRuneLocation = getLocation(config.getSellRuneLocationX(), config.getSellRuneLocationY());
+    sellRuneConfirmLocation =
+        getLocation(config.getSellRuneConfirmationX(), config.getSellRuneConfirmationY());
+    sellStoneConfirmLocation =
+        getLocation(config.getSellStoneConfirmationX(), config.getSellStoneConfirmationY());
+    getRuneRewardLocation = getLocation(config.getGetRuneLocationX(), config.getGetRuneLocationY());
+    getRewardLocation = getLocation(config.getGetRewardLocationX(), config.getGetRewardLocationY());
+    enableAutoAttackLocation =
+        getLocation(config.getEnableAutoModeX(), config.getEnableAutoModeY());
+    rechargeEneryYesLocation =
+        getLocation(config.getRechargeEnergyYesX(), config.getRechargeEnergyYesY());
+    rechargeEnergyNoLocation =
+        getLocation(config.getRechargeEnergyNoX(), config.getRechargeEnergyNoY());
+    energyLocationOnShop = getLocation(config.getRechargeEnergyX(), config.getRechargeEnergyY());
+    confirmRechargeEnergyLoation =
+        getLocation(config.getConfirmRechargeEnergyX(), config.getConfirmRechargeEnergyY());
+    ackRefillSuccessLocation =
+        getLocation(config.getAckRechargeEnergyOkX(), config.getAckRechargeEnergyOkY());
+    closeRefillShopLocation =
+        getLocation(config.getCloseRechargeEnergyX(), config.getCloseRechargeEnergyY());
+    confirmNetworkDelayLocation =
+        getLocation(config.getConfirmNetworkDelayX(), config.getConfirmNetworkDelayY());
+    resendBattleInfoLocation =
+        getLocation(config.getResendBattleInfoX(), config.getResendBattleInfoY());
+    getStoneRewardLocation = getLocation(config.getGetGemLocationX(), config.getGetGemLocationY());
+    sellStoneLocation = getLocation(config.getSellGemLocationX(), config.getSellGemLocationY());
     randomClick = config.isClickRandom();
     sellAllRune = config.isSellAllRune();
     runLog = config.isRuneLog();
@@ -314,6 +306,8 @@ public class AddProfileModel extends Observable {
     networkDelayIndicator = config.getNetworkDelayIndicator();
     networkUnstableIndicator = config.getNetworkUnstableIndicator();
     stoneRewardIndicator = config.getStoneRewardIndicator();
+    inBattleIndicator = config.getInBattleIndicator();
+    confirmSellStoneIndicator = config.getConfirmSellStoneIndicator();
 
     setChanged();
     notifyObservers(MODEL_LOADED);
@@ -343,6 +337,10 @@ public class AddProfileModel extends Observable {
     this.confirmSellRuneIndicator = confirmSellRuneIndicator;
   }
 
+  public void setConfirmSellStoneIndicator(final BufferedImage confirmSellStoneIndicator) {
+    this.confirmSellStoneIndicator = confirmSellStoneIndicator;
+  }
+
   public void setEnableAutoAttackLocation(final Point enableAutoAttackLocation) {
     this.enableAutoAttackLocation = enableAutoAttackLocation;
   }
@@ -369,6 +367,10 @@ public class AddProfileModel extends Observable {
 
   public void setGrindStatArea(final Rectangle grindStatArea) {
     this.grindStatArea = grindStatArea;
+  }
+
+  public void setInBattleIndicator(final BufferedImage inBattleIndicator) {
+    this.inBattleIndicator = inBattleIndicator;
   }
 
   public void setManualAttackIndicator(final BufferedImage manualAttackIndicator) {
@@ -471,6 +473,10 @@ public class AddProfileModel extends Observable {
     this.sellRuneLocation = sellRuneLocation;
   }
 
+  public void setSellStoneConfirmLocation(final Point sellStoneConfirmLocation) {
+    this.sellStoneConfirmLocation = sellStoneConfirmLocation;
+  }
+
   public void setSellStoneLocation(final Point sellStoneLocation) {
     this.sellStoneLocation = sellStoneLocation;
   }
@@ -489,5 +495,9 @@ public class AddProfileModel extends Observable {
 
   public void setStoneRewardIndicator(final BufferedImage stoneRewardIndicator) {
     this.stoneRewardIndicator = stoneRewardIndicator;
+  }
+
+  private Point getLocation(final String x, final String y) {
+    return x == null || y == null ? null : new Point(Integer.valueOf(x), Integer.valueOf(y));
   }
 }

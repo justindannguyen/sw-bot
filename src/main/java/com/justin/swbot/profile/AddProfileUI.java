@@ -113,12 +113,18 @@ public class AddProfileUI extends JFrame {
   private PointPicker sellStonePointPicker;
   private JLabel lblStoneRewardIndiator;
   private ImagePicker stoneRewardImagePicker;
+  private JLabel lblInBattleIndicator;
+  private ImagePicker inBattleImagePicker;
+  private JLabel lblSellRareStone;
+  private PointPicker sellStoneConfirmPointPicker;
+  private JLabel lblConfirmSellStone;
+  private ImagePicker confirmSellStoneImagePicker;
 
   public AddProfileUI() {
     initGUI();
 
-    setSize(new Dimension(600, 550));
-    setPreferredSize(new Dimension(600, 550));
+    setSize(new Dimension(600, 580));
+    setPreferredSize(new Dimension(600, 580));
     setLocationRelativeTo(null);
   }
 
@@ -169,6 +175,13 @@ public class AddProfileUI extends JFrame {
       confirmSellRuneBoxPicker = new ImagePicker();
     }
     return confirmSellRuneBoxPicker;
+  }
+
+  public ImagePicker getConfirmSellStoneImagePicker() {
+    if (confirmSellStoneImagePicker == null) {
+    	confirmSellStoneImagePicker = new ImagePicker();
+    }
+    return confirmSellStoneImagePicker;
   }
 
   public JButton getCreateButton() {
@@ -222,14 +235,14 @@ public class AddProfileUI extends JFrame {
 
   public PointPicker getGetStonePointPicker() {
     if (getStonePointPicker == null) {
-    	getStonePointPicker = new PointPicker();
+      getStonePointPicker = new PointPicker();
     }
     return getStonePointPicker;
   }
 
   public BoxPicker getGrindGemBoxPicker() {
     if (grindGemBoxPicker == null) {
-    	grindGemBoxPicker = new BoxPicker();
+      grindGemBoxPicker = new BoxPicker();
     }
     return grindGemBoxPicker;
   }
@@ -246,6 +259,13 @@ public class AddProfileUI extends JFrame {
       heroRuneCheckbox = new JCheckBox("Pick hero+");
     }
     return heroRuneCheckbox;
+  }
+
+  public ImagePicker getInBattleImagePicker() {
+    if (inBattleImagePicker == null) {
+      inBattleImagePicker = new ImagePicker();
+    }
+    return inBattleImagePicker;
   }
 
   public JCheckBox getLegendRuneCheckbox() {
@@ -374,9 +394,16 @@ public class AddProfileUI extends JFrame {
     return sellRunePointPicker;
   }
 
+  public PointPicker getSellStoneConfirmPointPicker() {
+    if (sellStoneConfirmPointPicker == null) {
+      sellStoneConfirmPointPicker = new PointPicker();
+    }
+    return sellStoneConfirmPointPicker;
+  }
+
   public PointPicker getSellStonePointPicker() {
     if (sellStonePointPicker == null) {
-    	sellStonePointPicker = new PointPicker();
+      sellStonePointPicker = new PointPicker();
     }
     return sellStonePointPicker;
   }
@@ -419,7 +446,7 @@ public class AddProfileUI extends JFrame {
 
   public ImagePicker getStoneRewardImagePicker() {
     if (stoneRewardImagePicker == null) {
-    	stoneRewardImagePicker = new ImagePicker();
+      stoneRewardImagePicker = new ImagePicker();
     }
     return stoneRewardImagePicker;
   }
@@ -500,6 +527,13 @@ public class AddProfileUI extends JFrame {
     return lblConfirmRune;
   }
 
+  private JLabel getLblConfirmSellStone() {
+    if (lblConfirmSellStone == null) {
+    	lblConfirmSellStone = new JLabel("Confirm Sell Stone Indicator");
+    }
+    return lblConfirmSellStone;
+  }
+
   private JLabel getLblEnableAutoAttack() {
     if (lblEnableAutoAttack == null) {
       lblEnableAutoAttack = new JLabel("Enable Auto Attack");
@@ -537,9 +571,16 @@ public class AddProfileUI extends JFrame {
 
   private JLabel getLblGetStone() {
     if (lblGetStone == null) {
-    	lblGetStone = new JLabel("Get Stone");
+      lblGetStone = new JLabel("Get Stone");
     }
     return lblGetStone;
+  }
+
+  private JLabel getLblInBattleIndicator() {
+    if (lblInBattleIndicator == null) {
+      lblInBattleIndicator = new JLabel("In Battle Indicator");
+    }
+    return lblInBattleIndicator;
   }
 
   private JLabel getLblManualAttackIndicator() {
@@ -645,9 +686,16 @@ public class AddProfileUI extends JFrame {
     return lblRuneRules;
   }
 
+  private JLabel getLblSellRareStone() {
+    if (lblSellRareStone == null) {
+      lblSellRareStone = new JLabel("Sell Rare Stone Confirm");
+    }
+    return lblSellRareStone;
+  }
+
   private JLabel getLblSellRuneConfirm() {
     if (lblSellRuneConfirm == null) {
-      lblSellRuneConfirm = new JLabel("Sell 5* Rune Confirm");
+      lblSellRuneConfirm = new JLabel("Sell Rare Rune Confirm");
       lblSellRuneConfirm.setToolTipText(
           "When 5* or +9 rune is being sold, it asks for confirmation. This will be YES");
     }
@@ -672,7 +720,7 @@ public class AddProfileUI extends JFrame {
 
   private JLabel getLblSellStone() {
     if (lblSellStone == null) {
-    	lblSellStone = new JLabel("Sell Stone");
+      lblSellStone = new JLabel("Sell Stone");
     }
     return lblSellStone;
   }
@@ -697,7 +745,7 @@ public class AddProfileUI extends JFrame {
 
   private JLabel getLblStoneRewardIndiator() {
     if (lblStoneRewardIndiator == null) {
-    	lblStoneRewardIndiator = new JLabel("Stone Reward Indiator");
+      lblStoneRewardIndiator = new JLabel("Stone Reward Indiator");
     }
     return lblStoneRewardIndiator;
   }
@@ -761,7 +809,8 @@ public class AddProfileUI extends JFrame {
   private JPanel getRuneTab() {
     if (runeTab == null) {
       runeTab = new JPanel();
-      runeTab.setLayout(new MigLayout("", "[170px][grow,fill]", "[][][grow][][][grow][][grow][][grow,fill]"));
+      runeTab.setLayout(new MigLayout("", "[170px][grow,fill]",
+          "[][][grow][][grow][][grow][][grow][][grow,fill]"));
       runeTab.add(getSellAllRuneCheckbox(), "cell 0 0");
       runeTab.add(getLblSellRuneLocation(), "cell 0 1");
       runeTab.add(getSellRunePointPicker(), "cell 1 1");
@@ -769,16 +818,18 @@ public class AddProfileUI extends JFrame {
       runeTab.add(getSellStonePointPicker(), "cell 1 2,grow");
       runeTab.add(getLblSellRuneConfirm(), "cell 0 3");
       runeTab.add(getSellRuneConfirmPointPicker(), "cell 1 3");
-      runeTab.add(getLblGetRuneLocation(), "cell 0 4");
-      runeTab.add(getGetRunePointPicker(), "cell 1 4");
-      runeTab.add(getLblGetStone(), "cell 0 5");
-      runeTab.add(getGetStonePointPicker(), "cell 1 5,grow");
-      runeTab.add(getLblGetRewardLocation(), "cell 0 6");
-      runeTab.add(getGetRewardPointPicker(), "cell 1 6");
-      runeTab.add(getLblRareBoundary(), "cell 0 7");
-      runeTab.add(getRareLevelBoxPicker(), "cell 1 7,grow");
-      runeTab.add(getLblRuneRules(), "cell 0 8 2 1");
-      runeTab.add(getPanel(), "cell 0 9 2 1,grow");
+      runeTab.add(getLblSellRareStone(), "cell 0 4");
+      runeTab.add(getSellStoneConfirmPointPicker(), "cell 1 4,grow");
+      runeTab.add(getLblGetRuneLocation(), "cell 0 5");
+      runeTab.add(getGetRunePointPicker(), "cell 1 5");
+      runeTab.add(getLblGetStone(), "cell 0 6");
+      runeTab.add(getGetStonePointPicker(), "cell 1 6,grow");
+      runeTab.add(getLblGetRewardLocation(), "cell 0 7");
+      runeTab.add(getGetRewardPointPicker(), "cell 1 7");
+      runeTab.add(getLblRareBoundary(), "cell 0 8");
+      runeTab.add(getRareLevelBoxPicker(), "cell 1 8,grow");
+      runeTab.add(getLblRuneRules(), "cell 0 9 2 1");
+      runeTab.add(getPanel(), "cell 0 10 2 1,grow");
     }
     return runeTab;
   }
@@ -786,7 +837,8 @@ public class AddProfileUI extends JFrame {
   private JPanel getStatusIndicatorTab() {
     if (statusIndicatorTab == null) {
       statusIndicatorTab = new JPanel();
-      statusIndicatorTab.setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][][][]"));
+      statusIndicatorTab
+          .setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][][][][][]"));
       statusIndicatorTab.add(getLblReplayBattleIndicator(), "cell 0 0");
       statusIndicatorTab.add(getReplayBattleBoxPicker(), "cell 1 0,grow");
       statusIndicatorTab.add(getLblStartBattleIndicator(), "cell 0 1");
@@ -799,16 +851,20 @@ public class AddProfileUI extends JFrame {
       statusIndicatorTab.add(getStoneRewardImagePicker(), "cell 1 4,grow");
       statusIndicatorTab.add(getLblConfirmRune(), "cell 0 5");
       statusIndicatorTab.add(getConfirmSellRuneBoxPicker(), "cell 1 5,grow");
-      statusIndicatorTab.add(getLblOtherRewardIndicator(), "cell 0 6");
-      statusIndicatorTab.add(getOtherRewardBoxPicker(), "cell 1 6,grow");
-      statusIndicatorTab.add(getLblManualAttackIndicator(), "cell 0 7");
-      statusIndicatorTab.add(getManualAttBoxPicker(), "cell 1 7,grow");
-      statusIndicatorTab.add(getLblNoEnergyIndicator(), "cell 0 8");
-      statusIndicatorTab.add(getNoEnergyBoxPicker(), "cell 1 8,grow");
-      statusIndicatorTab.add(getLblNetworkDelayIndicator(), "cell 0 9");
-      statusIndicatorTab.add(getNetworkDelayBoxPicker(), "cell 1 9,grow");
-      statusIndicatorTab.add(getLblUnstableNetworkIndicator(), "cell 0 10");
-      statusIndicatorTab.add(getUnstableNetworkBoxPicker(), "cell 1 10,grow");
+      statusIndicatorTab.add(getLblConfirmSellStone(), "cell 0 6");
+      statusIndicatorTab.add(getConfirmSellStoneImagePicker(), "cell 1 6,grow");
+      statusIndicatorTab.add(getLblOtherRewardIndicator(), "cell 0 7");
+      statusIndicatorTab.add(getOtherRewardBoxPicker(), "cell 1 7,grow");
+      statusIndicatorTab.add(getLblManualAttackIndicator(), "cell 0 8");
+      statusIndicatorTab.add(getManualAttBoxPicker(), "cell 1 8,grow");
+      statusIndicatorTab.add(getLblNoEnergyIndicator(), "cell 0 9");
+      statusIndicatorTab.add(getNoEnergyBoxPicker(), "cell 1 9,grow");
+      statusIndicatorTab.add(getLblNetworkDelayIndicator(), "cell 0 10");
+      statusIndicatorTab.add(getNetworkDelayBoxPicker(), "cell 1 10,grow");
+      statusIndicatorTab.add(getLblUnstableNetworkIndicator(), "cell 0 11");
+      statusIndicatorTab.add(getUnstableNetworkBoxPicker(), "cell 1 11,grow");
+      statusIndicatorTab.add(getLblInBattleIndicator(), "cell 0 12");
+      statusIndicatorTab.add(getInBattleImagePicker(), "cell 1 12,grow");
     }
     return statusIndicatorTab;
   }

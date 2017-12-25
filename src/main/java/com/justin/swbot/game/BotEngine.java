@@ -66,7 +66,7 @@ public final class BotEngine extends Thread {
           (HomeController) ControllerRegistry.get(HomeController.class);
       try {
         if (!running || director == null) {
-          sleep(500);
+          sleep(5000);
           homeController.updateStatus("Bot is idling, click start to begin...");
           homeController.updateGameStatus(null);
           continue;
@@ -109,6 +109,8 @@ public final class BotEngine extends Thread {
       gameState = GameState.START_BATTLE;
     } else if (doesStateMatch(screenshot, config.getRuneRewardIndiatorFile())) {
       gameState = GameState.RUNE_REWARD;
+    } else if (doesStateMatch(screenshot, config.getStoneRewardIndicatorFile())) {
+      gameState = GameState.GEM_REWARD;
     } else if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
       gameState = GameState.OTHER_REWARD;
     } else if (doesStateMatch(screenshot, config.getConfirmSellRuneIndicatorFile())) {
@@ -121,6 +123,8 @@ public final class BotEngine extends Thread {
       gameState = GameState.UNSTABLE_NETWORK;
     } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
       gameState = GameState.BATTLE_ENDED;
+    } else if (doesStateMatch(screenshot, config.getInBattleIndicatorFile())) {
+      gameState = GameState.IN_BATTLE;
     }
     return GameStatus.create(gameState, screenshot);
   }
@@ -129,6 +133,6 @@ public final class BotEngine extends Thread {
     if (template == null) {
       return false;
     }
-    return ImageUtil.contains(screenshot, template.getAbsolutePath(), 98) != null;
+    return ImageUtil.contains(screenshot, template.getAbsolutePath(), 99) != null;
   }
 }
