@@ -83,6 +83,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
     return getClass().getSimpleName();
   }
 
+  @Override
+  public void restart() {
+    final GameConfig gameConfig = GameConfig.get();
+    availableRefillTime = Integer.valueOf(gameConfig.getRefillTimes());
+  }
+
   /**
    * Acknowledge the battle result by click somewhere on the screen
    */

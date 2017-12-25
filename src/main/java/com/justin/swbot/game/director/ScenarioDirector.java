@@ -48,4 +48,6 @@ public interface ScenarioDirector {
    * @return unique identification name.
    */
   String getName();
+
+  void restart();
 }

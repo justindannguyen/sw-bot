@@ -94,6 +94,10 @@ public final class BotEngine extends Thread {
    */
   public void setRunning(final boolean running) {
     this.running = running;
+
+    if(running) {
+      director.restart();
+    }
   }
 
   private GameStatus detectGameStatus() {
@@ -101,30 +105,32 @@ public final class BotEngine extends Thread {
     final GameConfig config = GameConfig.get();
 
     GameState gameState = GameState.UNKNOWN;
-    if (doesStateMatch(screenshot, config.getManualAttackIndicatorFile())) {
-      gameState = GameState.BATTLE_MANUAL;
+    if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
+      gameState = GameState.START_BATTLE;
     } else if (doesStateMatch(screenshot, config.getReplayBattleIndicatorFile())) {
       gameState = GameState.REPLAY_BATTLE_CONFIRMATION;
-    } else if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
-      gameState = GameState.START_BATTLE;
     } else if (doesStateMatch(screenshot, config.getRuneRewardIndiatorFile())) {
       gameState = GameState.RUNE_REWARD;
-    } else if (doesStateMatch(screenshot, config.getStoneRewardIndicatorFile())) {
-      gameState = GameState.GEM_REWARD;
-    } else if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
-      gameState = GameState.OTHER_REWARD;
     } else if (doesStateMatch(screenshot, config.getConfirmSellRuneIndicatorFile())) {
       gameState = GameState.SELL_RUNE_CONFIRMATION;
+    } else if (doesStateMatch(screenshot, config.getStoneRewardIndicatorFile())) {
+      gameState = GameState.GEM_REWARD;
+    } else if (doesStateMatch(screenshot, config.getConfirmSellStoneIndicatorFile())) {
+      gameState = GameState.SELL_STONE_CONFIRMATION;
+    } else if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
+      gameState = GameState.OTHER_REWARD;
+    } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
+      gameState = GameState.BATTLE_ENDED;
     } else if (doesStateMatch(screenshot, config.getNoEnergyIndicatorFile())) {
       gameState = GameState.NOT_ENOUGH_ENERGY;
     } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
       gameState = GameState.NETWORK_DELAY;
     } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
       gameState = GameState.UNSTABLE_NETWORK;
-    } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
-      gameState = GameState.BATTLE_ENDED;
     } else if (doesStateMatch(screenshot, config.getInBattleIndicatorFile())) {
       gameState = GameState.IN_BATTLE;
+    } else if (doesStateMatch(screenshot, config.getManualAttackIndicatorFile())) {
+      gameState = GameState.BATTLE_MANUAL;
     }
     return GameStatus.create(gameState, screenshot);
   }
