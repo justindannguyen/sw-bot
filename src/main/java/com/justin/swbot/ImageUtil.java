@@ -57,7 +57,15 @@ public interface ImageUtil {
     minMaxLoc(result, minVal, maxVal, minLoc, maxLoc, null);
 
     final double similarity = maxVal.get() * 100;
-    return similarity >= threshold
-        ? new Rectangle(maxLoc.x(), maxLoc.y(), templateGrey.cols(), templateGrey.rows()) : null;
+    try {
+      return similarity >= threshold
+          ? new Rectangle(maxLoc.x(), maxLoc.y(), templateGrey.cols(), templateGrey.rows())
+          : null;
+    } finally {
+      sourceColor.release();
+      sourceGrey.release();
+      templateGrey.release();
+      result.release();
+    }
   }
 }

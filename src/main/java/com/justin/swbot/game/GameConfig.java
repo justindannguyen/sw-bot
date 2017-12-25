@@ -49,15 +49,17 @@ public class GameConfig {
   public static final String CONFIRM_NETWORK_DELAY_Y = "confirmNetworkDelayY";
   public static final String RESEND_BATTLE_INFO_X = "resendBattleInfoX";
   public static final String RESEND_BATTLE_INFO_Y = "resendBattleInfoY";
-  public static final String RANDOM_CLICK = "RANDOM_CLICK";
-  public static final String SELL_ALL_RUNE = "SELL_ALL_RUNE";
-  public static final String RUNE_LOG = "RUNE_LOG";
-  public static final String PICK_ALL_RUNE = "PICK_ALL_RUNE";
-  public static final String PICK_LEGEND_RUNE = "PICK_LEGEND_RUNE";
-  public static final String PICK_HERO_RUNE = "PICK_HERO_RUNE";
-  public static final String RARE_LEVEL_AREA = "RARE_LEVEL_AREA";
-  public static final String PICK_6_STAR_RUNE = "PICK_6_STAR_RUNE";
-  public static final String PICK_5_STAR_RUNE = "PICK_5_STAR_RUNE";
+  public static final String RANDOM_CLICK = "randomClick";
+  public static final String SELL_ALL_RUNE = "sellAllRunes";
+  public static final String RUNE_LOG = "runLogging";
+  public static final String PICK_ALL_RUNE = "pickAllRunes";
+  public static final String PICK_LEGEND_RUNE = "pickLegendRunes";
+  public static final String PICK_HERO_RUNE = "pickHeroRunes";
+  public static final String RARE_LEVEL_AREA = "rareLevelBox";
+  public static final String PICK_6_STAR_RUNE = "pickSixStarRunes";
+  public static final String PICK_5_STAR_RUNE = "pickFiveStarRunes";
+  public static final String PICK_SPD_PERCENT_GRIND = "pickSpdPercentGrind";
+  public static final String GRINDSTONE_STAT_AREA = "grindstoneStatBox";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -184,6 +186,16 @@ public class GameConfig {
     return props.getProperty(GET_RUNE_LOC_Y);
   }
 
+  public String getGrindstoneStatArea() {
+    return props.getProperty(GRINDSTONE_STAT_AREA, "0,0,0,0");
+  }
+
+  public Rectangle getGrindstoneStatAreaBox() {
+    final String[] box = getGrindstoneStatArea().split(",");
+    return new Rectangle(Integer.valueOf(box[0]), Integer.valueOf(box[1]), Integer.valueOf(box[2]),
+        Integer.valueOf(box[3]));
+  }
+
   public BufferedImage getManualAttackIndicator() {
     return manualAttackIndicator;
   }
@@ -247,7 +259,7 @@ public class GameConfig {
   }
 
   public Rectangle getRareLevelAreaBox() {
-    final String[] box = props.getProperty(RARE_LEVEL_AREA, "0,0,0,0").split(",");
+    final String[] box = getRareLevelArea().split(",");
     return new Rectangle(Integer.valueOf(box[0]), Integer.valueOf(box[1]), Integer.valueOf(box[2]),
         Integer.valueOf(box[3]));
   }
@@ -388,6 +400,10 @@ public class GameConfig {
     return Boolean.valueOf(props.getProperty(PICK_LEGEND_RUNE, "false"));
   }
 
+  public boolean isPickSpdPercentGrindstone() {
+    return Boolean.valueOf(props.getProperty(PICK_SPD_PERCENT_GRIND, "false"));
+  }
+
   public boolean isRuneLog() {
     return Boolean.valueOf(props.getProperty(RUNE_LOG, "true"));
   }
@@ -496,6 +512,10 @@ public class GameConfig {
     props.setProperty(GET_RUNE_LOC_Y, String.valueOf(point.y));
   }
 
+  public void setGrindstoneStatArea(final int x, final int y, final int w, final int h) {
+    props.setProperty(GRINDSTONE_STAT_AREA, String.format("%s,%s,%s,%s", x, y, w, h));
+  }
+
   public void setManualAttackIndicator(final BufferedImage manualAttackIndicator) {
     this.manualAttackIndicator = manualAttackIndicator;
   }
@@ -534,6 +554,10 @@ public class GameConfig {
 
   public void setPickLegendRune(final boolean value) {
     props.setProperty(PICK_LEGEND_RUNE, String.valueOf(value));
+  }
+
+  public void setPickSpdPercentGridstone(final boolean value) {
+    props.setProperty(PICK_SPD_PERCENT_GRIND, String.valueOf(value));
   }
 
   public void setProfileName(final String profileName) {

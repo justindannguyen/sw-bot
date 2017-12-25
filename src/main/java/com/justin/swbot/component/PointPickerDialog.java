@@ -19,7 +19,7 @@ public class PointPickerDialog extends AbstractPickerDialog {
 
   public PointPickerDialog() {
     super();
-
+    setTitle("Box Picker - click to select point");
     getMainLabel().addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(final MouseEvent e) {

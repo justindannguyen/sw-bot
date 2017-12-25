@@ -16,7 +16,13 @@ public class ImagePickerDialog extends BoxPickerDialog {
   private static final long serialVersionUID = 1L;
 
   private Point startPoint;
+
   private Point endPoint;
+  public ImagePickerDialog() {
+    super();
+
+    setTitle("Image Picker - drag to select rectangle");
+  }
 
   public Image pickImage() {
     final Rectangle box = pickBox();

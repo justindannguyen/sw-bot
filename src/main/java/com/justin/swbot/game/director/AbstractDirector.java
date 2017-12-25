@@ -261,7 +261,16 @@ public abstract class AbstractDirector implements ScenarioDirector {
         return true;
       }
     }
-    // TODO Others rune filtering options
+    if (gameConfig.isPickSpdPercentGrindstone()) {
+      final Rectangle box = gameConfig.getGrindstoneStatAreaBox();
+      final BufferedImage grindImage = screenImage.getSubimage(box.x, box.y, box.width, box.height);
+      final String grindOptions = OcrUtil.text(grindImage);
+      final boolean percentOption = grindOptions.contains("°/o");
+      final boolean spdOption = grindOptions.contains("SPD");
+      if (percentOption || spdOption) {
+        return true;
+      }
+    }
     return false;
   }
 

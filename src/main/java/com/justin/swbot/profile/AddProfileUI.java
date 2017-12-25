@@ -106,6 +106,7 @@ public class AddProfileUI extends JFrame {
   private JCheckBox runLogCheckbox;
   private JLabel lblRareBoundary;
   private BoxPicker rareLevelBoxPicker;
+  private BoxPicker grindGemBoxPicker;
 
   public AddProfileUI() {
     initGUI();
@@ -211,6 +212,13 @@ public class AddProfileUI extends JFrame {
       getRunePointPicker = new PointPicker();
     }
     return getRunePointPicker;
+  }
+
+  public BoxPicker getGrindGemBoxPicker() {
+    if (grindGemBoxPicker == null) {
+    	grindGemBoxPicker = new BoxPicker();
+    }
+    return grindGemBoxPicker;
   }
 
   public JCheckBox getGrindPercentCheckbox() {
@@ -665,7 +673,7 @@ public class AddProfileUI extends JFrame {
   private JPanel getPanel() {
     if (panel == null) {
       panel = new JPanel();
-      panel.setLayout(new MigLayout("", "[160px][grow,fill]", "[][][][][][][]"));
+      panel.setLayout(new MigLayout("", "[160px][grow,fill]", "[][][][][][grow][]"));
       panel.add(getAllRuneCheckbox(), "cell 0 0 2 1");
       panel.add(getLegendRuneCheckbox(), "cell 0 1");
       panel.add(getHeroRuneCheckbox(), "cell 0 2");
@@ -674,6 +682,7 @@ public class AddProfileUI extends JFrame {
       panel.add(getFiveStarRuneCheckBox(), "cell 0 4");
       panel.add(getFiveStarRuneBoxPicker(), "cell 1 4,grow");
       panel.add(getGrindPercentCheckbox(), "cell 0 5");
+      panel.add(getGrindGemBoxPicker(), "cell 1 5,grow");
       panel.add(getRunLogCheckbox(), "cell 0 6");
     }
     return panel;

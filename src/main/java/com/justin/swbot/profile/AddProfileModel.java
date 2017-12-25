@@ -24,8 +24,6 @@ public class AddProfileModel extends Observable {
   private Point enableAutoAttackLocation;
   private boolean randomClick;
 
-  private int refillTimes;
-
   private boolean sellAllRune;
   private Point sellRuneLocation;
   private Point sellRuneConfirmLocation;
@@ -40,16 +38,19 @@ public class AddProfileModel extends Observable {
   private boolean pickFiveStarRune;
   private BufferedImage sixStarRuneIndicator;
   private BufferedImage fiveStarRuneIndicator;
+  private boolean pickGrindSpdPercent;
+  private Rectangle grindStatArea;
 
+  private int refillTimes;
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
   private Point energyLocationOnShop;
   private Point confirmRechargeEnergyLoation;
   private Point ackRefillSuccessLocation;
   private Point closeRefillShopLocation;
+
   private BufferedImage replayBattleIndicator;
   private BufferedImage startBattleIndicator;
-
   private BufferedImage battleEndIndicator;
   private BufferedImage runeRewardIndiator;
   private BufferedImage confirmSellRuneIndicator;
@@ -101,6 +102,10 @@ public class AddProfileModel extends Observable {
 
   public Point getGetRuneRewardLocation() {
     return getRuneRewardLocation;
+  }
+
+  public Rectangle getGrindStatArea() {
+    return grindStatArea;
   }
 
   public BufferedImage getManualAttackIndicator() {
@@ -187,6 +192,10 @@ public class AddProfileModel extends Observable {
     return pickFiveStarRune;
   }
 
+  public boolean isPickGrindSpdPercent() {
+    return pickGrindSpdPercent;
+  }
+
   public boolean isPickHeroRune() {
     return pickHeroRune;
   }
@@ -271,7 +280,8 @@ public class AddProfileModel extends Observable {
     pickFiveStarRune = config.isPick5StarRune();
     sixStarRuneIndicator = config.getSixStarRuneIndicator();
     fiveStarRuneIndicator = config.getFiveStarRuneIndicator();
-
+    pickGrindSpdPercent = config.isPickSpdPercentGrindstone();
+    grindStatArea = config.getGrindstoneStatAreaBox();
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
     battleEndIndicator = config.getBattleEndIndicator();
@@ -331,6 +341,10 @@ public class AddProfileModel extends Observable {
     this.getRuneRewardLocation = getRuneRewardLocation;
   }
 
+  public void setGrindStatArea(final Rectangle grindStatArea) {
+    this.grindStatArea = grindStatArea;
+  }
+
   public void setManualAttackIndicator(final BufferedImage manualAttackIndicator) {
     this.manualAttackIndicator = manualAttackIndicator;
   }
@@ -357,6 +371,10 @@ public class AddProfileModel extends Observable {
 
   public void setPickFiveStarRune(final boolean pickFiveStarRune) {
     this.pickFiveStarRune = pickFiveStarRune;
+  }
+
+  public void setPickGrindSpdPercent(final boolean pickGrindSpdPercent) {
+    this.pickGrindSpdPercent = pickGrindSpdPercent;
   }
 
   public void setPickHeroRune(final boolean pickHeroRune) {

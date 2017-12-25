@@ -23,6 +23,7 @@ public class BoxPickerDialog extends AbstractPickerDialog {
 
   public BoxPickerDialog() {
     super();
+    setTitle("Box Picker - drag to select rectangle");
 
     final MouseAdapter mouseAdapter = new MouseAdapter() {
       @Override

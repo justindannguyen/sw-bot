@@ -100,6 +100,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getNoEnergyBoxPicker().setValueListener(this);
     ui.getNetworkDelayBoxPicker().setValueListener(this);
     ui.getUnstableNetworkBoxPicker().setValueListener(this);
+    ui.getGrindPercentCheckbox().addItemListener(this);
+    ui.getGrindGemBoxPicker().setValueListener(this);
 
     ui.addWindowListener(new WindowAdapter() {
       @Override
@@ -130,6 +132,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       model.setPickSixStarRune(ui.getSixStarRuneCheckbox().isSelected());
     } else if (source == ui.getFiveStarRuneCheckBox()) {
       model.setPickFiveStarRune(ui.getFiveStarRuneCheckBox().isSelected());
+    } else if (source == ui.getGrindPercentCheckbox()) {
+      model.setPickGrindSpdPercent(ui.getGrindPercentCheckbox().isSelected());
     }
   }
 
@@ -224,6 +228,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       model.setSixStarRuneIndicator((BufferedImage) newValue);
     } else if (source == ui.getFiveStarRuneBoxPicker()) {
       model.setFiveStarRuneIndicator((BufferedImage) newValue);
+    } else if (source == ui.getGrindGemBoxPicker()) {
+      model.setGrindStatArea((Rectangle) newValue);
     }
   }
 
@@ -321,13 +327,15 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     config.setPickAllRune(model.isPickAllRune());
     config.setPickLegendRune(model.isPickLegendRune());
     config.setPickHeroRune(model.isPickHeroRune());
-    final Rectangle box = model.getRareLevelArea();
+    Rectangle box = model.getRareLevelArea();
     config.setRareLevelArea(box.x, box.y, box.width, box.height);
     config.setPick5StarRune(model.isPickFiveStarRune());
     config.setPick6StarRune(model.isPickSixStarRune());
     config.setSixStarRuneIndicator(model.getSixStarRuneIndicator());
     config.setFiveStartRuneIndicator(model.getFiveStarRuneIndicator());
-
+    config.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
+    box = model.getGrindStatArea();
+    config.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
     config.save();
 
     controller.unlaunchUI();
@@ -377,5 +385,7 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getNoEnergyBoxPicker().setData(model.getNoEnergyIndicator());
     ui.getNetworkDelayBoxPicker().setData(model.getNetworkDelayIndicator());
     ui.getUnstableNetworkBoxPicker().setData(model.getNetworkUnstableIndicator());
+    ui.getGrindPercentCheckbox().setSelected(model.isPickGrindSpdPercent());
+    ui.getGrindGemBoxPicker().setData(model.getGrindStatArea());
   }
 }

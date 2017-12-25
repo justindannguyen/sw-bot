@@ -94,7 +94,6 @@ public abstract class AbstractPickerDialog extends JDialog {
   private void initGUI() {
     setModal(true);
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    setTitle("Point Picker - click to select point");
     getContentPane().setLayout(new BorderLayout(0, 0));
     getContentPane().add(getScrollPane(), BorderLayout.CENTER);
   }

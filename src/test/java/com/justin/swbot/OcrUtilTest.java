@@ -42,4 +42,9 @@ public class OcrUtilTest {
     Assert.assertEquals("Hero", OcrUtil.text(ImageIO.read(new File(sourceFile))));
   }
 
+  @Test
+  public void testTextFile_withPercent() throws IOException {
+    final String sourceFile = "src/test/resources/percent.png";
+    Assert.assertTrue(OcrUtil.text(ImageIO.read(new File(sourceFile))).contains("°/o"));
+  }
 }
