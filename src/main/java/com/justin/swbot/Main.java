@@ -22,9 +22,9 @@ public class Main {
     SubstanceLookAndFeel.setSkin(new SaharaSkin());
     UIManager.setLookAndFeel(new SubstanceSaharaLookAndFeel());
 
-    BotEngine.get().start();
     final HomeController homeController = new HomeController();
     homeController.initialize();
+    BotEngine.get().start();
     SwingUtilities.invokeLater(() -> homeController.launchUI());
   }
 

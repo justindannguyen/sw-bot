@@ -56,6 +56,8 @@ public class GameConfig {
   public static final String PICK_LEGEND_RUNE = "PICK_LEGEND_RUNE";
   public static final String PICK_HERO_RUNE = "PICK_HERO_RUNE";
   public static final String RARE_LEVEL_AREA = "RARE_LEVEL_AREA";
+  public static final String PICK_6_STAR_RUNE = "PICK_6_STAR_RUNE";
+  public static final String PICK_5_STAR_RUNE = "PICK_5_STAR_RUNE";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -76,6 +78,8 @@ public class GameConfig {
   private BufferedImage noEnergyIndicator;
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
+  private BufferedImage sixStarRuneIndicator;
+  private BufferedImage fiveStarRuneIndicator;
 
   public void clear() {
     this.profileName = null;
@@ -90,6 +94,8 @@ public class GameConfig {
     noEnergyIndicator = null;
     networkDelayIndicator = null;
     networkUnstableIndicator = null;
+    sixStarRuneIndicator = null;
+    fiveStarRuneIndicator = null;
   }
 
   public String getAckRechargeEnergyOkX() {
@@ -150,6 +156,16 @@ public class GameConfig {
 
   public String getEnableAutoModeY() {
     return props.getProperty(ENABLE_AUTO_MODE_Y);
+  }
+
+  public BufferedImage getFiveStarRuneIndicator() {
+    return fiveStarRuneIndicator;
+  }
+
+  public File getFiveStarRuneIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "fiveStarRuneIndicator");
   }
 
   public String getGetRewardLocationX() {
@@ -316,6 +332,16 @@ public class GameConfig {
     return props.getProperty(SELL_RUNE_LOC_Y);
   }
 
+  public BufferedImage getSixStarRuneIndicator() {
+    return sixStarRuneIndicator;
+  }
+
+  public File getSixStarRuneIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "sixStarRuneIndicator");
+  }
+
   public BufferedImage getStartBattleIndicator() {
     return startBattleIndicator;
   }
@@ -340,6 +366,14 @@ public class GameConfig {
 
   public boolean isEmpty() {
     return profileName == null && props.isEmpty();
+  }
+
+  public boolean isPick5StarRune() {
+    return Boolean.valueOf(props.getProperty(PICK_5_STAR_RUNE, "false"));
+  }
+
+  public boolean isPick6StarRune() {
+    return Boolean.valueOf(props.getProperty(PICK_6_STAR_RUNE, "false"));
   }
 
   public boolean isPickAllRune() {
@@ -448,6 +482,10 @@ public class GameConfig {
     props.setProperty(ENABLE_AUTO_MODE_Y, String.valueOf(point.y));
   }
 
+  public void setFiveStartRuneIndicator(final BufferedImage fiveStarRuneIndicator) {
+    this.fiveStarRuneIndicator = fiveStarRuneIndicator;
+  }
+
   public void setGetRewardLocation(final Point point) {
     props.setProperty(GET_REWARD_LOC_X, String.valueOf(point.x));
     props.setProperty(GET_REWARD_LOC_Y, String.valueOf(point.y));
@@ -476,6 +514,14 @@ public class GameConfig {
 
   public void setOtherRewardIndicator(final BufferedImage otherRewardIndicator) {
     this.otherRewardIndicator = otherRewardIndicator;
+  }
+
+  public void setPick5StarRune(final boolean value) {
+    props.setProperty(PICK_5_STAR_RUNE, String.valueOf(value));
+  }
+
+  public void setPick6StarRune(final boolean value) {
+    props.setProperty(PICK_6_STAR_RUNE, String.valueOf(value));
   }
 
   public void setPickAllRune(final boolean value) {
@@ -551,6 +597,10 @@ public class GameConfig {
   public void setSellRuneLocation(final Point point) {
     props.setProperty(SELL_RUNE_LOC_X, String.valueOf(point.x));
     props.setProperty(SELL_RUNE_LOC_Y, String.valueOf(point.y));
+  }
+
+  public void setSixStarRuneIndicator(final BufferedImage sixStarRuneIndicator) {
+    this.sixStarRuneIndicator = sixStarRuneIndicator;
   }
 
   public void setStartBattle(final Point point) {

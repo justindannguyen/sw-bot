@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import javax.imageio.ImageIO;
 
 import com.justin.swbot.CommandUtil;
+import com.justin.swbot.ImageUtil;
 import com.justin.swbot.OcrUtil;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameConfig;
@@ -240,11 +241,23 @@ public abstract class AbstractDirector implements ScenarioDirector {
           screenImage.getSubimage(box.x, box.y, box.width, box.height);
       final String rareLevel = OcrUtil.text(rareLevelImage);
       final boolean legend = rareLevel.equals("Legend");
-      final boolean hero = rareLevel.equals("Hero");
       if (legend) {
         return true;
       }
+      final boolean hero = rareLevel.equals("Hero");
       if (hero && gameConfig.isPickHeroRune()) {
+        return true;
+      }
+    }
+    if (gameConfig.isPick5StarRune() || gameConfig.isPick6StarRune()) {
+      final boolean sixStar = ImageUtil.contains(gameStatus.getScreenFile(),
+          gameConfig.getSixStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
+      if (sixStar) {
+        return true;
+      }
+      final boolean fiveStar = ImageUtil.contains(gameStatus.getScreenFile(),
+          gameConfig.getFiveStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
+      if (fiveStar && gameConfig.isPick5StarRune()) {
         return true;
       }
     }

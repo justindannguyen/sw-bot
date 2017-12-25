@@ -30,9 +30,8 @@ import com.justin.swbot.home.HomeController;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class AddProfileControllerAction
-    implements AddProfileModelListener, ActionListener, KeyListener, ChangeListener,
-    ValueListener, ItemListener {
+public class AddProfileControllerAction implements AddProfileModelListener, ActionListener,
+    KeyListener, ChangeListener, ValueListener, ItemListener {
   private final AddProfileController controller;
 
   public AddProfileControllerAction(final AddProfileController addProfileController) {
@@ -87,7 +86,10 @@ public class AddProfileControllerAction
     ui.getLegendRuneCheckbox().addItemListener(this);
     ui.getHeroRuneCheckbox().addItemListener(this);
     ui.getRareLevelBoxPicker().setValueListener(this);
-
+    ui.getSixStarRuneCheckbox().addItemListener(this);
+    ui.getSixStarRuneBoxPicker().setValueListener(this);
+    ui.getFiveStarRuneCheckBox().addItemListener(this);
+    ui.getFiveStarRuneBoxPicker().setValueListener(this);
     ui.getReplayBattleBoxPicker().setValueListener(this);
     ui.getStartBattleBoxPicker().setValueListener(this);
     ui.getEndBattleBoxPicker().setValueListener(this);
@@ -124,12 +126,15 @@ public class AddProfileControllerAction
       model.setPickLegendRune(ui.getLegendRuneCheckbox().isSelected());
     } else if (source == ui.getHeroRuneCheckbox()) {
       model.setPickHeroRune(ui.getHeroRuneCheckbox().isSelected());
+    } else if (source == ui.getSixStarRuneCheckbox()) {
+      model.setPickSixStarRune(ui.getSixStarRuneCheckbox().isSelected());
+    } else if (source == ui.getFiveStarRuneCheckBox()) {
+      model.setPickFiveStarRune(ui.getFiveStarRuneCheckBox().isSelected());
     }
   }
 
   @Override
-  public void keyPressed(final KeyEvent e) {
-  }
+  public void keyPressed(final KeyEvent e) {}
 
   @Override
   public void keyReleased(final KeyEvent e) {
@@ -141,8 +146,7 @@ public class AddProfileControllerAction
   }
 
   @Override
-  public void keyTyped(final KeyEvent e) {
-  }
+  public void keyTyped(final KeyEvent e) {}
 
   @Override
   public void stateChanged(final ChangeEvent e) {
@@ -216,6 +220,10 @@ public class AddProfileControllerAction
       model.setNetworkUnstableIndicator((BufferedImage) newValue);
     } else if (source == ui.getRareLevelBoxPicker()) {
       model.setRareLevelArea((Rectangle) newValue);
+    } else if (source == ui.getSixStarRuneBoxPicker()) {
+      model.setSixStarRuneIndicator((BufferedImage) newValue);
+    } else if (source == ui.getFiveStarRuneBoxPicker()) {
+      model.setFiveStarRuneIndicator((BufferedImage) newValue);
     }
   }
 
@@ -315,6 +323,11 @@ public class AddProfileControllerAction
     config.setPickHeroRune(model.isPickHeroRune());
     final Rectangle box = model.getRareLevelArea();
     config.setRareLevelArea(box.x, box.y, box.width, box.height);
+    config.setPick5StarRune(model.isPickFiveStarRune());
+    config.setPick6StarRune(model.isPickSixStarRune());
+    config.setSixStarRuneIndicator(model.getSixStarRuneIndicator());
+    config.setFiveStartRuneIndicator(model.getFiveStarRuneIndicator());
+
     config.save();
 
     controller.unlaunchUI();
@@ -350,7 +363,10 @@ public class AddProfileControllerAction
     ui.getLegendRuneCheckbox().setSelected(model.isPickLegendRune());
     ui.getHeroRuneCheckbox().setSelected(model.isPickHeroRune());
     ui.getRareLevelBoxPicker().setData(model.getRareLevelArea());
-
+    ui.getSixStarRuneCheckbox().setSelected(model.isPickSixStarRune());
+    ui.getFiveStarRuneCheckBox().setSelected(model.isPickFiveStarRune());
+    ui.getSixStarRuneBoxPicker().setData(model.getSixStarRuneIndicator());
+    ui.getFiveStarRuneBoxPicker().setData(model.getFiveStarRuneIndicator());
     ui.getReplayBattleBoxPicker().setData(model.getReplayBattleIndicator());
     ui.getStartBattleBoxPicker().setData(model.getStartBattleIndicator());
     ui.getEndBattleBoxPicker().setData(model.getBattleEndIndicator());

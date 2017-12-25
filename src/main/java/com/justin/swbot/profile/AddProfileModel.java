@@ -36,6 +36,10 @@ public class AddProfileModel extends Observable {
   private boolean pickAllRune;
   private boolean pickLegendRune;
   private boolean pickHeroRune;
+  private boolean pickSixStarRune;
+  private boolean pickFiveStarRune;
+  private BufferedImage sixStarRuneIndicator;
+  private BufferedImage fiveStarRuneIndicator;
 
   private Point rechargeEneryYesLocation;
   private Point rechargeEnergyNoLocation;
@@ -85,6 +89,10 @@ public class AddProfileModel extends Observable {
 
   public Point getEnergyLocationOnShop() {
     return energyLocationOnShop;
+  }
+
+  public BufferedImage getFiveStarRuneIndicator() {
+    return fiveStarRuneIndicator;
   }
 
   public Point getGetRewardLocation() {
@@ -159,6 +167,10 @@ public class AddProfileModel extends Observable {
     return sellRuneLocation;
   }
 
+  public BufferedImage getSixStarRuneIndicator() {
+    return sixStarRuneIndicator;
+  }
+
   public BufferedImage getStartBattleIndicator() {
     return startBattleIndicator;
   }
@@ -171,12 +183,20 @@ public class AddProfileModel extends Observable {
     return pickAllRune;
   }
 
+  public boolean isPickFiveStarRune() {
+    return pickFiveStarRune;
+  }
+
   public boolean isPickHeroRune() {
     return pickHeroRune;
   }
 
   public boolean isPickLegendRune() {
     return pickLegendRune;
+  }
+
+  public boolean isPickSixStarRune() {
+    return pickSixStarRune;
   }
 
   public boolean isRandomClick() {
@@ -247,6 +267,10 @@ public class AddProfileModel extends Observable {
     pickLegendRune = config.isPickLegendRune();
     pickHeroRune = config.isPickHeroRune();
     rareLevelArea = config.getRareLevelAreaBox();
+    pickSixStarRune = config.isPick6StarRune();
+    pickFiveStarRune = config.isPick5StarRune();
+    sixStarRuneIndicator = config.getSixStarRuneIndicator();
+    fiveStarRuneIndicator = config.getFiveStarRuneIndicator();
 
     replayBattleIndicator = config.getReplayBattleIndicator();
     startBattleIndicator = config.getStartBattleIndicator();
@@ -295,6 +319,10 @@ public class AddProfileModel extends Observable {
     this.energyLocationOnShop = energyLocationOnShop;
   }
 
+  public void setFiveStarRuneIndicator(final BufferedImage fiveStarRuneIndicator) {
+    this.fiveStarRuneIndicator = fiveStarRuneIndicator;
+  }
+
   public void setGetRewardLocation(final Point getRewardLocation) {
     this.getRewardLocation = getRewardLocation;
   }
@@ -327,12 +355,20 @@ public class AddProfileModel extends Observable {
     this.pickAllRune = pickAllRune;
   }
 
+  public void setPickFiveStarRune(final boolean pickFiveStarRune) {
+    this.pickFiveStarRune = pickFiveStarRune;
+  }
+
   public void setPickHeroRune(final boolean pickHeroRune) {
     this.pickHeroRune = pickHeroRune;
   }
 
   public void setPickLegendRune(final boolean pickLegendRune) {
     this.pickLegendRune = pickLegendRune;
+  }
+
+  public void setPickSixStarRune(final boolean pickSixStarRune) {
+    this.pickSixStarRune = pickSixStarRune;
   }
 
   public void setProfileName(final String profileName) {
@@ -389,6 +425,10 @@ public class AddProfileModel extends Observable {
 
   public void setSellRuneLocation(final Point sellRuneLocation) {
     this.sellRuneLocation = sellRuneLocation;
+  }
+
+  public void setSixStarRuneIndicator(final BufferedImage sixStarRuneIndicator) {
+    this.sixStarRuneIndicator = sixStarRuneIndicator;
   }
 
   public void setStartBattleIndicator(final BufferedImage startBattleIndicator) {

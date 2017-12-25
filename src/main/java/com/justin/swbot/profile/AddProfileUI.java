@@ -97,10 +97,10 @@ public class AddProfileUI extends JFrame {
   private JCheckBox legendRuneCheckbox;
   private JCheckBox heroRuneCheckbox;
   private JCheckBox allRuneCheckbox;
-  private JCheckBox sixStartRuneCheckBox;
-  private ImagePicker sixStartRuneBoxPicker;
+  private JCheckBox sixStarRuneCheckBox;
+  private ImagePicker sixStarRuneBoxPicker;
   private JCheckBox fiveStarRuneCheckBox;
-  private ImagePicker fiveStartRuneBoxPicker;
+  private ImagePicker fiveStarRuneBoxPicker;
   private JCheckBox grindPercentCheckbox;
   private JCheckBox randomClickCheckbox;
   private JCheckBox runLogCheckbox;
@@ -185,18 +185,18 @@ public class AddProfileUI extends JFrame {
     return energyShopPointPicker;
   }
 
+  public ImagePicker getFiveStarRuneBoxPicker() {
+    if (fiveStarRuneBoxPicker == null) {
+      fiveStarRuneBoxPicker = new ImagePicker();
+    }
+    return fiveStarRuneBoxPicker;
+  }
+
   public JCheckBox getFiveStarRuneCheckBox() {
     if (fiveStarRuneCheckBox == null) {
       fiveStarRuneCheckBox = new JCheckBox("Pick 5 star +");
     }
     return fiveStarRuneCheckBox;
-  }
-
-  public ImagePicker getFiveStartRuneBoxPicker() {
-    if (fiveStartRuneBoxPicker == null) {
-      fiveStartRuneBoxPicker = new ImagePicker();
-    }
-    return fiveStartRuneBoxPicker;
   }
 
   public PointPicker getGetRewardPointPicker() {
@@ -353,18 +353,18 @@ public class AddProfileUI extends JFrame {
     return sellRunePointPicker;
   }
 
-  public ImagePicker getSixStartRuneBoxPicker() {
-    if (sixStartRuneBoxPicker == null) {
-      sixStartRuneBoxPicker = new ImagePicker();
+  public ImagePicker getSixStarRuneBoxPicker() {
+    if (sixStarRuneBoxPicker == null) {
+      sixStarRuneBoxPicker = new ImagePicker();
     }
-    return sixStartRuneBoxPicker;
+    return sixStarRuneBoxPicker;
   }
 
-  public JCheckBox getSixStartRuneCheckbox() {
-    if (sixStartRuneCheckBox == null) {
-      sixStartRuneCheckBox = new JCheckBox("Pick 6 star only");
+  public JCheckBox getSixStarRuneCheckbox() {
+    if (sixStarRuneCheckBox == null) {
+      sixStarRuneCheckBox = new JCheckBox("Pick 6 star only");
     }
-    return sixStartRuneCheckBox;
+    return sixStarRuneCheckBox;
   }
 
   public JSpinner getSpinner() {
@@ -669,10 +669,10 @@ public class AddProfileUI extends JFrame {
       panel.add(getAllRuneCheckbox(), "cell 0 0 2 1");
       panel.add(getLegendRuneCheckbox(), "cell 0 1");
       panel.add(getHeroRuneCheckbox(), "cell 0 2");
-      panel.add(getSixStartRuneCheckbox(), "flowy,cell 0 3");
-      panel.add(getSixStartRuneBoxPicker(), "cell 1 3,grow");
+      panel.add(getSixStarRuneCheckbox(), "flowy,cell 0 3");
+      panel.add(getSixStarRuneBoxPicker(), "cell 1 3,grow");
       panel.add(getFiveStarRuneCheckBox(), "cell 0 4");
-      panel.add(getFiveStartRuneBoxPicker(), "cell 1 4,grow");
+      panel.add(getFiveStarRuneBoxPicker(), "cell 1 4,grow");
       panel.add(getGrindPercentCheckbox(), "cell 0 5");
       panel.add(getRunLogCheckbox(), "cell 0 6");
     }

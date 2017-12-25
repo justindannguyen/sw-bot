@@ -43,5 +43,7 @@ This is the fun project and use it as your own risk. We will not responsible for
   * [x] Pick all.
   * [x] Pick legend only.
   * [x] Pick Hero +.
+  * [x] Pick ★★★★★★.
+  * [x] Pick ★★★★★ +.
 * [ ] Rift raid farming.
 * [ ] Full runes warehouse

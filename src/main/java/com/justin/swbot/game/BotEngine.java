@@ -77,6 +77,7 @@ public final class BotEngine extends Thread {
         homeController.updateGameStatus(gameStatus.getGameState());
         director.direct(gameStatus);
       } catch (final Exception e) {
+        e.printStackTrace();
         homeController.updateStatus("Error in bot loop: " + e.getMessage());
       }
     }
@@ -128,6 +129,6 @@ public final class BotEngine extends Thread {
     if (template == null) {
       return false;
     }
-    return ImageUtil.contains(screenshot, template.getAbsolutePath(), 95) != null;
+    return ImageUtil.contains(screenshot, template.getAbsolutePath(), 98) != null;
   }
 }
