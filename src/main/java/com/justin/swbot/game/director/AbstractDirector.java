@@ -25,6 +25,8 @@ import com.justin.swbot.home.HomeController;
  */
 public abstract class AbstractDirector implements ScenarioDirector {
   private int availableRefillTime;
+  private int battleCount;
+  private int refillCount;
 
   @Override
   public boolean direct(final GameStatus gameStatus) {
@@ -66,7 +68,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
       resendBattleInfo();
       return true;
     } else if (gameState == GameState.IN_BATTLE) {
-      progressMessage("Wait till battle end...");
+      progressMessage("Wait for result of battle no %s, refill remain %s...", battleCount,
+          availableRefillTime);
       sleep(5000);
       return true;
     } else if (gameState == GameState.UNKNOWN) {
@@ -87,6 +90,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
   public void restart() {
     final GameConfig gameConfig = GameConfig.get();
     availableRefillTime = Integer.valueOf(gameConfig.getRefillTimes());
+    battleCount = 0;
+    refillCount = 0;
   }
 
   /**
@@ -94,9 +99,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void ackBattleResult() {
     progressMessage("Ending battle...");
-    tapScreen("50", "50");
+    tapScreen("50", "900");
     sleep(1000);
-    tapScreen("50", "50");
+    tapScreen("50", "900");
   }
 
   /**
@@ -197,10 +202,10 @@ public abstract class AbstractDirector implements ScenarioDirector {
     }
   }
 
-  protected void progressMessage(final String message) {
+  protected void progressMessage(final String message, final Object... args) {
     final HomeController homeController =
         (HomeController) ControllerRegistry.get(HomeController.class);
-    homeController.updateStatus(message);
+    homeController.updateStatus(String.format(message, args));
   }
 
   protected void refillEnergy() {
@@ -278,6 +283,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     progressMessage("Starting new battle...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getStartBattleX(), gameConfig.getStartBattleY());
+    battleCount++;
     sleep(10000);
   }
 
@@ -367,6 +373,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else {
       refillEnergy();
       availableRefillTime--;
+      refillCount++;
     }
   }
 
