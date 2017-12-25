@@ -22,6 +22,10 @@ public class GameConfig {
   public static final String SELL_RUNE_LOC_Y = "sellRuneLocationY";
   public static final String GET_RUNE_LOC_X = "getRuneLocationX";
   public static final String GET_RUNE_LOC_Y = "getRuneLocationY";
+  public static final String SELL_GEM_LOC_X = "sellGemLocationX";
+  public static final String SELL_GEM_LOC_Y = "sellGemLocationY";
+  public static final String GET_GEM_LOC_X = "getGemLocationX";
+  public static final String GET_GEM_LOC_Y = "getGemLocationY";
   public static final String GET_REWARD_LOC_X = "getRewardLocationX";
   public static final String GET_REWARD_LOC_Y = "getRewardLocationY";
   public static final String ENABLE_AUTO_MODE_X = "enableAutoModeX";
@@ -82,6 +86,7 @@ public class GameConfig {
   private BufferedImage networkUnstableIndicator;
   private BufferedImage sixStarRuneIndicator;
   private BufferedImage fiveStarRuneIndicator;
+  private BufferedImage stoneRewardIndicator;
 
   public void clear() {
     this.profileName = null;
@@ -98,6 +103,7 @@ public class GameConfig {
     networkUnstableIndicator = null;
     sixStarRuneIndicator = null;
     fiveStarRuneIndicator = null;
+    stoneRewardIndicator = null;
   }
 
   public String getAckRechargeEnergyOkX() {
@@ -168,6 +174,14 @@ public class GameConfig {
     final File profilesFolder = getProfilesFolder();
     final File profileFolder = new File(profilesFolder, profileName);
     return new File(profileFolder, "fiveStarRuneIndicator");
+  }
+
+  public String getGetGemLocationX() {
+    return props.getProperty(GET_GEM_LOC_X);
+  }
+
+  public String getGetGemLocationY() {
+    return props.getProperty(GET_GEM_LOC_Y);
   }
 
   public String getGetRewardLocationX() {
@@ -328,6 +342,14 @@ public class GameConfig {
     return new File(profileFolder, "runeRewardIndiator");
   }
 
+  public String getSellGemLocationX() {
+    return props.getProperty(SELL_GEM_LOC_X);
+  }
+
+  public String getSellGemLocationY() {
+    return props.getProperty(SELL_GEM_LOC_Y);
+  }
+
   public String getSellRuneConfirmationX() {
     return props.getProperty(SELL_RUNE_CONFIRM_X);
   }
@@ -370,6 +392,16 @@ public class GameConfig {
 
   public String getStartBattleY() {
     return props.getProperty(START_BATTLE_Y);
+  }
+
+  public BufferedImage getStoneRewardIndicator() {
+    return stoneRewardIndicator;
+  }
+
+  public File getStoneRewardIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "stoneRewardIndicator");
   }
 
   public boolean isClickRandom() {
@@ -498,8 +530,13 @@ public class GameConfig {
     props.setProperty(ENABLE_AUTO_MODE_Y, String.valueOf(point.y));
   }
 
-  public void setFiveStartRuneIndicator(final BufferedImage fiveStarRuneIndicator) {
+  public void setFiveStarRuneIndicator(final BufferedImage fiveStarRuneIndicator) {
     this.fiveStarRuneIndicator = fiveStarRuneIndicator;
+  }
+
+  public void setGetGemLocation(final Point point) {
+    props.setProperty(GET_GEM_LOC_X, String.valueOf(point.x));
+    props.setProperty(GET_GEM_LOC_Y, String.valueOf(point.y));
   }
 
   public void setGetRewardLocation(final Point point) {
@@ -613,6 +650,11 @@ public class GameConfig {
     props.setProperty(SELL_ALL_RUNE, String.valueOf(value));
   }
 
+  public void setSellGemLocation(final Point point) {
+    props.setProperty(SELL_GEM_LOC_X, String.valueOf(point.x));
+    props.setProperty(SELL_GEM_LOC_Y, String.valueOf(point.y));
+  }
+
   public void setSellRuneConfirmation(final Point point) {
     props.setProperty(SELL_RUNE_CONFIRM_X, String.valueOf(point.x));
     props.setProperty(SELL_RUNE_CONFIRM_Y, String.valueOf(point.y));
@@ -634,6 +676,10 @@ public class GameConfig {
 
   public void setStartBattleIndicator(final BufferedImage startBattleIndicator) {
     this.startBattleIndicator = startBattleIndicator;
+  }
+
+  public void setStoneRewardIndicator(final BufferedImage stoneRewardIndicator) {
+    this.stoneRewardIndicator = stoneRewardIndicator;
   }
 
   private BufferedImage loadImage(final File imageFile) throws IOException {

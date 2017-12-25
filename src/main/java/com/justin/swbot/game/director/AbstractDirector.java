@@ -38,6 +38,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.RUNE_REWARD) {
       proceedRuneReward(gameStatus);
       return true;
+    } else if (gameState == GameState.GEM_REWARD) {
+      proceedGemReward(gameStatus);
+      return true;
     } else if (gameState == GameState.OTHER_REWARD) {
       proceedOtherReward();
       return true;
@@ -103,6 +106,24 @@ public abstract class AbstractDirector implements ScenarioDirector {
     }
   }
 
+  protected void collectStone(final GameStatus gameStatus) throws IOException {
+    final GameConfig gameConfig = GameConfig.get();
+    boolean pickRune = gameConfig.isPickAllRune();
+    if (!gameConfig.isPickAllRune()) {
+      pickRune = applyStoneFilter(gameStatus);
+    }
+    if (pickRune) {
+      progressMessage("Collecting stone...");
+      tapScreen(gameConfig.getGetGemLocationX(), gameConfig.getGetGemLocationY());
+      if (gameConfig.isRuneLog()) {
+        screenLog(gameStatus, new File("runeLog"));
+      }
+    } else {
+      // Rune will be sold if non of rules are matching
+      sellStone(gameStatus);
+    }
+  }
+
   protected void confirmSellRune() {
     progressMessage("Confirm to sell rune...");
     final GameConfig gameConfig = GameConfig.get();
@@ -119,6 +140,19 @@ public abstract class AbstractDirector implements ScenarioDirector {
     progressMessage("Enabling auto mode...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getEnableAutoModeX(), gameConfig.getEnableAutoModeY());
+  }
+
+  protected void proceedGemReward(final GameStatus gameStatus) {
+    final GameConfig gameConfig = GameConfig.get();
+    if (gameConfig.isSellAllRune()) {
+      sellStone(gameStatus);
+    } else {
+      try {
+        collectStone(gameStatus);
+      } catch (final IOException ex) {
+        throw new RuntimeException("Error when collect stone", ex);
+      }
+    }
   }
 
   protected void proceedOtherReward() {
@@ -199,6 +233,16 @@ public abstract class AbstractDirector implements ScenarioDirector {
     }
   }
 
+  protected void sellStone(final GameStatus gameStatus) {
+    progressMessage("Selling stone...");
+    final GameConfig gameConfig = GameConfig.get();
+    tapScreen(gameConfig.getSellGemLocationX(), gameConfig.getSellGemLocationY());
+
+    if (gameConfig.isRuneLog()) {
+      screenLog(gameStatus, new File("runeLog", "sold"));
+    }
+  }
+
   protected void sleep(final long sleepMs) {
     try {
       Thread.sleep(sleepMs);
@@ -261,6 +305,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
         return true;
       }
     }
+    return false;
+  }
+
+  private boolean applyStoneFilter(final GameStatus gameStatus) throws IOException {
+    final GameConfig gameConfig = GameConfig.get();
+    final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
     if (gameConfig.isPickSpdPercentGrindstone()) {
       final Rectangle box = gameConfig.getGrindstoneStatAreaBox();
       final BufferedImage grindImage = screenImage.getSubimage(box.x, box.y, box.width, box.height);

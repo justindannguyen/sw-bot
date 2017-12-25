@@ -102,6 +102,9 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getUnstableNetworkBoxPicker().setValueListener(this);
     ui.getGrindPercentCheckbox().addItemListener(this);
     ui.getGrindGemBoxPicker().setValueListener(this);
+    ui.getSellStonePointPicker().setValueListener(this);
+    ui.getGetStonePointPicker().setValueListener(this);
+    ui.getStoneRewardImagePicker().setValueListener(this);
 
     ui.addWindowListener(new WindowAdapter() {
       @Override
@@ -230,6 +233,12 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       model.setFiveStarRuneIndicator((BufferedImage) newValue);
     } else if (source == ui.getGrindGemBoxPicker()) {
       model.setGrindStatArea((Rectangle) newValue);
+    } else if (source == ui.getSellStonePointPicker()) {
+      model.setSellStoneLocation((Point) newValue);
+    } else if (source == ui.getGetStonePointPicker()) {
+      model.setGetStoneRewardLocation((Point) newValue);
+    } else if (source == ui.getStoneRewardImagePicker()) {
+      model.setStoneRewardIndicator((BufferedImage) newValue);
     }
   }
 
@@ -321,6 +330,15 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     if (model.getNetworkUnstableIndicator() != null) {
       config.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
     }
+    if (model.getStoneRewardIndicator() != null) {
+      config.setStoneRewardIndicator(model.getStoneRewardIndicator());
+    }
+    if (model.getGetStoneRewardLocation() != null) {
+      config.setGetGemLocation(model.getGetStoneRewardLocation());
+    }
+    if (model.getSellStoneLocation() != null) {
+      config.setSellGemLocation(model.getSellStoneLocation());
+    }
     config.setClickRandom(model.isRandomClick());
     config.setSellAllRune(model.isSellAllRune());
     config.setRuneLog(model.isRunLog());
@@ -332,7 +350,7 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     config.setPick5StarRune(model.isPickFiveStarRune());
     config.setPick6StarRune(model.isPickSixStarRune());
     config.setSixStarRuneIndicator(model.getSixStarRuneIndicator());
-    config.setFiveStartRuneIndicator(model.getFiveStarRuneIndicator());
+    config.setFiveStarRuneIndicator(model.getFiveStarRuneIndicator());
     config.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
     box = model.getGrindStatArea();
     config.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
@@ -387,5 +405,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getUnstableNetworkBoxPicker().setData(model.getNetworkUnstableIndicator());
     ui.getGrindPercentCheckbox().setSelected(model.isPickGrindSpdPercent());
     ui.getGrindGemBoxPicker().setData(model.getGrindStatArea());
+    ui.getSellStonePointPicker().setData(model.getSellStoneLocation());
+    ui.getGetStonePointPicker().setData(model.getGetStoneRewardLocation());
+    ui.getStoneRewardImagePicker().setData(model.getStoneRewardIndicator());
   }
 }

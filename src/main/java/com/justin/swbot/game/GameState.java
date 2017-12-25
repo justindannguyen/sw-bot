@@ -28,10 +28,13 @@ public enum GameState {
    */
   BATTLE_ENDED,
   /**
-   * Rune & rune enchant materials are considered in this category. Ideally, it will have get or
-   * sell actions.
+   * only Rune are considered in this category. Ideally, it will have get or sell actions.
    */
   RUNE_REWARD,
+  /**
+   * Grindstone and gem are considered in this category. Ideally, it will have get or sell actions.
+   */
+  GEM_REWARD,
   /**
    * Other rewards which only have 1 OK (get) action.
    */

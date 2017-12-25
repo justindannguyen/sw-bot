@@ -26,8 +26,10 @@ public class AddProfileModel extends Observable {
 
   private boolean sellAllRune;
   private Point sellRuneLocation;
+  private Point sellStoneLocation;
   private Point sellRuneConfirmLocation;
   private Point getRuneRewardLocation;
+  private Point getStoneRewardLocation;
   private Point getRewardLocation;
   private Rectangle rareLevelArea;
   private boolean runLog;
@@ -59,6 +61,7 @@ public class AddProfileModel extends Observable {
   private BufferedImage noEnergyIndicator;
   private BufferedImage networkDelayIndicator;
   private BufferedImage networkUnstableIndicator;
+  private BufferedImage stoneRewardIndicator;
 
   public Point getAckRefillSuccessLocation() {
     return ackRefillSuccessLocation;
@@ -102,6 +105,10 @@ public class AddProfileModel extends Observable {
 
   public Point getGetRuneRewardLocation() {
     return getRuneRewardLocation;
+  }
+
+  public Point getGetStoneRewardLocation() {
+    return getStoneRewardLocation;
   }
 
   public Rectangle getGrindStatArea() {
@@ -172,6 +179,10 @@ public class AddProfileModel extends Observable {
     return sellRuneLocation;
   }
 
+  public Point getSellStoneLocation() {
+    return sellStoneLocation;
+  }
+
   public BufferedImage getSixStarRuneIndicator() {
     return sixStarRuneIndicator;
   }
@@ -182,6 +193,10 @@ public class AddProfileModel extends Observable {
 
   public Point getStartBattleLocation() {
     return startBattleLocation;
+  }
+
+  public BufferedImage getStoneRewardIndicator() {
+    return stoneRewardIndicator;
   }
 
   public boolean isPickAllRune() {
@@ -269,6 +284,12 @@ public class AddProfileModel extends Observable {
     resendBattleInfoLocation = config.isEmpty() ? null
         : new Point(Integer.valueOf(config.getResendBattleInfoX()),
             Integer.valueOf(config.getResendBattleInfoY()));
+    getStoneRewardLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getGetGemLocationX()),
+            Integer.valueOf(config.getGetGemLocationY()));
+    sellStoneLocation = config.isEmpty() ? null
+        : new Point(Integer.valueOf(config.getSellGemLocationX()),
+            Integer.valueOf(config.getSellGemLocationY()));
     randomClick = config.isClickRandom();
     sellAllRune = config.isSellAllRune();
     runLog = config.isRuneLog();
@@ -292,6 +313,7 @@ public class AddProfileModel extends Observable {
     noEnergyIndicator = config.getNoEnergyIndicator();
     networkDelayIndicator = config.getNetworkDelayIndicator();
     networkUnstableIndicator = config.getNetworkUnstableIndicator();
+    stoneRewardIndicator = config.getStoneRewardIndicator();
 
     setChanged();
     notifyObservers(MODEL_LOADED);
@@ -339,6 +361,10 @@ public class AddProfileModel extends Observable {
 
   public void setGetRuneRewardLocation(final Point getRuneRewardLocation) {
     this.getRuneRewardLocation = getRuneRewardLocation;
+  }
+
+  public void setGetStoneRewardLocation(final Point getStoneRewardLocation) {
+    this.getStoneRewardLocation = getStoneRewardLocation;
   }
 
   public void setGrindStatArea(final Rectangle grindStatArea) {
@@ -445,6 +471,10 @@ public class AddProfileModel extends Observable {
     this.sellRuneLocation = sellRuneLocation;
   }
 
+  public void setSellStoneLocation(final Point sellStoneLocation) {
+    this.sellStoneLocation = sellStoneLocation;
+  }
+
   public void setSixStarRuneIndicator(final BufferedImage sixStarRuneIndicator) {
     this.sixStarRuneIndicator = sixStarRuneIndicator;
   }
@@ -455,5 +485,9 @@ public class AddProfileModel extends Observable {
 
   public void setStartBattleLocation(final Point startBattleLocation) {
     this.startBattleLocation = startBattleLocation;
+  }
+
+  public void setStoneRewardIndicator(final BufferedImage stoneRewardIndicator) {
+    this.stoneRewardIndicator = stoneRewardIndicator;
   }
 }
