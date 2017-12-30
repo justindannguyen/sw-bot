@@ -30,26 +30,26 @@ public class OcrUtilTest extends BaseTest {
   }
 
   /**
-   * Test method for {@link com.justin.swbot.util.OcrUtil#text(MemImage)}.
+   * Test method for {@link com.justin.swbot.util.OcrUtil#text(MemImage, Rectangle)}.
    */
   @Test
   public void testTextBufferedImage() {
     final String sourceFile = "src/test/resources/hero.png";
-    Assert.assertEquals("Hero", ocrUtil.text(new File(sourceFile)));
+    Assert.assertEquals("Hero", ocrUtil.text(new File(sourceFile), null));
   }
 
   /**
-   * Test method for {@link com.justin.swbot.util.OcrUtil#text(java.io.File)}.
+   * Test method for {@link com.justin.swbot.util.OcrUtil#text(java.io.File, Rectangle)}.
    */
   @Test
   public void testTextFile() throws IOException {
     final String sourceFile = "src/test/resources/hero.png";
-    Assert.assertEquals("Hero", ocrUtil.text(new MemImage<>(ImageIO.read(new File(sourceFile)))));
+    Assert.assertEquals("Hero", ocrUtil.text(new MemImage<>(ImageIO.read(new File(sourceFile))), null));
   }
 
   @Test
   public void testTextFile_withPercent() throws IOException {
     final String sourceFile = "src/test/resources/percent.png";
-    Assert.assertTrue(ocrUtil.text(new MemImage<>(ImageIO.read(new File(sourceFile)))).contains("°/o"));
+    Assert.assertTrue(ocrUtil.text(new MemImage<>(ImageIO.read(new File(sourceFile))), null).contains("°/o"));
   }
 }

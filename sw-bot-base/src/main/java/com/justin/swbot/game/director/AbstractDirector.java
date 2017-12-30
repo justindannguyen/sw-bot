@@ -328,7 +328,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     private boolean applyStoneFilter(final GameStatus gameStatus) throws IOException {
         if (gameConfig.isPickSpdPercentGrindstone()) {
             final String grindOptions = runeRecognizer.readGrindOptions(gameStatus.getScreenFile());
-            final boolean percentOption = grindOptions.contains("°/o");
+            final boolean percentOption = grindOptions.contains("°/o") || grindOptions.contains("%");
             final boolean spdOption = grindOptions.contains("SPD");
             if (percentOption || spdOption) {
                 return true;

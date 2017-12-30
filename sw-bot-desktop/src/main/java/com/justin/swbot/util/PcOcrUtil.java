@@ -14,23 +14,35 @@ import java.io.File;
  * @author tuan3.nguyen@gmail.com
  */
 public class PcOcrUtil implements OcrUtil {
-  public String text(final MemImage imageFile) {
+  @Override
+  public String text(final MemImage imageFile, Rectangle box) {
     final ITesseract instance = new Tesseract(); // JNA Interface Mapping
+    String text = "";
     try {
-      return instance.doOCR((BufferedImage) imageFile.get()).trim();
+      if (box == null) {
+        text = instance.doOCR((BufferedImage) imageFile.get());
+      } else {
+        text = instance.doOCR((BufferedImage) imageFile.get(), new java.awt.Rectangle(box.x, box.y, box.width, box.height));
+      }
     } catch (final TesseractException e) {
       e.printStackTrace();
-      return "";
     }
+    return text.trim();
   }
 
-  public String text(final File imageFile) {
+  @Override
+  public String text(final File imageFile, Rectangle box) {
     final ITesseract instance = new Tesseract(); // JNA Interface Mapping
+    String text = "";
     try {
-      return instance.doOCR(imageFile).trim();
+      if (box == null) {
+        text = instance.doOCR(imageFile);
+      } else {
+        text = instance.doOCR(imageFile, new java.awt.Rectangle(box.x, box.y, box.width, box.height));
+      }
     } catch (final TesseractException e) {
       e.printStackTrace();
-      return "";
     }
+    return text.trim();
   }
 }
