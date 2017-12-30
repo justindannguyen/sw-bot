@@ -7,5 +7,9 @@ package com.justin.swbot.game.director;
  * @author tuan3.nguyen@gmail.com
  */
 public class RiftDungeonDirector extends AbstractDirector {
-
+  @Override
+  protected void startBattle() {
+    super.startBattle();
+    sleep(100000);
+  }
 }

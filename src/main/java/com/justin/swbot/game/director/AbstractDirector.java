@@ -68,9 +68,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
       resendBattleInfo();
       return true;
     } else if (gameState == GameState.IN_BATTLE) {
-      progressMessage("Wait for result of battle no %s, refill remain %s...", battleCount,
-          availableRefillTime);
-      sleep(5000);
+      wait4Battle();
       return true;
     } else if (gameState == GameState.UNKNOWN) {
       // Log unknown situation where directive can't handle
@@ -284,6 +282,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getStartBattleX(), gameConfig.getStartBattleY());
     battleCount++;
+    sleep(5000);
+  }
+
+  protected void wait4Battle() {
+    progressMessage("Wait for result of battle no %s, refill remain %s...", battleCount,
+        availableRefillTime);
     sleep(10000);
   }
 
@@ -352,7 +356,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
       final Rectangle box = gameConfig.getGrindstoneStatAreaBox();
       final BufferedImage grindImage = screenImage.getSubimage(box.x, box.y, box.width, box.height);
       final String grindOptions = OcrUtil.text(grindImage);
-      final boolean percentOption = grindOptions.contains("°/o");
+      final boolean percentOption = grindOptions.contains("°/o") || grindOptions.contains("%");
       final boolean spdOption = grindOptions.contains("SPD");
       if (percentOption || spdOption) {
         return true;

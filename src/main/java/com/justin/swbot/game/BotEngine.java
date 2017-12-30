@@ -71,6 +71,7 @@ public final class BotEngine extends Thread {
         final GameStatus gameStatus = detectGameStatus();
         homeController.updateGameStatus(gameStatus.getGameState());
         director.direct(gameStatus);
+        sleep(1000);
       } catch (final Exception e) {
         e.printStackTrace();
         homeController.updateStatus("Error in bot loop: " + e.getMessage());
@@ -114,13 +115,13 @@ public final class BotEngine extends Thread {
       gameState = GameState.GEM_REWARD;
     } else if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
       gameState = GameState.OTHER_REWARD;
-    } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
-      gameState = GameState.BATTLE_ENDED;
     } else if (doesStateMatch(screenshot, config.getNoEnergyIndicatorFile())) {
       gameState = GameState.NOT_ENOUGH_ENERGY;
+    } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
+      gameState = GameState.BATTLE_ENDED;
     } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
       gameState = GameState.NETWORK_DELAY;
-    } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, config.getNetworkUnstableIndicatorFile())) {
       gameState = GameState.UNSTABLE_NETWORK;
     } else if (doesStateMatch(screenshot, config.getInBattleIndicatorFile())) {
       gameState = GameState.IN_BATTLE;
