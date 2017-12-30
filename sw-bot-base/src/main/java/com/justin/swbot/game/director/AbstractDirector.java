@@ -293,7 +293,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
     private boolean applyRuneFilter(final GameStatus gameStatus) throws IOException {
         if (gameConfig.isPickLegendRune() || gameConfig.isPickHeroRune()) {
-            final String rareLevel = runeRecognizer.readRareLevel(gameStatus.getScreenFile());
+            final String rareLevel = runeRecognizer.readRareLevel(gameStatus.getScreenFile(), GameConfig.get().getRareLevelAreaBox());
             final boolean legend = rareLevel.equals("Legend");
             if (legend) {
                 return true;
@@ -327,7 +327,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
     private boolean applyStoneFilter(final GameStatus gameStatus) throws IOException {
         if (gameConfig.isPickSpdPercentGrindstone()) {
-            final String grindOptions = runeRecognizer.readGrindOptions(gameStatus.getScreenFile());
+            final String grindOptions = runeRecognizer.readGrindOptions(gameStatus.getScreenFile(), GameConfig.get().getGrindstoneStatAreaBox());
             final boolean percentOption = grindOptions.contains("°/o") || grindOptions.contains("%");
             final boolean spdOption = grindOptions.contains("SPD");
             if (percentOption || spdOption) {

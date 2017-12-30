@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.justin.swbot.util.PcRuneRecognizer;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.skin.SaharaSkin;
 import org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel;
@@ -26,6 +27,7 @@ public class Main {
     DependenciesRegistry.commandUtil = new PcCommandUtil();
     DependenciesRegistry.memImageUtil = new PcMemImageUtil();
     DependenciesRegistry.ocrUtil = new PcOcrUtil();
+    DependenciesRegistry.runeRecognizer = new PcRuneRecognizer();
 
     SubstanceLookAndFeel.setSkin(new SaharaSkin());
     UIManager.setLookAndFeel(new SubstanceSaharaLookAndFeel());

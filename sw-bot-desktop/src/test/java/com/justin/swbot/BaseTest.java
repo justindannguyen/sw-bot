@@ -4,6 +4,7 @@ import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.util.PcCommandUtil;
 import com.justin.swbot.util.PcMemImageUtil;
 import com.justin.swbot.util.PcOcrUtil;
+import com.justin.swbot.util.PcRuneRecognizer;
 
 /**
  * Created by akivamu on 28/12/17.
@@ -13,5 +14,6 @@ public abstract class BaseTest {
     DependenciesRegistry.commandUtil = new PcCommandUtil();
     DependenciesRegistry.memImageUtil = new PcMemImageUtil();
     DependenciesRegistry.ocrUtil = new PcOcrUtil();
+    DependenciesRegistry.runeRecognizer = new PcRuneRecognizer();
   }
 }
