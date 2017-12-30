@@ -24,7 +24,7 @@ public abstract class AbstractPicker extends JPanel implements ActionListener {
   private JButton browseButton;
   protected ValueListener valueListener;
   private JButton infoButton;
-  protected Object data;
+  private Object data;
 
   public AbstractPicker() {
     initGUI();

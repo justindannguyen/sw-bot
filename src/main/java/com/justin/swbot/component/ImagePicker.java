@@ -36,7 +36,7 @@ public class ImagePicker extends AbstractPicker {
   @Override
   protected void viewData() {
     super.viewData();
-    if (data != null) {
+    if (getData() != null) {
       final BufferedImage image = (BufferedImage) getData();
       final JLabel label = new JLabel();
       label.setIcon(new ImageIcon(image));
