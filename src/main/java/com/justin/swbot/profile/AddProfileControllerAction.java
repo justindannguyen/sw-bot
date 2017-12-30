@@ -108,6 +108,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getInBattleImagePicker().setValueListener(this);
     ui.getSellStoneConfirmPointPicker().setValueListener(this);
     ui.getConfirmSellStoneImagePicker().setValueListener(this);
+    ui.getReviveImagePicker().setValueListener(this);
+    ui.getNoRevivePointPicker().setValueListener(this);
 
     ui.addWindowListener(new WindowAdapter() {
       @Override
@@ -248,6 +250,10 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       model.setSellStoneConfirmLocation((Point) newValue);
     } else if (source == ui.getConfirmSellStoneImagePicker()) {
       model.setConfirmSellStoneIndicator((BufferedImage) newValue);
+    } else if (source == ui.getReviveImagePicker()) {
+      model.setReviveIndicator((BufferedImage) newValue);
+    } else if (source == ui.getNoRevivePointPicker()) {
+      model.setReviveNoLocation((Point) newValue);
     }
   }
 
@@ -372,6 +378,9 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     config.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
     box = model.getGrindStatArea();
     config.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
+    config.setReviveIndicator(model.getReviveIndicator());
+    config.setReviveNoLocation(model.getReviveNoLocation());
+
     config.save();
 
     controller.unlaunchUI();
@@ -429,5 +438,7 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getInBattleImagePicker().setData(model.getInBattleIndicator());
     ui.getSellStoneConfirmPointPicker().setData(model.getSellStoneConfirmLocation());
     ui.getConfirmSellStoneImagePicker().setData(model.getConfirmSellStoneIndicator());
+    ui.getReviveImagePicker().setData(model.getReviveIndicator());
+    ui.getNoRevivePointPicker().setData(model.getReviveNoLocation());
   }
 }

@@ -119,6 +119,10 @@ public class AddProfileUI extends JFrame {
   private PointPicker sellStoneConfirmPointPicker;
   private JLabel lblConfirmSellStone;
   private ImagePicker confirmSellStoneImagePicker;
+  private JLabel lblNotRevive;
+  private PointPicker noRevivePointPicker;
+  private JLabel lblReviveIndicator;
+  private ImagePicker reviveImagePicker;
 
   public AddProfileUI() {
     initGUI();
@@ -303,6 +307,13 @@ public class AddProfileUI extends JFrame {
     return noEnergyBoxPicker;
   }
 
+  public PointPicker getNoRevivePointPicker() {
+    if (noRevivePointPicker == null) {
+    	noRevivePointPicker = new PointPicker();
+    }
+    return noRevivePointPicker;
+  }
+
   public ImagePicker getOtherRewardBoxPicker() {
     if (otherRewardBoxPicker == null) {
       otherRewardBoxPicker = new ImagePicker();
@@ -357,6 +368,13 @@ public class AddProfileUI extends JFrame {
       resendBattleInfoPointPicker = new PointPicker();
     }
     return resendBattleInfoPointPicker;
+  }
+
+  public ImagePicker getReviveImagePicker() {
+    if (reviveImagePicker == null) {
+      reviveImagePicker = new ImagePicker();
+    }
+    return reviveImagePicker;
   }
 
   public ImagePicker getRuneRewardBoxPicker() {
@@ -469,7 +487,7 @@ public class AddProfileUI extends JFrame {
   private JPanel getCommonTab() {
     if (commonTab == null) {
       commonTab = new JPanel();
-      commonTab.setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][]"));
+      commonTab.setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][]"));
       commonTab.add(getLblProfileName(), "cell 0 0");
       commonTab.add(getTextField(), "cell 1 0");
       commonTab.add(getLblReplayBattleLocation(), "cell 0 1");
@@ -482,7 +500,9 @@ public class AddProfileUI extends JFrame {
       commonTab.add(getNetworkDelayPointPicker(), "cell 1 4");
       commonTab.add(getLblUnstableNetwork(), "cell 0 5");
       commonTab.add(getResendBattleInfoPointPicker(), "cell 1 5");
-      commonTab.add(getRandomClickCheckbox(), "cell 0 6");
+      commonTab.add(getLblNotRevive(), "cell 0 6");
+      commonTab.add(getNoRevivePointPicker(), "cell 1 6,grow");
+      commonTab.add(getRandomClickCheckbox(), "cell 0 7");
     }
     return commonTab;
   }
@@ -622,6 +642,13 @@ public class AddProfileUI extends JFrame {
     return lblNotRechargeEnergy;
   }
 
+  private JLabel getLblNotRevive() {
+    if (lblNotRevive == null) {
+    	lblNotRevive = new JLabel("Not Revive");
+    }
+    return lblNotRevive;
+  }
+
   private JLabel getLblOtherRewardIndicator() {
     if (lblOtherRewardIndicator == null) {
       lblOtherRewardIndicator = new JLabel("Other Reward Indicator");
@@ -677,6 +704,13 @@ public class AddProfileUI extends JFrame {
           "After the battle, screen will display REPLAY or NO, this point is used to replay battle.");
     }
     return lblReplayBattleLocation;
+  }
+
+  private JLabel getLblReviveIndicator() {
+    if (lblReviveIndicator == null) {
+    	lblReviveIndicator = new JLabel("Revive Indicator");
+    }
+    return lblReviveIndicator;
   }
 
   private JLabel getLblRuneRules() {
@@ -838,7 +872,7 @@ public class AddProfileUI extends JFrame {
     if (statusIndicatorTab == null) {
       statusIndicatorTab = new JPanel();
       statusIndicatorTab
-          .setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][][][][][]"));
+          .setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][][][][][][]"));
       statusIndicatorTab.add(getLblReplayBattleIndicator(), "cell 0 0");
       statusIndicatorTab.add(getReplayBattleBoxPicker(), "cell 1 0,grow");
       statusIndicatorTab.add(getLblStartBattleIndicator(), "cell 0 1");
@@ -865,6 +899,8 @@ public class AddProfileUI extends JFrame {
       statusIndicatorTab.add(getUnstableNetworkBoxPicker(), "cell 1 11,grow");
       statusIndicatorTab.add(getLblInBattleIndicator(), "cell 0 12");
       statusIndicatorTab.add(getInBattleImagePicker(), "cell 1 12,grow");
+      statusIndicatorTab.add(getLblReviveIndicator(), "cell 0 13");
+      statusIndicatorTab.add(getReviveImagePicker(), "cell 1 13,grow");
     }
     return statusIndicatorTab;
   }

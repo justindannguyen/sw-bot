@@ -23,6 +23,7 @@ public class AddProfileModel extends Observable {
   private Point resendBattleInfoLocation;
   private Point enableAutoAttackLocation;
   private boolean randomClick;
+  private Point reviveNoLocation;
 
   private boolean sellAllRune;
   private Point sellRuneLocation;
@@ -65,6 +66,7 @@ public class AddProfileModel extends Observable {
   private BufferedImage stoneRewardIndicator;
   private BufferedImage inBattleIndicator;
   private BufferedImage confirmSellStoneIndicator;
+  private BufferedImage reviveIndicator;
 
   public Point getAckRefillSuccessLocation() {
     return ackRefillSuccessLocation;
@@ -176,6 +178,14 @@ public class AddProfileModel extends Observable {
 
   public Point getResendBattleInfoLocation() {
     return resendBattleInfoLocation;
+  }
+
+  public BufferedImage getReviveIndicator() {
+    return reviveIndicator;
+  }
+
+  public Point getReviveNoLocation() {
+    return reviveNoLocation;
   }
 
   public BufferedImage getRuneRewardIndiator() {
@@ -308,6 +318,8 @@ public class AddProfileModel extends Observable {
     stoneRewardIndicator = config.getStoneRewardIndicator();
     inBattleIndicator = config.getInBattleIndicator();
     confirmSellStoneIndicator = config.getConfirmSellStoneIndicator();
+    reviveIndicator = config.getReviveIndicator();
+    reviveNoLocation = getLocation(config.getReviveNoX(), config.getReviveNoY());
 
     setChanged();
     notifyObservers(MODEL_LOADED);
@@ -451,6 +463,14 @@ public class AddProfileModel extends Observable {
 
   public void setResendBattleInfoLocation(final Point resendBattleInfoLocation) {
     this.resendBattleInfoLocation = resendBattleInfoLocation;
+  }
+
+  public void setReviveIndicator(final BufferedImage reviveIndicator) {
+    this.reviveIndicator = reviveIndicator;
+  }
+
+  public void setReviveNoLocation(final Point reviveNoLocation) {
+    this.reviveNoLocation = reviveNoLocation;
   }
 
   public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {

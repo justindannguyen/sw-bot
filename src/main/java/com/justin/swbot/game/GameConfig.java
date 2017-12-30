@@ -66,6 +66,8 @@ public class GameConfig {
   public static final String PICK_5_STAR_RUNE = "pickFiveStarRunes";
   public static final String PICK_SPD_PERCENT_GRIND = "pickSpdPercentGrind";
   public static final String GRINDSTONE_STAT_AREA = "grindstoneStatBox";
+  public static final String REVIVE_NO_X = "reviveNoX";
+  public static final String REVIVE_NO_Y = "reviveNoY";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -91,6 +93,7 @@ public class GameConfig {
   private BufferedImage stoneRewardIndicator;
   private BufferedImage inBattleIndicator;
   private BufferedImage confirmSellStoneIndicator;
+  private BufferedImage reviveIndicator;
 
   public void clear() {
     this.profileName = null;
@@ -358,6 +361,24 @@ public class GameConfig {
     return props.getProperty(RESEND_BATTLE_INFO_Y);
   }
 
+  public BufferedImage getReviveIndicator() {
+    return reviveIndicator;
+  }
+
+  public File getReviveIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "reviveIndicator");
+  }
+
+  public String getReviveNoX() {
+    return props.getProperty(REVIVE_NO_X);
+  }
+
+  public String getReviveNoY() {
+    return props.getProperty(REVIVE_NO_Y);
+  }
+
   public BufferedImage getRuneRewardIndiator() {
     return runeRewardIndiator;
   }
@@ -502,6 +523,7 @@ public class GameConfig {
       stoneRewardIndicator = loadImage(getStoneRewardIndicatorFile());
       inBattleIndicator = loadImage(getInBattleIndicatorFile());
       confirmSellStoneIndicator = loadImage(getConfirmSellStoneIndicatorFile());
+      reviveIndicator = loadImage(getReviveIndicatorFile());
     } catch (final IOException ex) {
       System.err.println("Can't load the game configuration");
       ex.printStackTrace();
@@ -532,6 +554,7 @@ public class GameConfig {
       storeImage(stoneRewardIndicator, getStoneRewardIndicatorFile());
       storeImage(inBattleIndicator, getInBattleIndicatorFile());
       storeImage(confirmSellStoneIndicator, getConfirmSellStoneIndicatorFile());
+      storeImage(reviveIndicator, getReviveIndicatorFile());
     } catch (final IOException ex) {
       throw new RuntimeException("Could not store the profile", ex);
     }
@@ -688,6 +711,15 @@ public class GameConfig {
   public void setResendBattleInfoX(final Point point) {
     props.setProperty(RESEND_BATTLE_INFO_X, String.valueOf(point.x));
     props.setProperty(RESEND_BATTLE_INFO_Y, String.valueOf(point.y));
+  }
+
+  public void setReviveIndicator(final BufferedImage reviveIndicator) {
+    this.reviveIndicator = reviveIndicator;
+  }
+
+  public void setReviveNoLocation(final Point point) {
+    props.setProperty(REVIVE_NO_X, String.valueOf(point.x));
+    props.setProperty(REVIVE_NO_Y, String.valueOf(point.y));
   }
 
   public void setRuneLog(final boolean value) {

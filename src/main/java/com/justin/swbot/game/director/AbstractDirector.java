@@ -37,6 +37,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.BATTLE_ENDED) {
       ackBattleResult();
       return true;
+    } else if (gameState == GameState.BATTLE_ENDED_FAIL) {
+      ackBattleResultFailure();
+      return true;
     } else if (gameState == GameState.RUNE_REWARD) {
       proceedRuneReward(gameStatus);
       return true;
@@ -97,9 +100,20 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void ackBattleResult() {
     progressMessage("Ending battle...");
-    tapScreen("50", "900");
+    tapScreen("400", "900");
     sleep(1000);
-    tapScreen("50", "900");
+    tapScreen("400", "900");
+  }
+
+  protected void ackBattleResultFailure() {
+    progressMessage("Battle fail!!! Not revive...");
+    final GameConfig gameConfig = GameConfig.get();
+    tapScreen(gameConfig.getReviveNoX(), gameConfig.getReviveNoY());
+
+    sleep(100);
+    tapScreen("400", "900");
+    sleep(100);
+    replayBattle();
   }
 
   /**

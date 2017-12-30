@@ -119,6 +119,8 @@ public final class BotEngine extends Thread {
       gameState = GameState.NOT_ENOUGH_ENERGY;
     } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
       gameState = GameState.BATTLE_ENDED;
+    } else if (doesStateMatch(screenshot, config.getReviveIndicatorFile())) {
+      gameState = GameState.BATTLE_ENDED_FAIL;
     } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
       gameState = GameState.NETWORK_DELAY;
     } else if (doesStateMatch(screenshot, config.getNetworkUnstableIndicatorFile())) {
