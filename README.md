@@ -21,7 +21,7 @@ This is the fun project and use it as your own risk. We will not responsible for
 | Java    | 1.8     | Java is being used to have the basic logic flow and Swing is being used to develop the UI.      |
 | JavaCV  | 1.3.3   | To detect the game status, we use [javacv](https://github.com/bytedeco/javacv) on top of opencv |
 | ADB     | -       | Communication with phone and have click command.                                                |
-| ORC     | 3.0     | Read rune options                                                |
+| ORC     | 3.0     | Read rune options                                                                               |
 | Maven   | -       | Build platform                                                                                  |
 | Eclipse | Phonton | Development IDE                                                                                 |
 
@@ -49,3 +49,6 @@ This is the fun project and use it as your own risk. We will not responsible for
   * [x] Pick grindstone and gem with SPD or %.
 * [ ] Rift raid farming.
 * [ ] Full runes warehouse
+* [ ] Wifi ADB.
+* [ ] 3G ADB
+* [x] Auto on android phone itself, no PC. -> https://github.com/akivamu/sw-bot-android
