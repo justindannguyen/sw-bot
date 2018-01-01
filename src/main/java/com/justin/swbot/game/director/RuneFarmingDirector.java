@@ -10,6 +10,6 @@ public class RuneFarmingDirector extends AbstractDirector {
   @Override
   protected void startBattle() {
     super.startBattle();
-    sleep(40000);
+    sleep(60000);
   }
 }

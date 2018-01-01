@@ -24,6 +24,8 @@ public class AddProfileModel extends Observable {
   private Point enableAutoAttackLocation;
   private boolean randomClick;
   private Point reviveNoLocation;
+  private Point rechargeCrysNoLocation;
+  private BufferedImage noCrysIndicator;
 
   private boolean sellAllRune;
   private Point sellRuneLocation;
@@ -140,6 +142,10 @@ public class AddProfileModel extends Observable {
     return networkUnstableIndicator;
   }
 
+  public BufferedImage getNoCrysIndicator() {
+    return noCrysIndicator;
+  }
+
   public BufferedImage getNoEnergyIndicator() {
     return noEnergyIndicator;
   }
@@ -154,6 +160,10 @@ public class AddProfileModel extends Observable {
 
   public Rectangle getRareLevelArea() {
     return rareLevelArea;
+  }
+
+  public Point getRechargeCrysNoLocation() {
+    return rechargeCrysNoLocation;
   }
 
   public Point getRechargeEnergyNoLocation() {
@@ -320,6 +330,8 @@ public class AddProfileModel extends Observable {
     confirmSellStoneIndicator = config.getConfirmSellStoneIndicator();
     reviveIndicator = config.getReviveIndicator();
     reviveNoLocation = getLocation(config.getReviveNoX(), config.getReviveNoY());
+    noCrysIndicator = config.getNoCrysIndicator();
+    rechargeCrysNoLocation = getLocation(config.getRechargeCrysNoX(), config.getRechargeCrysNoY());
 
     setChanged();
     notifyObservers(MODEL_LOADED);
@@ -397,6 +409,10 @@ public class AddProfileModel extends Observable {
     this.networkUnstableIndicator = networkUnstableIndicator;
   }
 
+  public void setNoCrysIndicator(final BufferedImage noCrysIndicator) {
+    this.noCrysIndicator = noCrysIndicator;
+  }
+
   public void setNoEnergyIndicator(final BufferedImage noEnergyIndicator) {
     this.noEnergyIndicator = noEnergyIndicator;
   }
@@ -439,6 +455,10 @@ public class AddProfileModel extends Observable {
 
   public void setRareLevelArea(final Rectangle rareLevelArea) {
     this.rareLevelArea = rareLevelArea;
+  }
+
+  public void setRechargeCrysNoLocation(final Point rechargeCrysNoLocation) {
+    this.rechargeCrysNoLocation = rechargeCrysNoLocation;
   }
 
   public void setRechargeEnergyNoLocation(final Point rechargeEnergyNoLocation) {

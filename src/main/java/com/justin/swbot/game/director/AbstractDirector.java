@@ -26,7 +26,7 @@ import com.justin.swbot.home.HomeController;
 public abstract class AbstractDirector implements ScenarioDirector {
   private int availableRefillTime;
   private int battleCount;
-  private int refillCount;
+  private int deadCount;
 
   @Override
   public boolean direct(final GameStatus gameStatus) {
@@ -73,6 +73,9 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else if (gameState == GameState.IN_BATTLE) {
       wait4Battle();
       return true;
+    } else if (gameState == GameState.NO_CRYS) {
+      notRefillCrys();
+      return true;
     } else if (gameState == GameState.UNKNOWN) {
       // Log unknown situation where directive can't handle
       screenLog(gameStatus, new File("unknownStates"));
@@ -92,7 +95,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     final GameConfig gameConfig = GameConfig.get();
     availableRefillTime = Integer.valueOf(gameConfig.getRefillTimes());
     battleCount = 0;
-    refillCount = 0;
+    deadCount = 0;
   }
 
   /**
@@ -114,6 +117,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     tapScreen("400", "900");
     sleep(100);
     replayBattle();
+    deadCount++;
   }
 
   /**
@@ -180,6 +184,13 @@ public abstract class AbstractDirector implements ScenarioDirector {
     progressMessage("Enabling auto mode...");
     final GameConfig gameConfig = GameConfig.get();
     tapScreen(gameConfig.getEnableAutoModeX(), gameConfig.getEnableAutoModeY());
+  }
+
+  protected void notRefillCrys() {
+    final GameConfig gameConfig = GameConfig.get();
+    progressMessage("Not refill crys, wait for energy instead...");
+    tapScreen(gameConfig.getRechargeCrysNoX(), gameConfig.getRechargeCrysNoY());
+    availableRefillTime = 0;
   }
 
   protected void proceedGemReward(final GameStatus gameStatus) {
@@ -300,8 +311,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void wait4Battle() {
-    progressMessage("Wait for result of battle no %s, refill remain %s...", battleCount,
-        availableRefillTime);
+    progressMessage("Wait for result of battle (%s/%s), refill remain %s...", deadCount,
+        battleCount, availableRefillTime);
     sleep(10000);
   }
 
@@ -391,7 +402,6 @@ public abstract class AbstractDirector implements ScenarioDirector {
     } else {
       refillEnergy();
       availableRefillTime--;
-      refillCount++;
     }
   }
 

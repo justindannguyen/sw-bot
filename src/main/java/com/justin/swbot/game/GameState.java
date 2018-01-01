@@ -65,5 +65,6 @@ public enum GameState {
    * Unstable network when start new battle.
    */
   UNSTABLE_NETWORK, 
-  BATTLE_ENDED_FAIL;
+  BATTLE_ENDED_FAIL,
+  NO_CRYS;
 }

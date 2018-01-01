@@ -123,6 +123,10 @@ public class AddProfileUI extends JFrame {
   private PointPicker noRevivePointPicker;
   private JLabel lblReviveIndicator;
   private ImagePicker reviveImagePicker;
+  private JLabel lblNotRechargeCrystals;
+  private PointPicker notRechargeCrysPointPicker;
+  private JLabel lblNoCrystalIndicator;
+  private ImagePicker noCrysImagePicker;
 
   public AddProfileUI() {
     initGUI();
@@ -300,6 +304,13 @@ public class AddProfileUI extends JFrame {
     return networkDelayPointPicker;
   }
 
+  public ImagePicker getNoCrysImagePicker() {
+    if (noCrysImagePicker == null) {
+    	noCrysImagePicker = new ImagePicker();
+    }
+    return noCrysImagePicker;
+  }
+
   public ImagePicker getNoEnergyBoxPicker() {
     if (noEnergyBoxPicker == null) {
       noEnergyBoxPicker = new ImagePicker();
@@ -312,6 +323,13 @@ public class AddProfileUI extends JFrame {
     	noRevivePointPicker = new PointPicker();
     }
     return noRevivePointPicker;
+  }
+
+  public PointPicker getNotRechargeCrysPointPicker() {
+    if (notRechargeCrysPointPicker == null) {
+    	notRechargeCrysPointPicker = new PointPicker();
+    }
+    return notRechargeCrysPointPicker;
   }
 
   public ImagePicker getOtherRewardBoxPicker() {
@@ -487,7 +505,7 @@ public class AddProfileUI extends JFrame {
   private JPanel getCommonTab() {
     if (commonTab == null) {
       commonTab = new JPanel();
-      commonTab.setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][]"));
+      commonTab.setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][]"));
       commonTab.add(getLblProfileName(), "cell 0 0");
       commonTab.add(getTextField(), "cell 1 0");
       commonTab.add(getLblReplayBattleLocation(), "cell 0 1");
@@ -502,7 +520,9 @@ public class AddProfileUI extends JFrame {
       commonTab.add(getResendBattleInfoPointPicker(), "cell 1 5");
       commonTab.add(getLblNotRevive(), "cell 0 6");
       commonTab.add(getNoRevivePointPicker(), "cell 1 6,grow");
-      commonTab.add(getRandomClickCheckbox(), "cell 0 7");
+      commonTab.add(getLblNotRechargeCrystals(), "cell 0 7");
+      commonTab.add(getNotRechargeCrysPointPicker(), "cell 1 7,grow");
+      commonTab.add(getRandomClickCheckbox(), "cell 0 8");
     }
     return commonTab;
   }
@@ -626,11 +646,25 @@ public class AddProfileUI extends JFrame {
     return lblNetworkDelayIndicator;
   }
 
+  private JLabel getLblNoCrystalIndicator() {
+    if (lblNoCrystalIndicator == null) {
+    	lblNoCrystalIndicator = new JLabel("No Crystal Indicator");
+    }
+    return lblNoCrystalIndicator;
+  }
+
   private JLabel getLblNoEnergyIndicator() {
     if (lblNoEnergyIndicator == null) {
       lblNoEnergyIndicator = new JLabel("No Energy Indicator");
     }
     return lblNoEnergyIndicator;
+  }
+
+  private JLabel getLblNotRechargeCrystals() {
+    if (lblNotRechargeCrystals == null) {
+    	lblNotRechargeCrystals = new JLabel("Not Recharge Crystals");
+    }
+    return lblNotRechargeCrystals;
   }
 
   private JLabel getLblNotRechargeEnergy() {
@@ -872,7 +906,7 @@ public class AddProfileUI extends JFrame {
     if (statusIndicatorTab == null) {
       statusIndicatorTab = new JPanel();
       statusIndicatorTab
-          .setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][][][][][][]"));
+          .setLayout(new MigLayout("", "[150px][grow,fill]", "[][][][][][][][][][][][][][][]"));
       statusIndicatorTab.add(getLblReplayBattleIndicator(), "cell 0 0");
       statusIndicatorTab.add(getReplayBattleBoxPicker(), "cell 1 0,grow");
       statusIndicatorTab.add(getLblStartBattleIndicator(), "cell 0 1");
@@ -901,6 +935,8 @@ public class AddProfileUI extends JFrame {
       statusIndicatorTab.add(getInBattleImagePicker(), "cell 1 12,grow");
       statusIndicatorTab.add(getLblReviveIndicator(), "cell 0 13");
       statusIndicatorTab.add(getReviveImagePicker(), "cell 1 13,grow");
+      statusIndicatorTab.add(getLblNoCrystalIndicator(), "cell 0 14");
+      statusIndicatorTab.add(getNoCrysImagePicker(), "cell 1 14,grow");
     }
     return statusIndicatorTab;
   }

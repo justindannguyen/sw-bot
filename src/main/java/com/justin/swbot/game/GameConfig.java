@@ -68,6 +68,8 @@ public class GameConfig {
   public static final String GRINDSTONE_STAT_AREA = "grindstoneStatBox";
   public static final String REVIVE_NO_X = "reviveNoX";
   public static final String REVIVE_NO_Y = "reviveNoY";
+  public static final String RECHARGE_CRYS_NO_X = "rechargeCrysNoX";
+  public static final String RECHARGE_CRYS_NO_Y = "rechargeCrysNoY";
 
   private static final GameConfig INSTANCE = new GameConfig();
   private static final String IMAGE_FORMAT = "png";
@@ -94,6 +96,7 @@ public class GameConfig {
   private BufferedImage inBattleIndicator;
   private BufferedImage confirmSellStoneIndicator;
   private BufferedImage reviveIndicator;
+  private BufferedImage noCrysIndicator;
 
   public void clear() {
     this.profileName = null;
@@ -269,6 +272,16 @@ public class GameConfig {
     return new File(profileFolder, "networkUnstableIndicator");
   }
 
+  public BufferedImage getNoCrysIndicator() {
+    return noCrysIndicator;
+  }
+
+  public File getNoCrysIndicatorFile() {
+    final File profilesFolder = getProfilesFolder();
+    final File profileFolder = new File(profilesFolder, profileName);
+    return new File(profileFolder, "noCrysIndicator");
+  }
+
   public BufferedImage getNoEnergyIndicator() {
     return noEnergyIndicator;
   }
@@ -305,6 +318,14 @@ public class GameConfig {
     final String[] box = getRareLevelArea().split(",");
     return new Rectangle(Integer.valueOf(box[0]), Integer.valueOf(box[1]), Integer.valueOf(box[2]),
         Integer.valueOf(box[3]));
+  }
+
+  public String getRechargeCrysNoX() {
+    return props.getProperty(RECHARGE_CRYS_NO_X);
+  }
+
+  public String getRechargeCrysNoY() {
+    return props.getProperty(RECHARGE_CRYS_NO_Y);
   }
 
   public String getRechargeEnergyNoX() {
@@ -524,6 +545,7 @@ public class GameConfig {
       inBattleIndicator = loadImage(getInBattleIndicatorFile());
       confirmSellStoneIndicator = loadImage(getConfirmSellStoneIndicatorFile());
       reviveIndicator = loadImage(getReviveIndicatorFile());
+      noCrysIndicator = loadImage(getNoCrysIndicatorFile());
     } catch (final IOException ex) {
       System.err.println("Can't load the game configuration");
       ex.printStackTrace();
@@ -555,6 +577,7 @@ public class GameConfig {
       storeImage(inBattleIndicator, getInBattleIndicatorFile());
       storeImage(confirmSellStoneIndicator, getConfirmSellStoneIndicatorFile());
       storeImage(reviveIndicator, getReviveIndicatorFile());
+      storeImage(noCrysIndicator, getNoCrysIndicatorFile());
     } catch (final IOException ex) {
       throw new RuntimeException("Could not store the profile", ex);
     }
@@ -640,6 +663,10 @@ public class GameConfig {
     this.networkUnstableIndicator = networkUnstableIndicator;
   }
 
+  public void setNoCrysIndicator(final BufferedImage noCrysIndicator) {
+    this.noCrysIndicator = noCrysIndicator;
+  }
+
   public void setNoEnergyIndicator(final BufferedImage noEnergyIndicator) {
     this.noEnergyIndicator = noEnergyIndicator;
   }
@@ -678,6 +705,11 @@ public class GameConfig {
 
   public void setRareLevelArea(final int x, final int y, final int w, final int h) {
     props.setProperty(RARE_LEVEL_AREA, String.format("%s,%s,%s,%s", x, y, w, h));
+  }
+
+  public void setRechargeCrysNo(final Point point) {
+    props.setProperty(RECHARGE_CRYS_NO_X, String.valueOf(point.x));
+    props.setProperty(RECHARGE_CRYS_NO_Y, String.valueOf(point.y));
   }
 
   public void setRechargeEnergy(final Point point) {

@@ -110,7 +110,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getConfirmSellStoneImagePicker().setValueListener(this);
     ui.getReviveImagePicker().setValueListener(this);
     ui.getNoRevivePointPicker().setValueListener(this);
-
+    ui.getNoCrysImagePicker().setValueListener(this);
+    ui.getNotRechargeCrysPointPicker().setValueListener(this);
     ui.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(final WindowEvent e) {
@@ -254,6 +255,10 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       model.setReviveIndicator((BufferedImage) newValue);
     } else if (source == ui.getNoRevivePointPicker()) {
       model.setReviveNoLocation((Point) newValue);
+    } else if (source == ui.getNoCrysImagePicker()) {
+      model.setNoCrysIndicator((BufferedImage) newValue);
+    } else if (source == ui.getNotRechargeCrysPointPicker()) {
+      model.setRechargeCrysNoLocation((Point) newValue);
     }
   }
 
@@ -380,6 +385,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     config.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
     config.setReviveIndicator(model.getReviveIndicator());
     config.setReviveNoLocation(model.getReviveNoLocation());
+    config.setNoCrysIndicator(model.getNoCrysIndicator());
+    config.setRechargeCrysNo(model.getRechargeCrysNoLocation());
 
     config.save();
 
@@ -440,5 +447,7 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     ui.getConfirmSellStoneImagePicker().setData(model.getConfirmSellStoneIndicator());
     ui.getReviveImagePicker().setData(model.getReviveIndicator());
     ui.getNoRevivePointPicker().setData(model.getReviveNoLocation());
+    ui.getNoCrysImagePicker().setData(model.getNoCrysIndicator());
+    ui.getNotRechargeCrysPointPicker().setData(model.getRechargeCrysNoLocation());
   }
 }
