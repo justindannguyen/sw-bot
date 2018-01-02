@@ -2,6 +2,7 @@ package com.justin.swbot.dependencies;
 
 import com.justin.swbot.Settings;
 import com.justin.swbot.ui.HomeView;
+import com.justin.swbot.util.CommandUtil;
 
 /**
  * Created by akivamu on 02/01/18.
@@ -9,4 +10,5 @@ import com.justin.swbot.ui.HomeView;
 public class DependenciesRegistry {
   public static HomeView homeView;
   public static Settings settings;
+  public static CommandUtil commandUtil;
 }

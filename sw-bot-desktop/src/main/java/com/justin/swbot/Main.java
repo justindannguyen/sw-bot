@@ -5,6 +5,7 @@ package com.justin.swbot;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.home.HomeController;
+import com.justin.swbot.util.PcCommandUtil;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.skin.SaharaSkin;
 import org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel;
@@ -22,6 +23,7 @@ public class Main {
     UIManager.setLookAndFeel(new SubstanceSaharaLookAndFeel());
 
     DependenciesRegistry.settings = new PcSettings();
+    DependenciesRegistry.commandUtil = new PcCommandUtil();
 
     final HomeController homeController = new HomeController();
     DependenciesRegistry.homeView = homeController;

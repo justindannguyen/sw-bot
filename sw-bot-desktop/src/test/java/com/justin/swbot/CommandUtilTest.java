@@ -5,6 +5,7 @@ package com.justin.swbot;
 
 import java.io.IOException;
 
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.util.CommandUtil;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -13,11 +14,18 @@ import org.junit.Test;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class CommandUtilTest {
+public class CommandUtilTest extends BaseTest {
+
+  private CommandUtil commandUtil;
+
+  public CommandUtilTest() {
+    super();
+    commandUtil = DependenciesRegistry.commandUtil;
+  }
 
   @Test
   public void testRunCmd_withInvalidCommand() {
-    Assert.assertFalse(CommandUtil.runCmd("this-is-an-invalid-command"));
+    Assert.assertFalse(commandUtil.runCmd("this-is-an-invalid-command"));
   }
 
   /**
@@ -28,20 +36,20 @@ public class CommandUtilTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testRunCmd_withInvalidParams() {
-    CommandUtil.runCmd();
+    commandUtil.runCmd();
   }
 
   @Test
   public void testRunCmd_withLinuxPingCommand() {
     // This test only run on Linux
     Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("linux"));
-    Assert.assertTrue(CommandUtil.runCmd("ping", "8.8.8.8", "-c", "1"));
+    Assert.assertTrue(commandUtil.runCmd("ping", "8.8.8.8", "-c", "1"));
   }
 
   @Test
   public void testRunCmd_withWindowsPingCommand() {
     // This test only run on Windows
     Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("win"));
-    Assert.assertTrue(CommandUtil.runCmd("ping", "8.8.8.8", "-n", "1"));
+    Assert.assertTrue(commandUtil.runCmd("ping", "8.8.8.8", "-n", "1"));
   }
 }

@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.util.CommandUtil;
 
 /**
@@ -30,12 +31,16 @@ import com.justin.swbot.util.CommandUtil;
 public abstract class AbstractPickerDialog extends JDialog {
   private static final long serialVersionUID = 1L;
 
+  private final CommandUtil commandUtil;
+
   private JLabel lblLoadingScreenshotFrom;
   private JScrollPane scrollPane;
   protected BufferedImage screenImage;
 
   public AbstractPickerDialog() {
     initGUI();
+
+    this.commandUtil = DependenciesRegistry.commandUtil;
 
     final Toolkit toolkit = Toolkit.getDefaultToolkit();
     final Dimension screenSize = toolkit.getScreenSize();
@@ -48,6 +53,7 @@ public abstract class AbstractPickerDialog extends JDialog {
     if (lblLoadingScreenshotFrom == null) {
       lblLoadingScreenshotFrom = new JLabel("...") {
         private static final long serialVersionUID = 1L;
+
         @Override
         protected void paintComponent(final Graphics g) {
           super.paintComponent(g);
@@ -71,7 +77,7 @@ public abstract class AbstractPickerDialog extends JDialog {
       @Override
       protected Void doInBackground() throws Exception {
         setProgress(0);
-        publish(CommandUtil.capturePhoneScreen());
+        publish(commandUtil.capturePhoneScreen());
         setProgress(100);
         return null;
       }

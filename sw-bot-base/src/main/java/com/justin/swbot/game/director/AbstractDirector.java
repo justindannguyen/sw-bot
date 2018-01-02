@@ -26,10 +26,16 @@ import static com.justin.swbot.game.indicator.Indicator.sixStarRuneIndicator;
  * @author tuan3.nguyen@gmail.com
  */
 public abstract class AbstractDirector implements ScenarioDirector {
+  private final CommandUtil commandUtil;
+
   private int availableRefillTime;
   private int battleCount;
   private int deadCount;
   private Profile profile;
+
+  public AbstractDirector() {
+    this.commandUtil = DependenciesRegistry.commandUtil;
+  }
 
   @Override
   public void setProfile(Profile profile) {
@@ -404,6 +410,6 @@ public abstract class AbstractDirector implements ScenarioDirector {
       tapX = String.valueOf(Integer.valueOf(x) + (int) (10 * (Math.random() - Math.random())));
       tapY = String.valueOf(Integer.valueOf(y) + (int) (10 * (Math.random() - Math.random())));
     }
-    CommandUtil.tapScreen(tapX, tapY);
+    commandUtil.tapScreen(tapX, tapY);
   }
 }

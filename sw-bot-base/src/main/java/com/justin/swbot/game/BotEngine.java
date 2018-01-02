@@ -3,6 +3,7 @@
  */
 package com.justin.swbot.game;
 
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.util.CommandUtil;
 import com.justin.swbot.util.ImageUtil;
 import com.justin.swbot.game.director.ScenarioDirector;
@@ -36,6 +37,8 @@ import static com.justin.swbot.game.indicator.Indicator.stoneRewardIndicator;
  * @author tuan3.nguyen@gmail.com
  */
 public final class BotEngine extends Thread {
+  private final CommandUtil commandUtil;
+
   private final ScenarioDirector director;
   private final HomeView homeView;
   private final Profile profile;
@@ -43,6 +46,8 @@ public final class BotEngine extends Thread {
 
   public BotEngine(ScenarioDirector director, String profileName, HomeView homeView) {
     super();
+
+    this.commandUtil = DependenciesRegistry.commandUtil;
 
     this.director = director;
     this.homeView = homeView;
@@ -77,7 +82,7 @@ public final class BotEngine extends Thread {
   }
 
   private GameStatus detectGameStatus() {
-    final String screenshot = CommandUtil.capturePhoneScreen();
+    final String screenshot = commandUtil.capturePhoneScreen();
 
     GameState gameState = GameState.UNKNOWN;
     if (doesStateMatch(screenshot, startBattleIndicator)) {
