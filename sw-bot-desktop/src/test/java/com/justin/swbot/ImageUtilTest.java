@@ -3,6 +3,7 @@
  */
 package com.justin.swbot;
 
+import com.justin.swbot.util.ImageUtil;
 import org.junit.Assert;
 import org.junit.Test;
 

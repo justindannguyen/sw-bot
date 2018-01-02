@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
-import com.justin.swbot.CommandUtil;
+import com.justin.swbot.util.CommandUtil;
 
 /**
  * @author tuan3.nguyen@gmail.com

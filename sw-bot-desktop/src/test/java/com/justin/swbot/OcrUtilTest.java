@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.justin.swbot.util.OcrUtil;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class OcrUtilTest {
   }
 
   /**
-   * Test method for {@link com.justin.swbot.OcrUtil#text(java.awt.image.BufferedImage)}.
+   * Test method for {@link OcrUtil#text(java.awt.image.BufferedImage)}.
    */
   @Test
   public void testTextBufferedImage() {
@@ -34,7 +35,7 @@ public class OcrUtilTest {
   }
 
   /**
-   * Test method for {@link com.justin.swbot.OcrUtil#text(java.io.File)}.
+   * Test method for {@link OcrUtil#text(java.io.File)}.
    */
   @Test
   public void testTextFile() throws IOException {

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2017, Justin Nguyen
  */
-package com.justin.swbot;
+package com.justin.swbot.util;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2017, Justin Nguyen
  */
-package com.justin.swbot;
+package com.justin.swbot.util;
 
 import static org.bytedeco.javacpp.opencv_core.CV_32FC1;
 import static org.bytedeco.javacpp.opencv_core.CV_8UC1;

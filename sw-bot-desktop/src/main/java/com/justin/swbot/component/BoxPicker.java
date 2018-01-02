@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-import com.justin.swbot.OcrUtil;
+import com.justin.swbot.util.OcrUtil;
 
 /**
  * @author tuan3.nguyen@gmail.com

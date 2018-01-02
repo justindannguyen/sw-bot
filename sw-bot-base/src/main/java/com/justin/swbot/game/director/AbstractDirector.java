@@ -3,9 +3,9 @@
  */
 package com.justin.swbot.game.director;
 
-import com.justin.swbot.CommandUtil;
-import com.justin.swbot.ImageUtil;
-import com.justin.swbot.OcrUtil;
+import com.justin.swbot.util.CommandUtil;
+import com.justin.swbot.util.ImageUtil;
+import com.justin.swbot.util.OcrUtil;
 import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;

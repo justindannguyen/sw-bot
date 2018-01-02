@@ -5,6 +5,7 @@ package com.justin.swbot;
 
 import java.io.IOException;
 
+import com.justin.swbot.util.CommandUtil;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class CommandUtilTest {
   }
 
   /**
-   * Test method for {@link com.justin.swbot.CommandUtil#runCmd(java.lang.String[])}.
+   * Test method for {@link CommandUtil#runCmd(java.lang.String[])}.
    *
    * @throws InterruptedException
    * @throws IOException
