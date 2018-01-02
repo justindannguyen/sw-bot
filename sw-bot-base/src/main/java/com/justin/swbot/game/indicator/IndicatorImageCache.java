@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class IndicatorImageCache<ImageType> {
-  private Map<Indicator, ImageType> indicators = new HashMap<>();
+  private Map<Indicator, ImageType> indicators = new HashMap<Indicator, ImageType>();
 
   public void loadAllIndicators(String folderPath) {
     if (folderPath == null) {

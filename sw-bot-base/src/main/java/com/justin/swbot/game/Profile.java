@@ -351,10 +351,19 @@ public class Profile {
       profileFolder.mkdirs();
     }
 
-    try (FileOutputStream fos = new FileOutputStream(new File(profileFolder, "index.properties"))) {
+    FileOutputStream fos = null;
+    try {
+      fos = new FileOutputStream(new File(profileFolder, "index.properties"));
       props.store(fos, "");
       indicatorImageCache.saveAllIndicators(getProfileFolderPath());
     } catch (final IOException ex) {
+      try {
+        if (fos != null) {
+          fos.close();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
       throw new RuntimeException("Could not store the profile", ex);
     }
   }

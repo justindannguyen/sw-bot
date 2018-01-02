@@ -10,7 +10,7 @@ import java.util.Map;
  * @author tuan3.nguyen@gmail.com
  */
 public class ControllerRegistry {
-  private static Map<String, Controller> controllers = new HashMap<>();
+  private static Map<String, Controller> controllers = new HashMap<String, Controller>();
 
   public static Controller get(final Class<? extends Controller> clazz) {
     return controllers.get(clazz.getSimpleName());
