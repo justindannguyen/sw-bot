@@ -14,16 +14,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.miglayout</groupId>
-      <artifactId>miglayout</artifactId>
-      <version>3.7.4</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.insubstantial</groupId>
-      <artifactId>substance</artifactId>
-      <version>7.3</version>
-    </dependency>
-    <dependency>
       <groupId>net.sourceforge.tess4j</groupId>
       <artifactId>tess4j</artifactId>
       <version>3.4.2</version>

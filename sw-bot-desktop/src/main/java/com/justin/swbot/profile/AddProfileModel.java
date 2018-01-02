@@ -12,6 +12,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
+import static com.justin.swbot.util.PcConverter.toAwtRectangle;
+
 /**
  * @author tuan3.nguyen@gmail.com
  */
@@ -320,13 +322,13 @@ public class AddProfileModel extends Observable {
     pickAllRune = profile.isPickAllRune();
     pickLegendRune = profile.isPickLegendRune();
     pickHeroRune = profile.isPickHeroRune();
-    rareLevelArea = profile.getRareLevelAreaBox();
+    rareLevelArea = toAwtRectangle(profile.getRareLevelAreaBox());
     pickSixStarRune = profile.isPick6StarRune();
     pickFiveStarRune = profile.isPick5StarRune();
     sixStarRuneIndicator = (BufferedImage) profile.getIndicator(Indicator.sixStarRuneIndicator);
     fiveStarRuneIndicator = (BufferedImage) profile.getIndicator(Indicator.fiveStarRuneIndicator);
     pickGrindSpdPercent = profile.isPickSpdPercentGrindstone();
-    grindStatArea = profile.getGrindstoneStatAreaBox();
+    grindStatArea = toAwtRectangle(profile.getGrindstoneStatAreaBox());
     replayBattleIndicator = (BufferedImage) profile.getIndicator(Indicator.replayBattleIndicator);
     startBattleIndicator = (BufferedImage) profile.getIndicator(Indicator.startBattleIndicator);
     battleEndIndicator = (BufferedImage) profile.getIndicator(Indicator.battleEndIndicator);

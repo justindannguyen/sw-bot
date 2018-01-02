@@ -11,9 +11,9 @@ import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.game.Profile;
 import com.justin.swbot.ui.HomeView;
+import com.justin.swbot.util.Rectangle;
 
 import javax.imageio.ImageIO;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

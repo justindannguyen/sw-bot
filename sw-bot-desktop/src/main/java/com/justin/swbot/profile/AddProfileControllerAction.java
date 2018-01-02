@@ -4,6 +4,7 @@
 package com.justin.swbot.profile;
 
 import static com.justin.swbot.profile.AddProfileModel.MODEL_LOADED;
+import static com.justin.swbot.util.PcConverter.fromAwtPoint;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -278,49 +279,49 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     profile.setName(model.getProfileName());
     profile.setRefillTimes(model.getRefillTimes());
     if (model.getReplayBattleLocation() != null) {
-      profile.setReplayBattle(model.getReplayBattleLocation());
+      profile.setReplayBattle(fromAwtPoint(model.getReplayBattleLocation()));
     }
     if (model.getStartBattleLocation() != null) {
-      profile.setStartBattle(model.getStartBattleLocation());
+      profile.setStartBattle(fromAwtPoint(model.getStartBattleLocation()));
     }
     if (model.getSellRuneLocation() != null) {
-      profile.setSellRuneLocation(model.getSellRuneLocation());
+      profile.setSellRuneLocation(fromAwtPoint(model.getSellRuneLocation()));
     }
     if (model.getSellRuneConfirmLocation() != null) {
-      profile.setSellRuneConfirmation(model.getSellRuneConfirmLocation());
+      profile.setSellRuneConfirmation(fromAwtPoint(model.getSellRuneConfirmLocation()));
     }
     if (model.getGetRuneRewardLocation() != null) {
-      profile.setGetRuneLocation(model.getGetRuneRewardLocation());
+      profile.setGetRuneLocation(fromAwtPoint(model.getGetRuneRewardLocation()));
     }
     if (model.getGetRewardLocation() != null) {
-      profile.setGetRewardLocation(model.getGetRewardLocation());
+      profile.setGetRewardLocation(fromAwtPoint(model.getGetRewardLocation()));
     }
     if (model.getEnableAutoAttackLocation() != null) {
-      profile.setEnableAutoMode(model.getEnableAutoAttackLocation());
+      profile.setEnableAutoMode(fromAwtPoint(model.getEnableAutoAttackLocation()));
     }
     if (model.getRechargeEneryYesLocation() != null) {
-      profile.setRechargeEnergyYes(model.getRechargeEneryYesLocation());
+      profile.setRechargeEnergyYes(fromAwtPoint(model.getRechargeEneryYesLocation()));
     }
     if (model.getRechargeEnergyNoLocation() != null) {
-      profile.setRechargeEnergyNo(model.getRechargeEnergyNoLocation());
+      profile.setRechargeEnergyNo(fromAwtPoint(model.getRechargeEnergyNoLocation()));
     }
     if (model.getEnergyLocationOnShop() != null) {
-      profile.setRechargeEnergy(model.getEnergyLocationOnShop());
+      profile.setRechargeEnergy(fromAwtPoint(model.getEnergyLocationOnShop()));
     }
     if (model.getConfirmRechargeEnergyLoation() != null) {
-      profile.setConfirmRechargeEnergy(model.getConfirmRechargeEnergyLoation());
+      profile.setConfirmRechargeEnergy(fromAwtPoint(model.getConfirmRechargeEnergyLoation()));
     }
     if (model.getAckRefillSuccessLocation() != null) {
-      profile.setAckRechargeEnergyOk(model.getAckRefillSuccessLocation());
+      profile.setAckRechargeEnergyOk(fromAwtPoint(model.getAckRefillSuccessLocation()));
     }
     if (model.getCloseRefillShopLocation() != null) {
-      profile.setCloseRechargeEnergy(model.getCloseRefillShopLocation());
+      profile.setCloseRechargeEnergy(fromAwtPoint(model.getCloseRefillShopLocation()));
     }
     if (model.getConfirmNetworkDelayLocation() != null) {
-      profile.setConfirmNetworkDelay(model.getConfirmNetworkDelayLocation());
+      profile.setConfirmNetworkDelay(fromAwtPoint(model.getConfirmNetworkDelayLocation()));
     }
     if (model.getResendBattleInfoLocation() != null) {
-      profile.setResendBattleInfoX(model.getResendBattleInfoLocation());
+      profile.setResendBattleInfoX(fromAwtPoint(model.getResendBattleInfoLocation()));
     }
     if (model.getReplayBattleIndicator() != null) {
       profile.setIndicator(Indicator.replayBattleIndicator, model.getReplayBattleIndicator());
@@ -362,13 +363,13 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       profile.setIndicator(Indicator.confirmSellStoneIndicator, model.getConfirmSellStoneIndicator());
     }
     if (model.getGetStoneRewardLocation() != null) {
-      profile.setGetGemLocation(model.getGetStoneRewardLocation());
+      profile.setGetGemLocation(fromAwtPoint(model.getGetStoneRewardLocation()));
     }
     if (model.getSellStoneLocation() != null) {
-      profile.setSellGemLocation(model.getSellStoneLocation());
+      profile.setSellGemLocation(fromAwtPoint(model.getSellStoneLocation()));
     }
     if (model.getSellStoneConfirmLocation() != null) {
-      profile.setSellStoneConfirmation(model.getSellStoneConfirmLocation());
+      profile.setSellStoneConfirmation(fromAwtPoint(model.getSellStoneConfirmLocation()));
     }
     profile.setClickRandom(model.isRandomClick());
     profile.setSellAllRune(model.isSellAllRune());
@@ -386,9 +387,9 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     box = model.getGrindStatArea();
     profile.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
     profile.setIndicator(Indicator.reviveIndicator, model.getReviveIndicator());
-    profile.setReviveNoLocation(model.getReviveNoLocation());
+    profile.setReviveNoLocation(fromAwtPoint(model.getReviveNoLocation()));
     profile.setIndicator(Indicator.noCrysIndicator, model.getNoCrysIndicator());
-    profile.setRechargeCrysNo(model.getRechargeCrysNoLocation());
+    profile.setRechargeCrysNo(fromAwtPoint(model.getRechargeCrysNoLocation()));
 
     profile.save();
 

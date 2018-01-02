@@ -6,11 +6,11 @@ package com.justin.swbot.game;
 import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.indicator.Indicator;
 import com.justin.swbot.game.indicator.IndicatorImageCache;
+import com.justin.swbot.util.Point;
+import com.justin.swbot.util.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
