@@ -41,7 +41,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
     final HomeUI homeUI = homeController.getHomeUI();
     final Object source = e.getSource();
     if (source == homeUI.getToggeButton()) {
-      toggleGameAuto();
+      homeController.onBtnStartClicked();
     }
   }
 
@@ -125,35 +125,6 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
       controller = profileController;
     }
     controller.launchUI();
-  }
-
-  private void toggleGameAuto() {
-    final boolean running = BotEngine.get().isRunning();
-    final HomeUI homeUI = homeController.getHomeUI();
-    if (!running) {
-      // Check condition so that we can start the auto
-      final HomeModel model = homeController.getHomeModel();
-      if (model.getProfiles().indexOf(model.getSelectedProfile()) <= 1) {
-        homeController.updateStatus("Select profile to start...");
-        return;
-      }
-      ScenarioDirector selectedDirector = null;
-      for (final SimpleImmutableEntry<String, ScenarioDirector> scenario : model.getScenarios()) {
-        if (scenario.getKey().equals(model.getSelectedScenario())) {
-          selectedDirector = scenario.getValue();
-          break;
-        }
-      }
-      if (selectedDirector == null) {
-        homeController.updateStatus("Select scenario to start...");
-        return;
-      }
-
-      BotEngine.get().setDirector(selectedDirector);
-    }
-
-    homeUI.getToggeButton().setText(running ? "Start" : "Stop");
-    BotEngine.get().setRunning(!running);
   }
 
   /**

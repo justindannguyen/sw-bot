@@ -3,12 +3,15 @@
  */
 package com.justin.swbot.home;
 
-import javax.swing.SwingUtilities;
-
+import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameState;
+import com.justin.swbot.game.director.ScenarioDirector;
 import com.justin.swbot.ui.HomeView;
+
+import javax.swing.SwingUtilities;
+import java.util.AbstractMap;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -18,11 +21,56 @@ public final class HomeController implements Controller, HomeView {
   private HomeModel homeModel;
   private HomeControllerAction homeControllerAction;
 
+  private BotEngine botEngine;
+
   public void initialize() {
     ControllerRegistry.register(this);
     if (homeModel == null) {
       homeModel = new HomeModel();
     }
+  }
+
+  private boolean isBotEngineRunning() {
+    return botEngine != null && botEngine.isAlive();
+  }
+
+  public void onBtnStartClicked() {
+    if (isBotEngineRunning()) {
+      stopAuto();
+    } else {
+      startAuto();
+    }
+  }
+
+  private void startAuto() {
+    // Check condition so that we can start the auto
+    if (homeModel.getProfiles().indexOf(homeModel.getSelectedProfile()) <= 1) {
+      updateStatus("Select profile to start...");
+      return;
+    }
+    ScenarioDirector selectedDirector = null;
+    for (final AbstractMap.SimpleImmutableEntry<String, ScenarioDirector> scenario : homeModel.getScenarios()) {
+      if (scenario.getKey().equals(homeModel.getSelectedScenario())) {
+        selectedDirector = scenario.getValue();
+        break;
+      }
+    }
+    if (selectedDirector == null) {
+      updateStatus("Select scenario to start...");
+      return;
+    }
+
+    botEngine = new BotEngine(selectedDirector, homeModel.getSelectedProfile(), this);
+    botEngine.start();
+    homeUI.getToggeButton().setText("Stop");
+  }
+
+  private void stopAuto() {
+    if (!isBotEngineRunning()) return;
+
+    botEngine.stopEngine();
+    botEngine = null;
+    homeUI.getToggeButton().setText("Start");
   }
 
   @Override

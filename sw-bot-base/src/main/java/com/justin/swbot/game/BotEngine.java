@@ -21,52 +21,25 @@ import com.justin.swbot.ui.HomeView;
  * @author tuan3.nguyen@gmail.com
  */
 public final class BotEngine extends Thread {
+  private final ScenarioDirector director;
+  private final HomeView homeView;
+  private boolean isRunning;
 
-  private static final BotEngine ENGINE = new BotEngine();
+  public BotEngine(ScenarioDirector director, String profileName, HomeView homeView) {
+    super();
 
-  /**
-   * Get the singleton instance of {@link BotEngine}
-   *
-   * @return singleton instance.
-   */
-  public static BotEngine get() {
-    return ENGINE;
-  }
+    this.director = director;
+    this.homeView = homeView;
 
-  private volatile boolean running = false;
-
-  private ScenarioDirector director;
-
-  private BotEngine() {
-    // This is the hidden constructor for singleton classes to make sure it can't be instanced by
-    // mistake.
-  }
-
-  /**
-   * <p>
-   * Check if the bot engine is running or fall into sleep mode.
-   *
-   * <p>
-   * When the bot engine is in sleep mode, it still keep the infinitive loop but does nothings.
-   *
-   * @return <code>true</code> if the bot is running.
-   */
-  public boolean isRunning() {
-    return running;
+    this.director.restart();
   }
 
   @Override
   public void run() {
-    while (true) {
-      final HomeView homeView = DependenciesRegistry.homeView;
-      try {
-        if (!running || director == null) {
-          sleep(5000);
-          homeView.updateStatus("Bot is idling, click start to begin...");
-          homeView.updateGameStatus(null);
-          continue;
-        }
+    isRunning = true;
 
+    while (isRunning) {
+      try {
         homeView.updateStatus("Detecting new game state...");
         final GameStatus gameStatus = detectGameStatus();
         homeView.updateGameStatus(gameStatus.getGameState());
@@ -79,21 +52,8 @@ public final class BotEngine extends Thread {
     }
   }
 
-  public void setDirector(final ScenarioDirector selectedDirector) {
-    this.director = selectedDirector;
-  }
-
-  /**
-   * Set the bot engine as running or fall into sleep mode.
-   *
-   * @param running <code>true</code> to active the running mode, otherwise fall into sleep mode.
-   */
-  public void setRunning(final boolean running) {
-    this.running = running;
-
-    if (running && director != null) {
-      director.restart();
-    }
+  public void stopEngine() {
+    isRunning = false;
   }
 
   private GameStatus detectGameStatus() {
