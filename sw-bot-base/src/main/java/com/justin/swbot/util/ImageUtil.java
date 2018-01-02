@@ -36,35 +36,42 @@ public class ImageUtil {
    *         if not match in term of similarity and threshold
    */
   public static Rectangle contains(final String sourceFilePath, final String templateFilePath,
-      final double threshold) {
-    // read in image default colors
-    final Mat sourceColor = imread(sourceFilePath);
-    final Mat sourceGrey = new Mat(sourceColor.size(), CV_8UC1);
-    cvtColor(sourceColor, sourceGrey, COLOR_BGR2GRAY);
-    // load in template in grey
-    final Mat templateGrey = imread(templateFilePath, CV_LOAD_IMAGE_GRAYSCALE);
-    // Size for the result image
-    final Size size = new Size(sourceGrey.cols() - templateGrey.cols() + 1,
-        sourceGrey.rows() - templateGrey.rows() + 1);
-    final Mat result = new Mat(size, CV_32FC1);
-    matchTemplate(sourceGrey, templateGrey, result, opencv_imgproc.TM_CCORR_NORMED);
-
-    final DoubleBuffer minVal = DoubleBuffer.allocate(8);
-    final DoubleBuffer maxVal = DoubleBuffer.allocate(8);
-    final Point minLoc = new Point();
-    final Point maxLoc = new Point();
-    minMaxLoc(result, minVal, maxVal, minLoc, maxLoc, null);
-
-    final double similarity = maxVal.get() * 100;
+                                   final double threshold) {
+    Mat sourceColor = null;
+    Mat sourceGrey = null;
+    Mat templateGrey = null;
+    Mat result = null;
     try {
+      // read in image default colors
+      sourceColor = imread(sourceFilePath);
+      sourceGrey = new Mat(sourceColor.size(), CV_8UC1);
+      cvtColor(sourceColor, sourceGrey, COLOR_BGR2GRAY);
+      // load in template in grey
+      templateGrey = imread(templateFilePath, CV_LOAD_IMAGE_GRAYSCALE);
+      // Size for the result image
+      final Size size = new Size(sourceGrey.cols() - templateGrey.cols() + 1,
+          sourceGrey.rows() - templateGrey.rows() + 1);
+      result = new Mat(size, CV_32FC1);
+      matchTemplate(sourceGrey, templateGrey, result, opencv_imgproc.TM_CCORR_NORMED);
+
+      final DoubleBuffer minVal = DoubleBuffer.allocate(8);
+      final DoubleBuffer maxVal = DoubleBuffer.allocate(8);
+      final Point minLoc = new Point();
+      final Point maxLoc = new Point();
+      minMaxLoc(result, minVal, maxVal, minLoc, maxLoc, null);
+
+      final double similarity = maxVal.get() * 100;
+
       return similarity >= threshold
           ? new Rectangle(maxLoc.x(), maxLoc.y(), templateGrey.cols(), templateGrey.rows())
           : null;
+    } catch (Exception e) {
+      return null;
     } finally {
-      sourceColor.release();
-      sourceGrey.release();
-      templateGrey.release();
-      result.release();
+      if (sourceColor != null) sourceColor.release();
+      if (sourceGrey != null) sourceGrey.release();
+      if (templateGrey != null) templateGrey.release();
+      if (result != null) result.release();
     }
   }
 }
