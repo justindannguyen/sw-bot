@@ -21,6 +21,8 @@ public class Main {
     SubstanceLookAndFeel.setSkin(new SaharaSkin());
     UIManager.setLookAndFeel(new SubstanceSaharaLookAndFeel());
 
+    DependenciesRegistry.settings = new PcSettings();
+
     final HomeController homeController = new HomeController();
     DependenciesRegistry.homeView = homeController;
     homeController.initialize();

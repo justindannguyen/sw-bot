@@ -7,6 +7,7 @@ import java.util.ServiceLoader;
 
 import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.game.GameStatus;
+import com.justin.swbot.game.Profile;
 
 /**
  * <p>
@@ -48,6 +49,8 @@ public interface ScenarioDirector {
    * @return unique identification name.
    */
   String getName();
+
+  void setProfile(Profile profile);
 
   void restart();
 }

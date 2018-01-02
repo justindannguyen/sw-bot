@@ -6,6 +6,7 @@ package com.justin.swbot.home;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.List;
 
+import com.justin.swbot.BaseTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import com.justin.swbot.game.director.ScenarioDirector;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class HomeModelTest {
+public class HomeModelTest extends BaseTest {
   private HomeModel instanceUnderTest;
 
   /**

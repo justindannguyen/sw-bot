@@ -16,6 +16,7 @@ import java.util.Observable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
+import com.justin.swbot.Settings;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.Profile;
@@ -71,7 +72,12 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
       if (selectedIndex == 1) {
         createNewProfile();
       } else if (selectedIndex > 1) {
-        editProfile(homeModel.getSelectedProfile());
+        // Workaround to remember last selected profile, to prevent popup edit profile dialog
+        String last = homeController.getLastSelectedProfile();
+        if (last == null || !last.equalsIgnoreCase(homeModel.getSelectedProfile())) {
+          homeController.setLastSelectedProfile(homeModel.getSelectedProfile());
+          editProfile(homeModel.getSelectedProfile());
+        }
       }
     } else if (e.getSource() == homeUI.getScenarioCombobox()) {
       homeModel.setSelectedScenario((String) e.getItem());
@@ -95,30 +101,24 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
    * Open dialog to create new profile.
    */
   private void createNewProfile() {
-    Profile.get().clear();
     homeController.unlaunchUI();
 
     Controller controller = ControllerRegistry.get(AddProfileController.class);
     if (controller == null) {
       final AddProfileController profileController = new AddProfileController();
-      profileController.initialize();
+      profileController.initialize(null);
       controller = profileController;
     }
     controller.launchUI();
   }
 
   private void editProfile(final String selectedProfile) {
-    if (selectedProfile.equalsIgnoreCase(Profile.get().getProfileName())) {
-      return;
-    }
-
-    Profile.get().load(selectedProfile);
     homeController.unlaunchUI();
 
     Controller controller = ControllerRegistry.get(AddProfileController.class);
     if (controller == null) {
       final AddProfileController profileController = new AddProfileController();
-      profileController.initialize();
+      profileController.initialize(selectedProfile);
       controller = profileController;
     }
     controller.launchUI();

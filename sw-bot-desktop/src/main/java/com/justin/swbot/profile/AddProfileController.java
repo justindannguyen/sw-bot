@@ -14,10 +14,10 @@ public class AddProfileController implements Controller {
   private AddProfileModel model;
   private AddProfileControllerAction controllerAction;
 
-  public void initialize() {
+  public void initialize(String profileName) {
     ControllerRegistry.register(this);
     if (model == null) {
-      model = new AddProfileModel();
+      model = new AddProfileModel(profileName);
     }
   }
 

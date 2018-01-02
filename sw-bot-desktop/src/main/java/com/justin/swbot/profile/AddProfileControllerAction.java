@@ -269,126 +269,126 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
 
   private void createProfile() {
     // TODO validation all fields, for now assume all are valid.
-    final Profile config = Profile.get();
     final AddProfileModel model = controller.getModel();
-    if (model.getProfileName() != null) {
-      config.setProfileName(model.getProfileName());
+    if (model.getProfileName() == null) {
+      return;
     }
-    config.setRefillTimes(model.getRefillTimes());
+    final Profile profile = new Profile(model.getProfileName());
+    profile.setRefillTimes(model.getRefillTimes());
     if (model.getReplayBattleLocation() != null) {
-      config.setReplayBattle(model.getReplayBattleLocation());
+      profile.setReplayBattle(model.getReplayBattleLocation());
     }
     if (model.getStartBattleLocation() != null) {
-      config.setStartBattle(model.getStartBattleLocation());
+      profile.setStartBattle(model.getStartBattleLocation());
     }
     if (model.getSellRuneLocation() != null) {
-      config.setSellRuneLocation(model.getSellRuneLocation());
+      profile.setSellRuneLocation(model.getSellRuneLocation());
     }
     if (model.getSellRuneConfirmLocation() != null) {
-      config.setSellRuneConfirmation(model.getSellRuneConfirmLocation());
+      profile.setSellRuneConfirmation(model.getSellRuneConfirmLocation());
     }
     if (model.getGetRuneRewardLocation() != null) {
-      config.setGetRuneLocation(model.getGetRuneRewardLocation());
+      profile.setGetRuneLocation(model.getGetRuneRewardLocation());
     }
     if (model.getGetRewardLocation() != null) {
-      config.setGetRewardLocation(model.getGetRewardLocation());
+      profile.setGetRewardLocation(model.getGetRewardLocation());
     }
     if (model.getEnableAutoAttackLocation() != null) {
-      config.setEnableAutoMode(model.getEnableAutoAttackLocation());
+      profile.setEnableAutoMode(model.getEnableAutoAttackLocation());
     }
     if (model.getRechargeEneryYesLocation() != null) {
-      config.setRechargeEnergyYes(model.getRechargeEneryYesLocation());
+      profile.setRechargeEnergyYes(model.getRechargeEneryYesLocation());
     }
     if (model.getRechargeEnergyNoLocation() != null) {
-      config.setRechargeEnergyNo(model.getRechargeEnergyNoLocation());
+      profile.setRechargeEnergyNo(model.getRechargeEnergyNoLocation());
     }
     if (model.getEnergyLocationOnShop() != null) {
-      config.setRechargeEnergy(model.getEnergyLocationOnShop());
+      profile.setRechargeEnergy(model.getEnergyLocationOnShop());
     }
     if (model.getConfirmRechargeEnergyLoation() != null) {
-      config.setConfirmRechargeEnergy(model.getConfirmRechargeEnergyLoation());
+      profile.setConfirmRechargeEnergy(model.getConfirmRechargeEnergyLoation());
     }
     if (model.getAckRefillSuccessLocation() != null) {
-      config.setAckRechargeEnergyOk(model.getAckRefillSuccessLocation());
+      profile.setAckRechargeEnergyOk(model.getAckRefillSuccessLocation());
     }
     if (model.getCloseRefillShopLocation() != null) {
-      config.setCloseRechargeEnergy(model.getCloseRefillShopLocation());
+      profile.setCloseRechargeEnergy(model.getCloseRefillShopLocation());
     }
     if (model.getConfirmNetworkDelayLocation() != null) {
-      config.setConfirmNetworkDelay(model.getConfirmNetworkDelayLocation());
+      profile.setConfirmNetworkDelay(model.getConfirmNetworkDelayLocation());
     }
     if (model.getResendBattleInfoLocation() != null) {
-      config.setResendBattleInfoX(model.getResendBattleInfoLocation());
+      profile.setResendBattleInfoX(model.getResendBattleInfoLocation());
     }
     if (model.getReplayBattleIndicator() != null) {
-      config.setReplayBattleIndicator(model.getReplayBattleIndicator());
+      profile.setReplayBattleIndicator(model.getReplayBattleIndicator());
     }
     if (model.getStartBattleIndicator() != null) {
-      config.setStartBattleIndicator(model.getStartBattleIndicator());
+      profile.setStartBattleIndicator(model.getStartBattleIndicator());
     }
     if (model.getBattleEndIndicator() != null) {
-      config.setBattleEndIndicator(model.getBattleEndIndicator());
+      profile.setBattleEndIndicator(model.getBattleEndIndicator());
     }
     if (model.getRuneRewardIndiator() != null) {
-      config.setRuneRewardIndiator(model.getRuneRewardIndiator());
+      profile.setRuneRewardIndiator(model.getRuneRewardIndiator());
     }
     if (model.getConfirmSellRuneIndicator() != null) {
-      config.setConfirmSellRuneIndicator(model.getConfirmSellRuneIndicator());
+      profile.setConfirmSellRuneIndicator(model.getConfirmSellRuneIndicator());
     }
     if (model.getOtherRewardIndicator() != null) {
-      config.setOtherRewardIndicator(model.getOtherRewardIndicator());
+      profile.setOtherRewardIndicator(model.getOtherRewardIndicator());
     }
     if (model.getManualAttackIndicator() != null) {
-      config.setManualAttackIndicator(model.getManualAttackIndicator());
+      profile.setManualAttackIndicator(model.getManualAttackIndicator());
     }
     if (model.getNoEnergyIndicator() != null) {
-      config.setNoEnergyIndicator(model.getNoEnergyIndicator());
+      profile.setNoEnergyIndicator(model.getNoEnergyIndicator());
     }
     if (model.getNetworkDelayIndicator() != null) {
-      config.setNetworkDelayIndicator(model.getNetworkDelayIndicator());
+      profile.setNetworkDelayIndicator(model.getNetworkDelayIndicator());
     }
     if (model.getNetworkUnstableIndicator() != null) {
-      config.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
+      profile.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
     }
     if (model.getStoneRewardIndicator() != null) {
-      config.setStoneRewardIndicator(model.getStoneRewardIndicator());
+      profile.setStoneRewardIndicator(model.getStoneRewardIndicator());
     }
     if (model.getGetStoneRewardLocation() != null) {
-      config.setGetGemLocation(model.getGetStoneRewardLocation());
+      profile.setGetGemLocation(model.getGetStoneRewardLocation());
     }
     if (model.getSellStoneLocation() != null) {
-      config.setSellGemLocation(model.getSellStoneLocation());
+      profile.setSellGemLocation(model.getSellStoneLocation());
     }
     if (model.getInBattleIndicator() != null) {
-      config.setInBattleIndicator(model.getInBattleIndicator());
+      profile.setInBattleIndicator(model.getInBattleIndicator());
     }
     if (model.getSellStoneConfirmLocation() != null) {
-      config.setSellStoneConfirmation(model.getSellStoneConfirmLocation());
+      profile.setSellStoneConfirmation(model.getSellStoneConfirmLocation());
     }
     if (model.getConfirmSellStoneIndicator() != null) {
-      config.setConfirmSellStoneIndicator(model.getConfirmSellStoneIndicator());
+      profile.setConfirmSellStoneIndicator(model.getConfirmSellStoneIndicator());
     }
-    config.setClickRandom(model.isRandomClick());
-    config.setSellAllRune(model.isSellAllRune());
-    config.setRuneLog(model.isRunLog());
-    config.setPickAllRune(model.isPickAllRune());
-    config.setPickLegendRune(model.isPickLegendRune());
-    config.setPickHeroRune(model.isPickHeroRune());
+    profile.setClickRandom(model.isRandomClick());
+    profile.setSellAllRune(model.isSellAllRune());
+    profile.setRuneLog(model.isRunLog());
+    profile.setPickAllRune(model.isPickAllRune());
+    profile.setPickLegendRune(model.isPickLegendRune());
+    profile.setPickHeroRune(model.isPickHeroRune());
     Rectangle box = model.getRareLevelArea();
-    config.setRareLevelArea(box.x, box.y, box.width, box.height);
-    config.setPick5StarRune(model.isPickFiveStarRune());
-    config.setPick6StarRune(model.isPickSixStarRune());
-    config.setSixStarRuneIndicator(model.getSixStarRuneIndicator());
-    config.setFiveStarRuneIndicator(model.getFiveStarRuneIndicator());
-    config.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
+    profile.setRareLevelArea(box.x, box.y, box.width, box.height);
+    profile.setPick5StarRune(model.isPickFiveStarRune());
+    profile.setPick6StarRune(model.isPickSixStarRune());
+    profile.setSixStarRuneIndicator(model.getSixStarRuneIndicator());
+    profile.setFiveStarRuneIndicator(model.getFiveStarRuneIndicator());
+    profile.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
     box = model.getGrindStatArea();
-    config.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
-    config.setReviveIndicator(model.getReviveIndicator());
-    config.setReviveNoLocation(model.getReviveNoLocation());
-    config.setNoCrysIndicator(model.getNoCrysIndicator());
-    config.setRechargeCrysNo(model.getRechargeCrysNoLocation());
+    profile.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
+    profile.setReviveIndicator(model.getReviveIndicator());
+    profile.setReviveNoLocation(model.getReviveNoLocation());
+    profile.setNoCrysIndicator(model.getNoCrysIndicator());
+    profile.setRechargeCrysNo(model.getRechargeCrysNoLocation());
 
-    config.save();
+    profile.save();
 
     controller.unlaunchUI();
     final Controller homeController = ControllerRegistry.get(HomeController.class);

@@ -22,6 +22,7 @@ import com.justin.swbot.ui.HomeView;
 public final class BotEngine extends Thread {
   private final ScenarioDirector director;
   private final HomeView homeView;
+  private final Profile profile;
   private boolean isRunning;
 
   public BotEngine(ScenarioDirector director, String profileName, HomeView homeView) {
@@ -29,6 +30,9 @@ public final class BotEngine extends Thread {
 
     this.director = director;
     this.homeView = homeView;
+    this.profile = new Profile(profileName);
+    this.profile.load();
+    this.director.setProfile(profile);
 
     this.director.restart();
   }
@@ -57,36 +61,35 @@ public final class BotEngine extends Thread {
 
   private GameStatus detectGameStatus() {
     final String screenshot = CommandUtil.capturePhoneScreen();
-    final Profile config = Profile.get();
 
     GameState gameState = GameState.UNKNOWN;
-    if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
+    if (doesStateMatch(screenshot, profile.getStartBattleIndicatorFile())) {
       gameState = GameState.START_BATTLE;
-    } else if (doesStateMatch(screenshot, config.getReplayBattleIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getReplayBattleIndicatorFile())) {
       gameState = GameState.REPLAY_BATTLE_CONFIRMATION;
-    } else if (doesStateMatch(screenshot, config.getRuneRewardIndiatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getRuneRewardIndiatorFile())) {
       gameState = GameState.RUNE_REWARD;
-    } else if (doesStateMatch(screenshot, config.getConfirmSellRuneIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getConfirmSellRuneIndicatorFile())) {
       gameState = GameState.SELL_RUNE_CONFIRMATION;
-    } else if (doesStateMatch(screenshot, config.getConfirmSellStoneIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getConfirmSellStoneIndicatorFile())) {
       gameState = GameState.SELL_STONE_CONFIRMATION;
-    } else if (doesStateMatch(screenshot, config.getStoneRewardIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getStoneRewardIndicatorFile())) {
       gameState = GameState.GEM_REWARD;
-    } else if (doesStateMatch(screenshot, config.getOtherRewardIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getOtherRewardIndicatorFile())) {
       gameState = GameState.OTHER_REWARD;
-    } else if (doesStateMatch(screenshot, config.getNoEnergyIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getNoEnergyIndicatorFile())) {
       gameState = GameState.NOT_ENOUGH_ENERGY;
-    } else if (doesStateMatch(screenshot, config.getBattleEndIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getBattleEndIndicatorFile())) {
       gameState = GameState.BATTLE_ENDED;
-    } else if (doesStateMatch(screenshot, config.getReviveIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getReviveIndicatorFile())) {
       gameState = GameState.BATTLE_ENDED_FAIL;
-    } else if (doesStateMatch(screenshot, config.getNetworkDelayIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getNetworkDelayIndicatorFile())) {
       gameState = GameState.NETWORK_DELAY;
-    } else if (doesStateMatch(screenshot, config.getNetworkUnstableIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getNetworkUnstableIndicatorFile())) {
       gameState = GameState.UNSTABLE_NETWORK;
-    } else if (doesStateMatch(screenshot, config.getInBattleIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getInBattleIndicatorFile())) {
       gameState = GameState.IN_BATTLE;
-    } else if (doesStateMatch(screenshot, config.getManualAttackIndicatorFile())) {
+    } else if (doesStateMatch(screenshot, profile.getManualAttackIndicatorFile())) {
       gameState = GameState.BATTLE_MANUAL;
     }
     return GameStatus.create(gameState, screenshot);

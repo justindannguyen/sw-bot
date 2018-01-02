@@ -9,6 +9,8 @@ import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.director.ScenarioDirector;
 import com.justin.swbot.ui.HomeView;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.SwingUtilities;
 import java.util.AbstractMap;
@@ -20,6 +22,11 @@ public final class HomeController implements Controller, HomeView {
   private HomeUI homeUI;
   private HomeModel homeModel;
   private HomeControllerAction homeControllerAction;
+
+  // Workaround to remember last selected profile, to prevent popup edit profile dialog
+  @Setter
+  @Getter
+  private String lastSelectedProfile;
 
   private BotEngine botEngine;
 

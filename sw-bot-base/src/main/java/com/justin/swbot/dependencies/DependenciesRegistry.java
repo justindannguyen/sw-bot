@@ -1,5 +1,6 @@
 package com.justin.swbot.dependencies;
 
+import com.justin.swbot.Settings;
 import com.justin.swbot.ui.HomeView;
 
 /**
@@ -7,4 +8,5 @@ import com.justin.swbot.ui.HomeView;
  */
 public class DependenciesRegistry {
   public static HomeView homeView;
+  public static Settings settings;
 }

@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.Observable;
 
 import com.justin.swbot.game.Profile;
+import lombok.Getter;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -16,6 +17,8 @@ import com.justin.swbot.game.Profile;
 public class AddProfileModel extends Observable {
   public static final String MODEL_LOADED = "MODEL_LOADED";
 
+  @Getter
+  private Profile profile;
   private String profileName;
   private Point replayBattleLocation;
   private Point startBattleLocation;
@@ -69,6 +72,14 @@ public class AddProfileModel extends Observable {
   private BufferedImage inBattleIndicator;
   private BufferedImage confirmSellStoneIndicator;
   private BufferedImage reviveIndicator;
+
+  public AddProfileModel(String profileName) {
+    this.profileName = profileName;
+    this.profile = new Profile(profileName);
+    if (profileName != null) {
+      this.profile.load();
+    }
+  }
 
   public Point getAckRefillSuccessLocation() {
     return ackRefillSuccessLocation;
@@ -271,67 +282,65 @@ public class AddProfileModel extends Observable {
   }
 
   public void loadData() {
-    final Profile config = Profile.get();
-    profileName = config.getProfileName();
-    refillTimes = config.isEmpty() ? 0 : Integer.valueOf(config.getRefillTimes());
-    replayBattleLocation = getLocation(config.getReplayBattleX(), config.getReplayBattleY());
-    startBattleLocation = getLocation(config.getStartBattleX(), config.getStartBattleY());
-    sellRuneLocation = getLocation(config.getSellRuneLocationX(), config.getSellRuneLocationY());
+    refillTimes = profile.isEmpty() ? 0 : Integer.valueOf(profile.getRefillTimes());
+    replayBattleLocation = getLocation(profile.getReplayBattleX(), profile.getReplayBattleY());
+    startBattleLocation = getLocation(profile.getStartBattleX(), profile.getStartBattleY());
+    sellRuneLocation = getLocation(profile.getSellRuneLocationX(), profile.getSellRuneLocationY());
     sellRuneConfirmLocation =
-        getLocation(config.getSellRuneConfirmationX(), config.getSellRuneConfirmationY());
+        getLocation(profile.getSellRuneConfirmationX(), profile.getSellRuneConfirmationY());
     sellStoneConfirmLocation =
-        getLocation(config.getSellStoneConfirmationX(), config.getSellStoneConfirmationY());
-    getRuneRewardLocation = getLocation(config.getGetRuneLocationX(), config.getGetRuneLocationY());
-    getRewardLocation = getLocation(config.getGetRewardLocationX(), config.getGetRewardLocationY());
+        getLocation(profile.getSellStoneConfirmationX(), profile.getSellStoneConfirmationY());
+    getRuneRewardLocation = getLocation(profile.getGetRuneLocationX(), profile.getGetRuneLocationY());
+    getRewardLocation = getLocation(profile.getGetRewardLocationX(), profile.getGetRewardLocationY());
     enableAutoAttackLocation =
-        getLocation(config.getEnableAutoModeX(), config.getEnableAutoModeY());
+        getLocation(profile.getEnableAutoModeX(), profile.getEnableAutoModeY());
     rechargeEneryYesLocation =
-        getLocation(config.getRechargeEnergyYesX(), config.getRechargeEnergyYesY());
+        getLocation(profile.getRechargeEnergyYesX(), profile.getRechargeEnergyYesY());
     rechargeEnergyNoLocation =
-        getLocation(config.getRechargeEnergyNoX(), config.getRechargeEnergyNoY());
-    energyLocationOnShop = getLocation(config.getRechargeEnergyX(), config.getRechargeEnergyY());
+        getLocation(profile.getRechargeEnergyNoX(), profile.getRechargeEnergyNoY());
+    energyLocationOnShop = getLocation(profile.getRechargeEnergyX(), profile.getRechargeEnergyY());
     confirmRechargeEnergyLoation =
-        getLocation(config.getConfirmRechargeEnergyX(), config.getConfirmRechargeEnergyY());
+        getLocation(profile.getConfirmRechargeEnergyX(), profile.getConfirmRechargeEnergyY());
     ackRefillSuccessLocation =
-        getLocation(config.getAckRechargeEnergyOkX(), config.getAckRechargeEnergyOkY());
+        getLocation(profile.getAckRechargeEnergyOkX(), profile.getAckRechargeEnergyOkY());
     closeRefillShopLocation =
-        getLocation(config.getCloseRechargeEnergyX(), config.getCloseRechargeEnergyY());
+        getLocation(profile.getCloseRechargeEnergyX(), profile.getCloseRechargeEnergyY());
     confirmNetworkDelayLocation =
-        getLocation(config.getConfirmNetworkDelayX(), config.getConfirmNetworkDelayY());
+        getLocation(profile.getConfirmNetworkDelayX(), profile.getConfirmNetworkDelayY());
     resendBattleInfoLocation =
-        getLocation(config.getResendBattleInfoX(), config.getResendBattleInfoY());
-    getStoneRewardLocation = getLocation(config.getGetGemLocationX(), config.getGetGemLocationY());
-    sellStoneLocation = getLocation(config.getSellGemLocationX(), config.getSellGemLocationY());
-    randomClick = config.isClickRandom();
-    sellAllRune = config.isSellAllRune();
-    runLog = config.isRuneLog();
-    pickAllRune = config.isPickAllRune();
-    pickLegendRune = config.isPickLegendRune();
-    pickHeroRune = config.isPickHeroRune();
-    rareLevelArea = config.getRareLevelAreaBox();
-    pickSixStarRune = config.isPick6StarRune();
-    pickFiveStarRune = config.isPick5StarRune();
-    sixStarRuneIndicator = config.getSixStarRuneIndicator();
-    fiveStarRuneIndicator = config.getFiveStarRuneIndicator();
-    pickGrindSpdPercent = config.isPickSpdPercentGrindstone();
-    grindStatArea = config.getGrindstoneStatAreaBox();
-    replayBattleIndicator = config.getReplayBattleIndicator();
-    startBattleIndicator = config.getStartBattleIndicator();
-    battleEndIndicator = config.getBattleEndIndicator();
-    runeRewardIndiator = config.getRuneRewardIndiator();
-    confirmSellRuneIndicator = config.getConfirmSellRuneIndicator();
-    otherRewardIndicator = config.getOtherRewardIndicator();
-    manualAttackIndicator = config.getManualAttackIndicator();
-    noEnergyIndicator = config.getNoEnergyIndicator();
-    networkDelayIndicator = config.getNetworkDelayIndicator();
-    networkUnstableIndicator = config.getNetworkUnstableIndicator();
-    stoneRewardIndicator = config.getStoneRewardIndicator();
-    inBattleIndicator = config.getInBattleIndicator();
-    confirmSellStoneIndicator = config.getConfirmSellStoneIndicator();
-    reviveIndicator = config.getReviveIndicator();
-    reviveNoLocation = getLocation(config.getReviveNoX(), config.getReviveNoY());
-    noCrysIndicator = config.getNoCrysIndicator();
-    rechargeCrysNoLocation = getLocation(config.getRechargeCrysNoX(), config.getRechargeCrysNoY());
+        getLocation(profile.getResendBattleInfoX(), profile.getResendBattleInfoY());
+    getStoneRewardLocation = getLocation(profile.getGetGemLocationX(), profile.getGetGemLocationY());
+    sellStoneLocation = getLocation(profile.getSellGemLocationX(), profile.getSellGemLocationY());
+    randomClick = profile.isClickRandom();
+    sellAllRune = profile.isSellAllRune();
+    runLog = profile.isRuneLog();
+    pickAllRune = profile.isPickAllRune();
+    pickLegendRune = profile.isPickLegendRune();
+    pickHeroRune = profile.isPickHeroRune();
+    rareLevelArea = profile.getRareLevelAreaBox();
+    pickSixStarRune = profile.isPick6StarRune();
+    pickFiveStarRune = profile.isPick5StarRune();
+    sixStarRuneIndicator = profile.getSixStarRuneIndicator();
+    fiveStarRuneIndicator = profile.getFiveStarRuneIndicator();
+    pickGrindSpdPercent = profile.isPickSpdPercentGrindstone();
+    grindStatArea = profile.getGrindstoneStatAreaBox();
+    replayBattleIndicator = profile.getReplayBattleIndicator();
+    startBattleIndicator = profile.getStartBattleIndicator();
+    battleEndIndicator = profile.getBattleEndIndicator();
+    runeRewardIndiator = profile.getRuneRewardIndiator();
+    confirmSellRuneIndicator = profile.getConfirmSellRuneIndicator();
+    otherRewardIndicator = profile.getOtherRewardIndicator();
+    manualAttackIndicator = profile.getManualAttackIndicator();
+    noEnergyIndicator = profile.getNoEnergyIndicator();
+    networkDelayIndicator = profile.getNetworkDelayIndicator();
+    networkUnstableIndicator = profile.getNetworkUnstableIndicator();
+    stoneRewardIndicator = profile.getStoneRewardIndicator();
+    inBattleIndicator = profile.getInBattleIndicator();
+    confirmSellStoneIndicator = profile.getConfirmSellStoneIndicator();
+    reviveIndicator = profile.getReviveIndicator();
+    reviveNoLocation = getLocation(profile.getReviveNoX(), profile.getReviveNoY());
+    noCrysIndicator = profile.getNoCrysIndicator();
+    rechargeCrysNoLocation = getLocation(profile.getRechargeCrysNoX(), profile.getRechargeCrysNoY());
 
     setChanged();
     notifyObservers(MODEL_LOADED);

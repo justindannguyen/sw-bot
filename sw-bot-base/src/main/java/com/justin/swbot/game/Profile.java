@@ -3,6 +3,9 @@
  */
 package com.justin.swbot.game;
 
+import com.justin.swbot.Settings;
+import com.justin.swbot.dependencies.DependenciesRegistry;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -71,13 +74,9 @@ public class Profile {
   public static final String RECHARGE_CRYS_NO_X = "rechargeCrysNoX";
   public static final String RECHARGE_CRYS_NO_Y = "rechargeCrysNoY";
 
-  private static final Profile INSTANCE = new Profile();
   private static final String IMAGE_FORMAT = "png";
 
-  public static Profile get() {
-    return INSTANCE;
-  }
-
+  private final Settings settings;
   private final Properties props = new Properties();
   private String profileName;
   private BufferedImage replayBattleIndicator;
@@ -98,24 +97,9 @@ public class Profile {
   private BufferedImage reviveIndicator;
   private BufferedImage noCrysIndicator;
 
-  public void clear() {
-    this.profileName = null;
-    this.props.clear();
-    replayBattleIndicator = null;
-    startBattleIndicator = null;
-    battleEndIndicator = null;
-    runeRewardIndiator = null;
-    confirmSellRuneIndicator = null;
-    otherRewardIndicator = null;
-    manualAttackIndicator = null;
-    noEnergyIndicator = null;
-    networkDelayIndicator = null;
-    networkUnstableIndicator = null;
-    sixStarRuneIndicator = null;
-    fiveStarRuneIndicator = null;
-    stoneRewardIndicator = null;
-    inBattleIndicator = null;
-    confirmSellStoneIndicator = null;
+  public Profile(String name) {
+    this.settings = DependenciesRegistry.settings;
+    this.profileName = name;
   }
 
   public String getAckRechargeEnergyOkX() {
@@ -307,7 +291,7 @@ public class Profile {
   }
 
   public File getProfilesFolder() {
-    return new File("profiles");
+    return new File(settings.getProfilesFolderPath());
   }
 
   public String getRareLevelArea() {
@@ -520,8 +504,7 @@ public class Profile {
     return Boolean.valueOf(props.getProperty(SELL_ALL_RUNE, "false"));
   }
 
-  public void load(final String file) {
-    profileName = file;
+  public void load() {
     final File profilesFolder = getProfilesFolder();
     final File profileFolder = new File(profilesFolder, profileName);
     if (!profileFolder.exists()) {
@@ -697,10 +680,6 @@ public class Profile {
 
   public void setPickSpdPercentGridstone(final boolean value) {
     props.setProperty(PICK_SPD_PERCENT_GRIND, String.valueOf(value));
-  }
-
-  public void setProfileName(final String profileName) {
-    this.profileName = profileName;
   }
 
   public void setRareLevelArea(final int x, final int y, final int w, final int h) {
