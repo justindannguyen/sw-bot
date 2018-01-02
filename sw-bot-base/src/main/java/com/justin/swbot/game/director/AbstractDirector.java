@@ -24,6 +24,7 @@ import static com.justin.swbot.game.indicator.Indicator.sixStarRuneIndicator;
 public abstract class AbstractDirector implements ScenarioDirector {
   private final CommandUtil commandUtil;
   private final OcrUtil ocrUtil;
+  private HomeView homeView;
 
   private int availableRefillTime;
   private int battleCount;
@@ -33,6 +34,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
   public AbstractDirector() {
     this.commandUtil = DependenciesRegistry.commandUtil;
     this.ocrUtil = DependenciesRegistry.ocrUtil;
+  }
+
+  @Override
+  public void bindView(HomeView homeView) {
+    this.homeView = homeView;
   }
 
   @Override
@@ -227,7 +233,6 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void progressMessage(final String message, final Object... args) {
-    final HomeView homeView = DependenciesRegistry.homeView;
     homeView.updateStatus(String.format(message, args));
   }
 

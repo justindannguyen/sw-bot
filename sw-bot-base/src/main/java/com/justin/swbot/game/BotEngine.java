@@ -4,6 +4,7 @@
 package com.justin.swbot.game;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
+import com.justin.swbot.game.director.AbstractDirector;
 import com.justin.swbot.util.CommandUtil;
 import com.justin.swbot.util.ImageUtil;
 import com.justin.swbot.game.director.ScenarioDirector;
@@ -55,7 +56,7 @@ public final class BotEngine extends Thread {
     this.profile.setName(profileName);
     this.profile.load();
     this.director.setProfile(profile);
-
+    this.director.bindView(homeView);
     this.director.restart();
   }
 

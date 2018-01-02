@@ -28,7 +28,6 @@ public class Main {
     DependenciesRegistry.ocrUtil = new PcOcrUtil();
 
     final HomeController homeController = new HomeController();
-    DependenciesRegistry.homeView = homeController;
     homeController.initialize();
     SwingUtilities.invokeLater(() -> homeController.launchUI());
   }

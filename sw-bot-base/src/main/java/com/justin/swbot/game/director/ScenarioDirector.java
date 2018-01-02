@@ -8,6 +8,7 @@ import java.util.ServiceLoader;
 import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.game.Profile;
+import com.justin.swbot.ui.HomeView;
 
 /**
  * <p>
@@ -51,6 +52,8 @@ public interface ScenarioDirector {
   String getName();
 
   void setProfile(Profile profile);
+
+  void bindView(HomeView homeView);
 
   void restart();
 }
