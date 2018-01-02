@@ -8,7 +8,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
-import com.justin.swbot.game.GameConfig;
+import com.justin.swbot.game.Profile;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -271,7 +271,7 @@ public class AddProfileModel extends Observable {
   }
 
   public void loadData() {
-    final GameConfig config = GameConfig.get();
+    final Profile config = Profile.get();
     profileName = config.getProfileName();
     refillTimes = config.isEmpty() ? 0 : Integer.valueOf(config.getRefillTimes());
     replayBattleLocation = getLocation(config.getReplayBattleX(), config.getReplayBattleY());

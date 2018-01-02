@@ -12,7 +12,7 @@ import java.util.Observable;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
-import com.justin.swbot.game.GameConfig;
+import com.justin.swbot.game.Profile;
 import com.justin.swbot.game.director.ScenarioDirector;
 
 /**
@@ -103,7 +103,7 @@ public final class HomeModel extends Observable {
     profiles.clear();
     profiles.add("--Select profile--");
     profiles.add("Configure new profile...");
-    final File profilesFolder = GameConfig.get().getProfilesFolder();
+    final File profilesFolder = Profile.get().getProfilesFolder();
     if (profilesFolder.exists()) {
       profiles.addAll(Arrays.stream(profilesFolder.listFiles(file -> file.isDirectory()))
           .map(file -> file.getName()).collect(Collectors.toList()));
@@ -115,7 +115,7 @@ public final class HomeModel extends Observable {
     if (profiles.size() == 2) {
       setSelectedProfile(profiles.get(1));
     }
-    final String profileName = GameConfig.get().getProfileName();
+    final String profileName = Profile.get().getProfileName();
     if (profileName != null && profiles.contains(profileName)) {
       setSelectedProfile(profileName);
     }

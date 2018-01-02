@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class GameConfig {
+public class Profile {
   public static final String SELL_RUNE_LOC_X = "sellRuneLocationX";
   public static final String SELL_RUNE_LOC_Y = "sellRuneLocationY";
   public static final String GET_RUNE_LOC_X = "getRuneLocationX";
@@ -71,10 +71,10 @@ public class GameConfig {
   public static final String RECHARGE_CRYS_NO_X = "rechargeCrysNoX";
   public static final String RECHARGE_CRYS_NO_Y = "rechargeCrysNoY";
 
-  private static final GameConfig INSTANCE = new GameConfig();
+  private static final Profile INSTANCE = new Profile();
   private static final String IMAGE_FORMAT = "png";
 
-  public static GameConfig get() {
+  public static Profile get() {
     return INSTANCE;
   }
 

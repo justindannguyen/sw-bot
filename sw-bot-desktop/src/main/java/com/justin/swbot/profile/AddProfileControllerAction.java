@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
 import com.justin.swbot.component.event.ValueListener;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
-import com.justin.swbot.game.GameConfig;
+import com.justin.swbot.game.Profile;
 import com.justin.swbot.home.HomeController;
 
 /**
@@ -269,7 +269,7 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
 
   private void createProfile() {
     // TODO validation all fields, for now assume all are valid.
-    final GameConfig config = GameConfig.get();
+    final Profile config = Profile.get();
     final AddProfileModel model = controller.getModel();
     if (model.getProfileName() != null) {
       config.setProfileName(model.getProfileName());

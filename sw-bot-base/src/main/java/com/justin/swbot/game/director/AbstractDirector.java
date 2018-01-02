@@ -15,7 +15,7 @@ import com.justin.swbot.CommandUtil;
 import com.justin.swbot.ImageUtil;
 import com.justin.swbot.OcrUtil;
 import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.GameConfig;
+import com.justin.swbot.game.Profile;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.ui.HomeView;
@@ -92,7 +92,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   @Override
   public void restart() {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     availableRefillTime = Integer.valueOf(gameConfig.getRefillTimes());
     battleCount = 0;
     deadCount = 0;
@@ -110,7 +110,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void ackBattleResultFailure() {
     progressMessage("Battle fail!!! Not revive...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getReviveNoX(), gameConfig.getReviveNoY());
 
     sleep(100);
@@ -124,7 +124,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Collect rune on battle result screen.
    */
   protected void collectRune(final GameStatus gameStatus) throws IOException {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     boolean pickRune = gameConfig.isPickAllRune();
     if (!gameConfig.isPickAllRune()) {
       pickRune = applyRuneFilter(gameStatus);
@@ -142,7 +142,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void collectStone(final GameStatus gameStatus) throws IOException {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     boolean pickRune = gameConfig.isPickAllRune();
     if (!gameConfig.isPickAllRune()) {
       pickRune = applyStoneFilter(gameStatus);
@@ -161,7 +161,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void confirmSellRune() {
     progressMessage("Confirm to sell rune...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getSellRuneConfirmationX(), gameConfig.getSellRuneConfirmationY());
 
     sleep(100);
@@ -170,7 +170,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void confirmSellStone() {
     progressMessage("Confirm to sell stone...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getSellStoneConfirmationX(), gameConfig.getSellStoneConfirmationY());
 
     sleep(100);
@@ -182,19 +182,19 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void enableAutoAttackMode() {
     progressMessage("Enabling auto mode...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getEnableAutoModeX(), gameConfig.getEnableAutoModeY());
   }
 
   protected void notRefillCrys() {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     progressMessage("Not refill crys, wait for energy instead...");
     tapScreen(gameConfig.getRechargeCrysNoX(), gameConfig.getRechargeCrysNoY());
     availableRefillTime = 0;
   }
 
   protected void proceedGemReward(final GameStatus gameStatus) {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     if (gameConfig.isSellAllRune()) {
       sellStone(gameStatus);
     } else {
@@ -208,12 +208,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void proceedOtherReward() {
     progressMessage("Collecting rewards...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getGetRewardLocationX(), gameConfig.getGetRewardLocationY());
   }
 
   protected void proceedRuneReward(final GameStatus gameStatus) {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     if (gameConfig.isSellAllRune()) {
       sellRune(gameStatus);
     } else {
@@ -232,7 +232,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void refillEnergy() {
     progressMessage("Refilling energy...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     // On screen of not enough energy, select YES on to recharges energy
     tapScreen(gameConfig.getRechargeEnergyYesX(), gameConfig.getRechargeEnergyYesY());
     sleep(500);
@@ -251,7 +251,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void replayBattle() {
     progressMessage("Replaying battle...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getReplayBattleX(), gameConfig.getReplayBattleY());
 
     sleep(100);
@@ -275,7 +275,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void sellRune(final GameStatus gameStatus) {
     progressMessage("Selling rune...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getSellRuneLocationX(), gameConfig.getSellRuneLocationY());
 
     if (gameConfig.isRuneLog()) {
@@ -285,7 +285,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void sellStone(final GameStatus gameStatus) {
     progressMessage("Selling stone...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getSellGemLocationX(), gameConfig.getSellGemLocationY());
 
     if (gameConfig.isRuneLog()) {
@@ -303,7 +303,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void startBattle() {
     progressMessage("Starting new battle...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getStartBattleX(), gameConfig.getStartBattleY());
     battleCount++;
     sleep(5000);
@@ -317,7 +317,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void waitForEnergy() {
     progressMessage("Insuffience energy and waiting...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getRechargeEnergyNoX(), gameConfig.getRechargeEnergyNoY());
 
     // Wait for 10 minutes
@@ -335,7 +335,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private boolean applyRuneFilter(final GameStatus gameStatus) throws IOException {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
     if (gameConfig.isPickLegendRune() || gameConfig.isPickHeroRune()) {
       final Rectangle box = gameConfig.getRareLevelAreaBox();
@@ -374,7 +374,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private boolean applyStoneFilter(final GameStatus gameStatus) throws IOException {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
     if (gameConfig.isPickSpdPercentGrindstone()) {
       final Rectangle box = gameConfig.getGrindstoneStatAreaBox();
@@ -391,7 +391,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   private void confirmNetworkDelay() {
     progressMessage("Network delay!");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getConfirmNetworkDelayX(), gameConfig.getConfirmNetworkDelayY());
   }
 
@@ -406,12 +406,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   private void resendBattleInfo() {
     progressMessage("Network unstable! resending information...");
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     tapScreen(gameConfig.getResendBattleInfoX(), gameConfig.getResendBattleInfoY());
   }
 
   private void tapScreen(final String x, final String y) {
-    final GameConfig gameConfig = GameConfig.get();
+    final Profile gameConfig = Profile.get();
     String tapX = x;
     String tapY = y;
     if (gameConfig.isClickRandom()) {

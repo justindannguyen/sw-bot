@@ -11,17 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Observable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
-import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
-import com.justin.swbot.game.GameConfig;
-import com.justin.swbot.game.director.ScenarioDirector;
+import com.justin.swbot.game.Profile;
 import com.justin.swbot.profile.AddProfileController;
 
 /**
@@ -98,7 +95,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
    * Open dialog to create new profile.
    */
   private void createNewProfile() {
-    GameConfig.get().clear();
+    Profile.get().clear();
     homeController.unlaunchUI();
 
     Controller controller = ControllerRegistry.get(AddProfileController.class);
@@ -111,11 +108,11 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
   }
 
   private void editProfile(final String selectedProfile) {
-    if (selectedProfile.equalsIgnoreCase(GameConfig.get().getProfileName())) {
+    if (selectedProfile.equalsIgnoreCase(Profile.get().getProfileName())) {
       return;
     }
 
-    GameConfig.get().load(selectedProfile);
+    Profile.get().load(selectedProfile);
     homeController.unlaunchUI();
 
     Controller controller = ControllerRegistry.get(AddProfileController.class);

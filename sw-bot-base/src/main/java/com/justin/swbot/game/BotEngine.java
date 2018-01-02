@@ -7,7 +7,6 @@ import java.io.File;
 
 import com.justin.swbot.CommandUtil;
 import com.justin.swbot.ImageUtil;
-import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.director.ScenarioDirector;
 import com.justin.swbot.ui.HomeView;
 
@@ -58,7 +57,7 @@ public final class BotEngine extends Thread {
 
   private GameStatus detectGameStatus() {
     final String screenshot = CommandUtil.capturePhoneScreen();
-    final GameConfig config = GameConfig.get();
+    final Profile config = Profile.get();
 
     GameState gameState = GameState.UNKNOWN;
     if (doesStateMatch(screenshot, config.getStartBattleIndicatorFile())) {
