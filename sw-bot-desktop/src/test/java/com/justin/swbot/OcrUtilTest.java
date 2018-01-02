@@ -6,8 +6,7 @@ package com.justin.swbot;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.util.OcrUtil;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -17,35 +16,27 @@ import org.junit.Test;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class OcrUtilTest {
-
+public class OcrUtilTest extends BaseTest {
+  private OcrUtil ocrUtil;
   @Before
   public void setup() {
+    ocrUtil = DependenciesRegistry.ocrUtil;
     // Ocr has native library and support only windows
     Assume.assumeTrue(System.getProperty("os.name").toLowerCase().startsWith("win"));
   }
 
   /**
-   * Test method for {@link OcrUtil#text(java.awt.image.BufferedImage)}.
+   * Test method for {@link OcrUtil#text(File)}.
    */
   @Test
   public void testTextBufferedImage() {
     final String sourceFile = "src/test/resources/hero.png";
-    Assert.assertEquals("Hero", OcrUtil.text(new File(sourceFile)));
-  }
-
-  /**
-   * Test method for {@link OcrUtil#text(java.io.File)}.
-   */
-  @Test
-  public void testTextFile() throws IOException {
-    final String sourceFile = "src/test/resources/hero.png";
-    Assert.assertEquals("Hero", OcrUtil.text(ImageIO.read(new File(sourceFile))));
+    Assert.assertEquals("Hero", ocrUtil.text(new File(sourceFile)));
   }
 
   @Test
   public void testTextFile_withPercent() throws IOException {
     final String sourceFile = "src/test/resources/percent.png";
-    Assert.assertTrue(OcrUtil.text(ImageIO.read(new File(sourceFile))).contains("°/o"));
+    Assert.assertTrue(ocrUtil.text(new File(sourceFile)).contains("°/o"));
   }
 }

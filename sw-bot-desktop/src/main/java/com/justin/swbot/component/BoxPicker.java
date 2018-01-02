@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-import com.justin.swbot.util.OcrUtil;
+import com.justin.swbot.dependencies.DependenciesRegistry;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -88,7 +88,7 @@ public class BoxPicker extends AbstractPicker {
       JOptionPane.showMessageDialog(this, new JScrollPane(label));
 
       JOptionPane.showMessageDialog(this,
-          OcrUtil.text(image.getSubimage(data.x, data.y, data.width, data.height)));
+          DependenciesRegistry.ocrUtil.text(fc.getSelectedFile(), new com.justin.swbot.util.Rectangle(data.x, data.y, data.width, data.height)));
     } catch (final IOException ex) {
       JOptionPane.showMessageDialog(this, "Could not display image " + ex.getMessage());
     }

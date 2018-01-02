@@ -12,7 +12,6 @@ import static org.bytedeco.javacpp.opencv_imgproc.COLOR_BGR2GRAY;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 
-import java.awt.Rectangle;
 import java.nio.DoubleBuffer;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -23,7 +22,7 @@ import org.bytedeco.javacpp.opencv_imgproc;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public interface ImageUtil {
+public class ImageUtil {
   /**
    * Check if the source file contains the template file. In case of matching then the location and
    * size will be returned, otherwise <code>null</code> as mismatch.

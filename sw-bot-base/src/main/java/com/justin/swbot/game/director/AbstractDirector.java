@@ -11,10 +11,7 @@ import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.game.Profile;
 import com.justin.swbot.ui.HomeView;
-import com.justin.swbot.util.Rectangle;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,6 +24,7 @@ import static com.justin.swbot.game.indicator.Indicator.sixStarRuneIndicator;
  */
 public abstract class AbstractDirector implements ScenarioDirector {
   private final CommandUtil commandUtil;
+  private final OcrUtil ocrUtil;
 
   private int availableRefillTime;
   private int battleCount;
@@ -35,6 +33,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   public AbstractDirector() {
     this.commandUtil = DependenciesRegistry.commandUtil;
+    this.ocrUtil = DependenciesRegistry.ocrUtil;
   }
 
   @Override
@@ -332,12 +331,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private boolean applyRuneFilter(final GameStatus gameStatus) throws IOException {
-    final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
     if (profile.isPickLegendRune() || profile.isPickHeroRune()) {
-      final Rectangle box = profile.getRareLevelAreaBox();
-      final BufferedImage rareLevelImage =
-          screenImage.getSubimage(box.x, box.y, box.width, box.height);
-      final String rareLevel = OcrUtil.text(rareLevelImage);
+      final String rareLevel = ocrUtil.text(new File(gameStatus.getScreenFile()), profile.getRareLevelAreaBox());
       final boolean legend = rareLevel.equals("Legend");
       if (legend) {
         return true;
@@ -370,11 +365,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private boolean applyStoneFilter(final GameStatus gameStatus) throws IOException {
-    final BufferedImage screenImage = ImageIO.read(new File(gameStatus.getScreenFile()));
     if (profile.isPickSpdPercentGrindstone()) {
-      final Rectangle box = profile.getGrindstoneStatAreaBox();
-      final BufferedImage grindImage = screenImage.getSubimage(box.x, box.y, box.width, box.height);
-      final String grindOptions = OcrUtil.text(grindImage);
+      final String grindOptions = ocrUtil.text(new File(gameStatus.getScreenFile()), profile.getGrindstoneStatAreaBox());
       final boolean percentOption = grindOptions.contains("°/o") || grindOptions.contains("%");
       final boolean spdOption = grindOptions.contains("SPD");
       if (percentOption || spdOption) {
