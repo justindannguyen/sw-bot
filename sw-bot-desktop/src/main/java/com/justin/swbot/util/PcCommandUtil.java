@@ -3,10 +3,13 @@
  */
 package com.justin.swbot.util;
 
+import com.justin.swbot.game.GameStatus;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 /**
@@ -48,5 +51,18 @@ public class PcCommandUtil implements CommandUtil {
   @Override
   public void tapScreen(final String x, final String y) {
     runCmd("adb", "shell", "input", "tap", x, y);
+  }
+
+  @Override
+  public void screenLog(GameStatus status, File folder) {
+    if (!folder.exists()) {
+      folder.mkdirs();
+    }
+    try {
+      Files.copy(new File(status.getScreenFile()).toPath(),
+          new File(folder, String.format("%s.png", System.currentTimeMillis())).toPath());
+    } catch (final IOException ex) {
+      System.err.println("Could not log screenshoot");
+    }
   }
 }

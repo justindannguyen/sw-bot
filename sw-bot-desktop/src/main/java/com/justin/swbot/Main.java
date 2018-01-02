@@ -6,6 +6,7 @@ package com.justin.swbot;
 import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.home.HomeController;
 import com.justin.swbot.util.PcCommandUtil;
+import com.justin.swbot.util.PcOcrUtil;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.skin.SaharaSkin;
 import org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel;
@@ -24,6 +25,7 @@ public class Main {
 
     DependenciesRegistry.settings = new PcSettings();
     DependenciesRegistry.commandUtil = new PcCommandUtil();
+    DependenciesRegistry.ocrUtil = new PcOcrUtil();
 
     final HomeController homeController = new HomeController();
     DependenciesRegistry.homeView = homeController;

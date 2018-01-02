@@ -14,7 +14,6 @@ import com.justin.swbot.ui.HomeView;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import static com.justin.swbot.game.indicator.Indicator.fiveStarRuneIndicator;
 import static com.justin.swbot.game.indicator.Indicator.sixStarRuneIndicator;
@@ -91,7 +90,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
       return true;
     } else if (gameState == GameState.UNKNOWN) {
       // Log unknown situation where directive can't handle
-      screenLog(gameStatus, new File("unknownStates"));
+      commandUtil.screenLog(gameStatus, new File("unknownStates"));
       sleep(10000);
       return true;
     }
@@ -143,7 +142,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
       progressMessage("Collecting rune...");
       tapScreen(profile.getGetRuneLocationX(), profile.getGetRuneLocationY());
       if (profile.isRuneLog()) {
-        screenLog(gameStatus, new File("runeLog"));
+        commandUtil.screenLog(gameStatus, new File("runeLog"));
       }
     } else {
       // Rune will be sold if non of rules are matching
@@ -160,7 +159,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
       progressMessage("Collecting stone...");
       tapScreen(profile.getGetGemLocationX(), profile.getGetGemLocationY());
       if (profile.isRuneLog()) {
-        screenLog(gameStatus, new File("runeLog"));
+        commandUtil.screenLog(gameStatus, new File("runeLog"));
       }
     } else {
       // Rune will be sold if non of rules are matching
@@ -258,18 +257,6 @@ public abstract class AbstractDirector implements ScenarioDirector {
     startBattle();
   }
 
-  protected void screenLog(final GameStatus status, final File folder) {
-    if (!folder.exists()) {
-      folder.mkdirs();
-    }
-    try {
-      Files.copy(new File(status.getScreenFile()).toPath(),
-          new File(folder, String.format("%s.png", System.currentTimeMillis())).toPath());
-    } catch (final IOException ex) {
-      System.err.println("Could not log screenshoot");
-    }
-  }
-
   /**
    * Sell the rune on battle result screen.
    */
@@ -278,7 +265,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     tapScreen(profile.getSellRuneLocationX(), profile.getSellRuneLocationY());
 
     if (profile.isRuneLog()) {
-      screenLog(gameStatus, new File("runeLog", "sold"));
+      commandUtil.screenLog(gameStatus, new File("runeLog", "sold"));
     }
   }
 
@@ -287,7 +274,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
     tapScreen(profile.getSellGemLocationX(), profile.getSellGemLocationY());
 
     if (profile.isRuneLog()) {
-      screenLog(gameStatus, new File("runeLog", "sold"));
+      commandUtil.screenLog(gameStatus, new File("runeLog", "sold"));
     }
   }
 
