@@ -8,11 +8,12 @@ import javax.swing.SwingUtilities;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.GameState;
+import com.justin.swbot.ui.HomeView;
 
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public final class HomeController implements Controller {
+public final class HomeController implements Controller, HomeView {
   private HomeUI homeUI;
   private HomeModel homeModel;
   private HomeControllerAction homeControllerAction;
@@ -44,12 +45,14 @@ public final class HomeController implements Controller {
     homeUI.setVisible(false);
   }
 
+  @Override
   public void updateGameStatus(final GameState state) {
     SwingUtilities
         .invokeLater(() -> homeUI.getStatusBar().getGameStatusLabel()
             .setText(state == null ? "" : state.name()));
   }
 
+  @Override
   public void updateStatus(final String message) {
     SwingUtilities.invokeLater(() -> homeUI.getStatusBar().getStatusLabel().setText(message));
   }

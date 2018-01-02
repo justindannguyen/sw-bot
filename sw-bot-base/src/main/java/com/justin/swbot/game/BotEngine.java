@@ -7,8 +7,9 @@ import java.io.File;
 
 import com.justin.swbot.CommandUtil;
 import com.justin.swbot.ImageUtil;
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.director.ScenarioDirector;
-import com.justin.swbot.home.HomeController;
+import com.justin.swbot.ui.HomeView;
 
 /**
  * <p>
@@ -57,24 +58,23 @@ public final class BotEngine extends Thread {
   @Override
   public void run() {
     while (true) {
-      final HomeController homeController =
-          (HomeController) ControllerRegistry.get(HomeController.class);
+      final HomeView homeView = DependenciesRegistry.homeView;
       try {
         if (!running || director == null) {
           sleep(5000);
-          homeController.updateStatus("Bot is idling, click start to begin...");
-          homeController.updateGameStatus(null);
+          homeView.updateStatus("Bot is idling, click start to begin...");
+          homeView.updateGameStatus(null);
           continue;
         }
 
-        homeController.updateStatus("Detecting new game state...");
+        homeView.updateStatus("Detecting new game state...");
         final GameStatus gameStatus = detectGameStatus();
-        homeController.updateGameStatus(gameStatus.getGameState());
+        homeView.updateGameStatus(gameStatus.getGameState());
         director.direct(gameStatus);
         sleep(1000);
       } catch (final Exception e) {
         e.printStackTrace();
-        homeController.updateStatus("Error in bot loop: " + e.getMessage());
+        homeView.updateStatus("Error in bot loop: " + e.getMessage());
       }
     }
   }

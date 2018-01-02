@@ -14,11 +14,11 @@ import javax.imageio.ImageIO;
 import com.justin.swbot.CommandUtil;
 import com.justin.swbot.ImageUtil;
 import com.justin.swbot.OcrUtil;
-import com.justin.swbot.game.ControllerRegistry;
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.GameConfig;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;
-import com.justin.swbot.home.HomeController;
+import com.justin.swbot.ui.HomeView;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -226,9 +226,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void progressMessage(final String message, final Object... args) {
-    final HomeController homeController =
-        (HomeController) ControllerRegistry.get(HomeController.class);
-    homeController.updateStatus(String.format(message, args));
+    final HomeView homeView = DependenciesRegistry.homeView;
+    homeView.updateStatus(String.format(message, args));
   }
 
   protected void refillEnergy() {
