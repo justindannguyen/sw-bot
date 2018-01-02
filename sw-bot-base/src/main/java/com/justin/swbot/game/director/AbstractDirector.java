@@ -3,22 +3,24 @@
  */
 package com.justin.swbot.game.director;
 
+import com.justin.swbot.CommandUtil;
+import com.justin.swbot.ImageUtil;
+import com.justin.swbot.OcrUtil;
+import com.justin.swbot.dependencies.DependenciesRegistry;
+import com.justin.swbot.game.GameState;
+import com.justin.swbot.game.GameStatus;
+import com.justin.swbot.game.Profile;
+import com.justin.swbot.ui.HomeView;
+
+import javax.imageio.ImageIO;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import javax.imageio.ImageIO;
-
-import com.justin.swbot.CommandUtil;
-import com.justin.swbot.ImageUtil;
-import com.justin.swbot.OcrUtil;
-import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.Profile;
-import com.justin.swbot.game.GameState;
-import com.justin.swbot.game.GameStatus;
-import com.justin.swbot.ui.HomeView;
+import static com.justin.swbot.game.indicator.Indicator.fiveStarRuneIndicator;
+import static com.justin.swbot.game.indicator.Indicator.sixStarRuneIndicator;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -341,19 +343,19 @@ public abstract class AbstractDirector implements ScenarioDirector {
     }
     if (profile.isPick6StarRune()) {
       final boolean sixStar = ImageUtil.contains(gameStatus.getScreenFile(),
-          profile.getSixStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
+          profile.getIndicatorFile(sixStarRuneIndicator).getAbsolutePath(), 98) != null;
       if (sixStar) {
         return true;
       }
     }
     if (profile.isPick5StarRune()) {
       final boolean fiveStar = ImageUtil.contains(gameStatus.getScreenFile(),
-          profile.getFiveStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
+          profile.getIndicatorFile(fiveStarRuneIndicator).getAbsolutePath(), 98) != null;
       if (fiveStar) {
         return true;
       }
       final boolean sixStar = ImageUtil.contains(gameStatus.getScreenFile(),
-          profile.getSixStarRuneIndicatorFile().getAbsolutePath(), 98) != null;
+          profile.getIndicatorFile(sixStarRuneIndicator).getAbsolutePath(), 98) != null;
       if (sixStar) {
         return true;
       }
@@ -396,7 +398,6 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private void tapScreen(final String x, final String y) {
-    
     String tapX = x;
     String tapY = y;
     if (profile.isClickRandom()) {

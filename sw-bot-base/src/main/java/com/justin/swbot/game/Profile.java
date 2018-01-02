@@ -3,19 +3,19 @@
  */
 package com.justin.swbot.game;
 
-import com.justin.swbot.Settings;
 import com.justin.swbot.dependencies.DependenciesRegistry;
+import com.justin.swbot.game.indicator.Indicator;
+import com.justin.swbot.game.indicator.IndicatorImageCache;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-
-import javax.imageio.ImageIO;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -74,32 +74,37 @@ public class Profile {
   public static final String RECHARGE_CRYS_NO_X = "rechargeCrysNoX";
   public static final String RECHARGE_CRYS_NO_Y = "rechargeCrysNoY";
 
-  private static final String IMAGE_FORMAT = "png";
+  private final String allProfilesFolder;
 
-  private final Settings settings;
+  @Getter
+  @Setter
+  private String name;
   private final Properties props = new Properties();
-  private String profileName;
-  private BufferedImage replayBattleIndicator;
-  private BufferedImage startBattleIndicator;
-  private BufferedImage battleEndIndicator;
-  private BufferedImage runeRewardIndiator;
-  private BufferedImage confirmSellRuneIndicator;
-  private BufferedImage otherRewardIndicator;
-  private BufferedImage manualAttackIndicator;
-  private BufferedImage noEnergyIndicator;
-  private BufferedImage networkDelayIndicator;
-  private BufferedImage networkUnstableIndicator;
-  private BufferedImage sixStarRuneIndicator;
-  private BufferedImage fiveStarRuneIndicator;
-  private BufferedImage stoneRewardIndicator;
-  private BufferedImage inBattleIndicator;
-  private BufferedImage confirmSellStoneIndicator;
-  private BufferedImage reviveIndicator;
-  private BufferedImage noCrysIndicator;
+  private final IndicatorImageCache indicatorImageCache;
 
-  public Profile(String name) {
-    this.settings = DependenciesRegistry.settings;
-    this.profileName = name;
+  public Profile() {
+    this.allProfilesFolder = DependenciesRegistry.settings.getProfilesFolderPath();
+    this.indicatorImageCache = DependenciesRegistry.settings.newIndicatorImageCacheInstance();
+  }
+
+  private String getProfileFolderPath() {
+    if (name == null || name.length() == 0) {
+      throw new IllegalStateException("Must set profile name first");
+    }
+
+    return allProfilesFolder + "/" + name;
+  }
+
+  public File getIndicatorFile(Indicator indicator) {
+    return new File(getProfileFolderPath() + "/" + indicator.name());
+  }
+
+  public Object getIndicator(Indicator indicator) {
+    return indicatorImageCache.get(indicator);
+  }
+
+  public void setIndicator(Indicator indicator, Object image) {
+    indicatorImageCache.put(indicator, image);
   }
 
   public String getAckRechargeEnergyOkX() {
@@ -108,16 +113,6 @@ public class Profile {
 
   public String getAckRechargeEnergyOkY() {
     return props.getProperty(ACK_RECHARGE_ENERGY_OK_Y);
-  }
-
-  public BufferedImage getBattleEndIndicator() {
-    return battleEndIndicator;
-  }
-
-  public File getBattleEndIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "battleEndIndicator");
   }
 
   public String getCloseRechargeEnergyX() {
@@ -144,42 +139,12 @@ public class Profile {
     return props.getProperty(CONFIRM_RECHARGE_ENERGY_Y);
   }
 
-  public BufferedImage getConfirmSellRuneIndicator() {
-    return confirmSellRuneIndicator;
-  }
-
-  public File getConfirmSellRuneIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "confirmSellRuneIndicator");
-  }
-
-  public BufferedImage getConfirmSellStoneIndicator() {
-    return confirmSellStoneIndicator;
-  }
-
-  public File getConfirmSellStoneIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "confirmSellStoneIndicator");
-  }
-
   public String getEnableAutoModeX() {
     return props.getProperty(ENABLE_AUTO_MODE_X);
   }
 
   public String getEnableAutoModeY() {
     return props.getProperty(ENABLE_AUTO_MODE_Y);
-  }
-
-  public BufferedImage getFiveStarRuneIndicator() {
-    return fiveStarRuneIndicator;
-  }
-
-  public File getFiveStarRuneIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "fiveStarRuneIndicator");
   }
 
   public String getGetGemLocationX() {
@@ -214,84 +179,6 @@ public class Profile {
     final String[] box = getGrindstoneStatArea().split(",");
     return new Rectangle(Integer.valueOf(box[0]), Integer.valueOf(box[1]), Integer.valueOf(box[2]),
         Integer.valueOf(box[3]));
-  }
-
-  public BufferedImage getInBattleIndicator() {
-    return inBattleIndicator;
-  }
-
-  public File getInBattleIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "inBattleIndicator");
-  }
-
-  public BufferedImage getManualAttackIndicator() {
-    return manualAttackIndicator;
-  }
-
-  public File getManualAttackIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "manualAttackIndicator");
-  }
-
-  public BufferedImage getNetworkDelayIndicator() {
-    return networkDelayIndicator;
-  }
-
-  public File getNetworkDelayIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "networkDelayIndicator");
-  }
-
-  public BufferedImage getNetworkUnstableIndicator() {
-    return networkUnstableIndicator;
-  }
-
-  public File getNetworkUnstableIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "networkUnstableIndicator");
-  }
-
-  public BufferedImage getNoCrysIndicator() {
-    return noCrysIndicator;
-  }
-
-  public File getNoCrysIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "noCrysIndicator");
-  }
-
-  public BufferedImage getNoEnergyIndicator() {
-    return noEnergyIndicator;
-  }
-
-  public File getNoEnergyIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "noEnergyIndicator");
-  }
-
-  public BufferedImage getOtherRewardIndicator() {
-    return otherRewardIndicator;
-  }
-
-  public File getOtherRewardIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "otherRewardIndicator");
-  }
-
-  public String getProfileName() {
-    return profileName;
-  }
-
-  public File getProfilesFolder() {
-    return new File(settings.getProfilesFolderPath());
   }
 
   public String getRareLevelArea() {
@@ -340,16 +227,6 @@ public class Profile {
     return props.getProperty(REFILL_TIMES);
   }
 
-  public BufferedImage getReplayBattleIndicator() {
-    return replayBattleIndicator;
-  }
-
-  public File getReplayBattleIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "replayBattleIndicator");
-  }
-
   public String getReplayBattleX() {
     return props.getProperty(REPLAY_BATTLE_X);
   }
@@ -366,32 +243,12 @@ public class Profile {
     return props.getProperty(RESEND_BATTLE_INFO_Y);
   }
 
-  public BufferedImage getReviveIndicator() {
-    return reviveIndicator;
-  }
-
-  public File getReviveIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "reviveIndicator");
-  }
-
   public String getReviveNoX() {
     return props.getProperty(REVIVE_NO_X);
   }
 
   public String getReviveNoY() {
     return props.getProperty(REVIVE_NO_Y);
-  }
-
-  public BufferedImage getRuneRewardIndiator() {
-    return runeRewardIndiator;
-  }
-
-  public File getRuneRewardIndiatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "runeRewardIndiator");
   }
 
   public String getSellGemLocationX() {
@@ -426,26 +283,6 @@ public class Profile {
     return props.getProperty(SELL_GEM_CONFIRM_Y);
   }
 
-  public BufferedImage getSixStarRuneIndicator() {
-    return sixStarRuneIndicator;
-  }
-
-  public File getSixStarRuneIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "sixStarRuneIndicator");
-  }
-
-  public BufferedImage getStartBattleIndicator() {
-    return startBattleIndicator;
-  }
-
-  public File getStartBattleIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "startBattleIndicator");
-  }
-
   public String getStartBattleX() {
     return props.getProperty(START_BATTLE_X);
   }
@@ -454,22 +291,12 @@ public class Profile {
     return props.getProperty(START_BATTLE_Y);
   }
 
-  public BufferedImage getStoneRewardIndicator() {
-    return stoneRewardIndicator;
-  }
-
-  public File getStoneRewardIndicatorFile() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
-    return new File(profileFolder, "stoneRewardIndicator");
-  }
-
   public boolean isClickRandom() {
     return Boolean.valueOf(props.getProperty(RANDOM_CLICK, "true"));
   }
 
   public boolean isEmpty() {
-    return profileName == null && props.isEmpty();
+    return name == null && props.isEmpty();
   }
 
   public boolean isPick5StarRune() {
@@ -505,30 +332,13 @@ public class Profile {
   }
 
   public void load() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, profileName);
+    final File profileFolder = new File(getProfileFolderPath());
     if (!profileFolder.exists()) {
       profileFolder.mkdirs();
     }
     try {
       props.load(new FileInputStream(new File(profileFolder, "index.properties")));
-      replayBattleIndicator = loadImage(getReplayBattleIndicatorFile());
-      startBattleIndicator = loadImage(getStartBattleIndicatorFile());
-      battleEndIndicator = loadImage(getBattleEndIndicatorFile());
-      runeRewardIndiator = loadImage(getRuneRewardIndiatorFile());
-      confirmSellRuneIndicator = loadImage(getConfirmSellRuneIndicatorFile());
-      otherRewardIndicator = loadImage(getOtherRewardIndicatorFile());
-      manualAttackIndicator = loadImage(getManualAttackIndicatorFile());
-      noEnergyIndicator = loadImage(getNoEnergyIndicatorFile());
-      networkDelayIndicator = loadImage(getNetworkDelayIndicatorFile());
-      networkUnstableIndicator = loadImage(getNetworkUnstableIndicatorFile());
-      sixStarRuneIndicator = loadImage(getSixStarRuneIndicatorFile());
-      fiveStarRuneIndicator = loadImage(getFiveStarRuneIndicatorFile());
-      stoneRewardIndicator = loadImage(getStoneRewardIndicatorFile());
-      inBattleIndicator = loadImage(getInBattleIndicatorFile());
-      confirmSellStoneIndicator = loadImage(getConfirmSellStoneIndicatorFile());
-      reviveIndicator = loadImage(getReviveIndicatorFile());
-      noCrysIndicator = loadImage(getNoCrysIndicatorFile());
+      indicatorImageCache.loadAllIndicators(getProfileFolderPath());
     } catch (final IOException ex) {
       System.err.println("Can't load the game configuration");
       ex.printStackTrace();
@@ -536,31 +346,14 @@ public class Profile {
   }
 
   public void save() {
-    final File profilesFolder = getProfilesFolder();
-    final File profileFolder = new File(profilesFolder, getProfileName());
+    final File profileFolder = new File(getProfileFolderPath());
     if (!profileFolder.exists()) {
       profileFolder.mkdirs();
     }
 
     try (FileOutputStream fos = new FileOutputStream(new File(profileFolder, "index.properties"))) {
       props.store(fos, "");
-      storeImage(replayBattleIndicator, getReplayBattleIndicatorFile());
-      storeImage(startBattleIndicator, getStartBattleIndicatorFile());
-      storeImage(battleEndIndicator, getBattleEndIndicatorFile());
-      storeImage(runeRewardIndiator, getRuneRewardIndiatorFile());
-      storeImage(confirmSellRuneIndicator, getConfirmSellRuneIndicatorFile());
-      storeImage(otherRewardIndicator, getOtherRewardIndicatorFile());
-      storeImage(manualAttackIndicator, getManualAttackIndicatorFile());
-      storeImage(noEnergyIndicator, getNoEnergyIndicatorFile());
-      storeImage(networkDelayIndicator, getNetworkDelayIndicatorFile());
-      storeImage(networkUnstableIndicator, getNetworkUnstableIndicatorFile());
-      storeImage(sixStarRuneIndicator, getSixStarRuneIndicatorFile());
-      storeImage(fiveStarRuneIndicator, getFiveStarRuneIndicatorFile());
-      storeImage(stoneRewardIndicator, getStoneRewardIndicatorFile());
-      storeImage(inBattleIndicator, getInBattleIndicatorFile());
-      storeImage(confirmSellStoneIndicator, getConfirmSellStoneIndicatorFile());
-      storeImage(reviveIndicator, getReviveIndicatorFile());
-      storeImage(noCrysIndicator, getNoCrysIndicatorFile());
+      indicatorImageCache.saveAllIndicators(getProfileFolderPath());
     } catch (final IOException ex) {
       throw new RuntimeException("Could not store the profile", ex);
     }
@@ -569,10 +362,6 @@ public class Profile {
   public void setAckRechargeEnergyOk(final Point point) {
     props.setProperty(ACK_RECHARGE_ENERGY_OK_X, String.valueOf(point.x));
     props.setProperty(ACK_RECHARGE_ENERGY_OK_Y, String.valueOf(point.y));
-  }
-
-  public void setBattleEndIndicator(final BufferedImage battleEndIndicator) {
-    this.battleEndIndicator = battleEndIndicator;
   }
 
   public void setClickRandom(final boolean value) {
@@ -594,21 +383,9 @@ public class Profile {
     props.setProperty(CONFIRM_RECHARGE_ENERGY_Y, String.valueOf(point.y));
   }
 
-  public void setConfirmSellRuneIndicator(final BufferedImage confirmSellRuneIndicator) {
-    this.confirmSellRuneIndicator = confirmSellRuneIndicator;
-  }
-
-  public void setConfirmSellStoneIndicator(final BufferedImage confirmSellStoneIndicator) {
-    this.confirmSellStoneIndicator = confirmSellStoneIndicator;
-  }
-
   public void setEnableAutoMode(final Point point) {
     props.setProperty(ENABLE_AUTO_MODE_X, String.valueOf(point.x));
     props.setProperty(ENABLE_AUTO_MODE_Y, String.valueOf(point.y));
-  }
-
-  public void setFiveStarRuneIndicator(final BufferedImage fiveStarRuneIndicator) {
-    this.fiveStarRuneIndicator = fiveStarRuneIndicator;
   }
 
   public void setGetGemLocation(final Point point) {
@@ -628,34 +405,6 @@ public class Profile {
 
   public void setGrindstoneStatArea(final int x, final int y, final int w, final int h) {
     props.setProperty(GRINDSTONE_STAT_AREA, String.format("%s,%s,%s,%s", x, y, w, h));
-  }
-
-  public void setInBattleIndicator(final BufferedImage inBattleIndicator) {
-    this.inBattleIndicator = inBattleIndicator;
-  }
-
-  public void setManualAttackIndicator(final BufferedImage manualAttackIndicator) {
-    this.manualAttackIndicator = manualAttackIndicator;
-  }
-
-  public void setNetworkDelayIndicator(final BufferedImage networkDelayIndicator) {
-    this.networkDelayIndicator = networkDelayIndicator;
-  }
-
-  public void setNetworkUnstableIndicator(final BufferedImage networkUnstableIndicator) {
-    this.networkUnstableIndicator = networkUnstableIndicator;
-  }
-
-  public void setNoCrysIndicator(final BufferedImage noCrysIndicator) {
-    this.noCrysIndicator = noCrysIndicator;
-  }
-
-  public void setNoEnergyIndicator(final BufferedImage noEnergyIndicator) {
-    this.noEnergyIndicator = noEnergyIndicator;
-  }
-
-  public void setOtherRewardIndicator(final BufferedImage otherRewardIndicator) {
-    this.otherRewardIndicator = otherRewardIndicator;
   }
 
   public void setPick5StarRune(final boolean value) {
@@ -715,17 +464,9 @@ public class Profile {
     props.setProperty(REPLAY_BATTLE_Y, String.valueOf(point.y));
   }
 
-  public void setReplayBattleIndicator(final BufferedImage replayBattleIndicator) {
-    this.replayBattleIndicator = replayBattleIndicator;
-  }
-
   public void setResendBattleInfoX(final Point point) {
     props.setProperty(RESEND_BATTLE_INFO_X, String.valueOf(point.x));
     props.setProperty(RESEND_BATTLE_INFO_Y, String.valueOf(point.y));
-  }
-
-  public void setReviveIndicator(final BufferedImage reviveIndicator) {
-    this.reviveIndicator = reviveIndicator;
   }
 
   public void setReviveNoLocation(final Point point) {
@@ -735,10 +476,6 @@ public class Profile {
 
   public void setRuneLog(final boolean value) {
     props.setProperty(RUNE_LOG, String.valueOf(value));
-  }
-
-  public void setRuneRewardIndiator(final BufferedImage runeRewardIndiator) {
-    this.runeRewardIndiator = runeRewardIndiator;
   }
 
   public void setSellAllRune(final boolean value) {
@@ -765,33 +502,8 @@ public class Profile {
     props.setProperty(SELL_GEM_CONFIRM_Y, String.valueOf(point.y));
   }
 
-  public void setSixStarRuneIndicator(final BufferedImage sixStarRuneIndicator) {
-    this.sixStarRuneIndicator = sixStarRuneIndicator;
-  }
-
   public void setStartBattle(final Point point) {
     props.setProperty(START_BATTLE_X, String.valueOf(point.x));
     props.setProperty(START_BATTLE_Y, String.valueOf(point.y));
-  }
-
-  public void setStartBattleIndicator(final BufferedImage startBattleIndicator) {
-    this.startBattleIndicator = startBattleIndicator;
-  }
-
-  public void setStoneRewardIndicator(final BufferedImage stoneRewardIndicator) {
-    this.stoneRewardIndicator = stoneRewardIndicator;
-  }
-
-  private BufferedImage loadImage(final File imageFile) throws IOException {
-    if (imageFile != null && imageFile.exists()) {
-      return ImageIO.read(imageFile);
-    }
-    return null;
-  }
-
-  private void storeImage(final BufferedImage image, final File location) throws IOException {
-    if (image != null) {
-      ImageIO.write(image, IMAGE_FORMAT, location);
-    }
   }
 }

@@ -25,6 +25,7 @@ import com.justin.swbot.component.event.ValueListener;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
 import com.justin.swbot.game.Profile;
+import com.justin.swbot.game.indicator.Indicator;
 import com.justin.swbot.home.HomeController;
 
 /**
@@ -273,7 +274,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     if (model.getProfileName() == null) {
       return;
     }
-    final Profile profile = new Profile(model.getProfileName());
+    final Profile profile = new Profile();
+    profile.setName(model.getProfileName());
     profile.setRefillTimes(model.getRefillTimes());
     if (model.getReplayBattleLocation() != null) {
       profile.setReplayBattle(model.getReplayBattleLocation());
@@ -321,37 +323,43 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
       profile.setResendBattleInfoX(model.getResendBattleInfoLocation());
     }
     if (model.getReplayBattleIndicator() != null) {
-      profile.setReplayBattleIndicator(model.getReplayBattleIndicator());
+      profile.setIndicator(Indicator.replayBattleIndicator, model.getReplayBattleIndicator());
     }
     if (model.getStartBattleIndicator() != null) {
-      profile.setStartBattleIndicator(model.getStartBattleIndicator());
+      profile.setIndicator(Indicator.startBattleIndicator, model.getStartBattleIndicator());
     }
     if (model.getBattleEndIndicator() != null) {
-      profile.setBattleEndIndicator(model.getBattleEndIndicator());
+      profile.setIndicator(Indicator.battleEndIndicator, model.getBattleEndIndicator());
     }
     if (model.getRuneRewardIndiator() != null) {
-      profile.setRuneRewardIndiator(model.getRuneRewardIndiator());
+      profile.setIndicator(Indicator.runeRewardIndiator, model.getRuneRewardIndiator());
     }
     if (model.getConfirmSellRuneIndicator() != null) {
-      profile.setConfirmSellRuneIndicator(model.getConfirmSellRuneIndicator());
+      profile.setIndicator(Indicator.confirmSellRuneIndicator, model.getConfirmSellRuneIndicator());
     }
     if (model.getOtherRewardIndicator() != null) {
-      profile.setOtherRewardIndicator(model.getOtherRewardIndicator());
+      profile.setIndicator(Indicator.otherRewardIndicator, model.getOtherRewardIndicator());
     }
     if (model.getManualAttackIndicator() != null) {
-      profile.setManualAttackIndicator(model.getManualAttackIndicator());
+      profile.setIndicator(Indicator.manualAttackIndicator, model.getManualAttackIndicator());
     }
     if (model.getNoEnergyIndicator() != null) {
-      profile.setNoEnergyIndicator(model.getNoEnergyIndicator());
+      profile.setIndicator(Indicator.noEnergyIndicator, model.getNoEnergyIndicator());
     }
     if (model.getNetworkDelayIndicator() != null) {
-      profile.setNetworkDelayIndicator(model.getNetworkDelayIndicator());
+      profile.setIndicator(Indicator.networkDelayIndicator, model.getNetworkDelayIndicator());
     }
     if (model.getNetworkUnstableIndicator() != null) {
-      profile.setNetworkUnstableIndicator(model.getNetworkUnstableIndicator());
+      profile.setIndicator(Indicator.networkUnstableIndicator, model.getNetworkUnstableIndicator());
     }
     if (model.getStoneRewardIndicator() != null) {
-      profile.setStoneRewardIndicator(model.getStoneRewardIndicator());
+      profile.setIndicator(Indicator.stoneRewardIndicator, model.getStoneRewardIndicator());
+    }
+    if (model.getInBattleIndicator() != null) {
+      profile.setIndicator(Indicator.inBattleIndicator, model.getInBattleIndicator());
+    }
+    if (model.getConfirmSellStoneIndicator() != null) {
+      profile.setIndicator(Indicator.confirmSellStoneIndicator, model.getConfirmSellStoneIndicator());
     }
     if (model.getGetStoneRewardLocation() != null) {
       profile.setGetGemLocation(model.getGetStoneRewardLocation());
@@ -359,14 +367,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     if (model.getSellStoneLocation() != null) {
       profile.setSellGemLocation(model.getSellStoneLocation());
     }
-    if (model.getInBattleIndicator() != null) {
-      profile.setInBattleIndicator(model.getInBattleIndicator());
-    }
     if (model.getSellStoneConfirmLocation() != null) {
       profile.setSellStoneConfirmation(model.getSellStoneConfirmLocation());
-    }
-    if (model.getConfirmSellStoneIndicator() != null) {
-      profile.setConfirmSellStoneIndicator(model.getConfirmSellStoneIndicator());
     }
     profile.setClickRandom(model.isRandomClick());
     profile.setSellAllRune(model.isSellAllRune());
@@ -378,14 +380,14 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     profile.setRareLevelArea(box.x, box.y, box.width, box.height);
     profile.setPick5StarRune(model.isPickFiveStarRune());
     profile.setPick6StarRune(model.isPickSixStarRune());
-    profile.setSixStarRuneIndicator(model.getSixStarRuneIndicator());
-    profile.setFiveStarRuneIndicator(model.getFiveStarRuneIndicator());
+    profile.setIndicator(Indicator.sixStarRuneIndicator, model.getSixStarRuneIndicator());
+    profile.setIndicator(Indicator.fiveStarRuneIndicator, model.getFiveStarRuneIndicator());
     profile.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
     box = model.getGrindStatArea();
     profile.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
-    profile.setReviveIndicator(model.getReviveIndicator());
+    profile.setIndicator(Indicator.reviveIndicator, model.getReviveIndicator());
     profile.setReviveNoLocation(model.getReviveNoLocation());
-    profile.setNoCrysIndicator(model.getNoCrysIndicator());
+    profile.setIndicator(Indicator.noCrysIndicator, model.getNoCrysIndicator());
     profile.setRechargeCrysNo(model.getRechargeCrysNoLocation());
 
     profile.save();

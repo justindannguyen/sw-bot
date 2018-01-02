@@ -3,13 +3,14 @@
  */
 package com.justin.swbot.profile;
 
+import com.justin.swbot.game.Profile;
+import com.justin.swbot.game.indicator.Indicator;
+import lombok.Getter;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
-
-import com.justin.swbot.game.Profile;
-import lombok.Getter;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -75,8 +76,10 @@ public class AddProfileModel extends Observable {
 
   public AddProfileModel(String profileName) {
     this.profileName = profileName;
-    this.profile = new Profile(profileName);
-    if (profileName != null) {
+    this.profile = new Profile();
+
+    if (profileName != null && profileName.length() > 0) {
+      this.profile.setName(profileName);
       this.profile.load();
     }
   }
@@ -320,26 +323,26 @@ public class AddProfileModel extends Observable {
     rareLevelArea = profile.getRareLevelAreaBox();
     pickSixStarRune = profile.isPick6StarRune();
     pickFiveStarRune = profile.isPick5StarRune();
-    sixStarRuneIndicator = profile.getSixStarRuneIndicator();
-    fiveStarRuneIndicator = profile.getFiveStarRuneIndicator();
+    sixStarRuneIndicator = (BufferedImage) profile.getIndicator(Indicator.sixStarRuneIndicator);
+    fiveStarRuneIndicator = (BufferedImage) profile.getIndicator(Indicator.fiveStarRuneIndicator);
     pickGrindSpdPercent = profile.isPickSpdPercentGrindstone();
     grindStatArea = profile.getGrindstoneStatAreaBox();
-    replayBattleIndicator = profile.getReplayBattleIndicator();
-    startBattleIndicator = profile.getStartBattleIndicator();
-    battleEndIndicator = profile.getBattleEndIndicator();
-    runeRewardIndiator = profile.getRuneRewardIndiator();
-    confirmSellRuneIndicator = profile.getConfirmSellRuneIndicator();
-    otherRewardIndicator = profile.getOtherRewardIndicator();
-    manualAttackIndicator = profile.getManualAttackIndicator();
-    noEnergyIndicator = profile.getNoEnergyIndicator();
-    networkDelayIndicator = profile.getNetworkDelayIndicator();
-    networkUnstableIndicator = profile.getNetworkUnstableIndicator();
-    stoneRewardIndicator = profile.getStoneRewardIndicator();
-    inBattleIndicator = profile.getInBattleIndicator();
-    confirmSellStoneIndicator = profile.getConfirmSellStoneIndicator();
-    reviveIndicator = profile.getReviveIndicator();
+    replayBattleIndicator = (BufferedImage) profile.getIndicator(Indicator.replayBattleIndicator);
+    startBattleIndicator = (BufferedImage) profile.getIndicator(Indicator.startBattleIndicator);
+    battleEndIndicator = (BufferedImage) profile.getIndicator(Indicator.battleEndIndicator);
+    runeRewardIndiator = (BufferedImage) profile.getIndicator(Indicator.runeRewardIndiator);
+    confirmSellRuneIndicator = (BufferedImage) profile.getIndicator(Indicator.confirmSellRuneIndicator);
+    otherRewardIndicator = (BufferedImage) profile.getIndicator(Indicator.otherRewardIndicator);
+    manualAttackIndicator = (BufferedImage) profile.getIndicator(Indicator.manualAttackIndicator);
+    noEnergyIndicator = (BufferedImage) profile.getIndicator(Indicator.noEnergyIndicator);
+    networkDelayIndicator = (BufferedImage) profile.getIndicator(Indicator.networkDelayIndicator);
+    networkUnstableIndicator = (BufferedImage) profile.getIndicator(Indicator.networkUnstableIndicator);
+    stoneRewardIndicator = (BufferedImage) profile.getIndicator(Indicator.stoneRewardIndicator);
+    inBattleIndicator = (BufferedImage) profile.getIndicator(Indicator.inBattleIndicator);
+    confirmSellStoneIndicator = (BufferedImage) profile.getIndicator(Indicator.confirmSellStoneIndicator);
+    reviveIndicator = (BufferedImage) profile.getIndicator(Indicator.reviveIndicator);
+    noCrysIndicator = (BufferedImage) profile.getIndicator(Indicator.noCrysIndicator);
     reviveNoLocation = getLocation(profile.getReviveNoX(), profile.getReviveNoY());
-    noCrysIndicator = profile.getNoCrysIndicator();
     rechargeCrysNoLocation = getLocation(profile.getRechargeCrysNoX(), profile.getRechargeCrysNoY());
 
     setChanged();
