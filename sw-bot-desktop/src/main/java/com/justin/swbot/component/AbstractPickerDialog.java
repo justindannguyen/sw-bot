@@ -117,6 +117,14 @@ public abstract class AbstractPickerDialog extends JDialog {
       try {
         screenImage = ImageIO.read(new File(filename));
         newIcon = new ImageIcon(screenImage);
+
+        // Collapse dialog to screenshot
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int finalWidth = (int) Math.min(newIcon.getIconWidth(), screenSize.getWidth());
+        int finalHeight = (int) Math.min(newIcon.getIconHeight(), screenSize.getHeight());
+        setPreferredSize(new Dimension(finalWidth, finalHeight));
+        pack();
+
       } catch (final IOException ex) {
         newIcon = new ImageIcon(filename);
       }
