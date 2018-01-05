@@ -12,6 +12,7 @@ import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.ui.HomeView;
 import com.justin.swbot.util.Point;
+import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +28,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
   private final OcrUtil ocrUtil;
   private HomeView homeView;
 
+  @Getter
   private int availableRefillTime;
+  @Getter
   private int battleCount;
+  @Getter
   private int deadCount;
   private Profile profile;
 

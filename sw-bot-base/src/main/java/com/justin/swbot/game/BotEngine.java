@@ -4,13 +4,12 @@
 package com.justin.swbot.game;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.profile.Profile;
-import com.justin.swbot.game.profile.ProfileManager;
-import com.justin.swbot.util.CommandUtil;
-import com.justin.swbot.util.ImageUtil;
 import com.justin.swbot.game.director.ScenarioDirector;
 import com.justin.swbot.game.indicator.Indicator;
+import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.ui.HomeView;
+import com.justin.swbot.util.CommandUtil;
+import com.justin.swbot.util.ImageUtil;
 
 import java.io.File;
 
@@ -40,25 +39,20 @@ import static com.justin.swbot.game.indicator.Indicator.stoneRewardIndicator;
  */
 public final class BotEngine extends Thread {
   private final CommandUtil commandUtil;
-  private final ProfileManager profileManager;
 
   private final ScenarioDirector director;
-  private final HomeView homeView;
   private final Profile profile;
+  private final HomeView homeView;
+
   private boolean isRunning;
 
-  public BotEngine(ScenarioDirector director, String profileName, HomeView homeView) {
+  public BotEngine(ScenarioDirector director, Profile profile, HomeView homeView) {
     super();
-
     this.commandUtil = DependenciesRegistry.commandUtil;
-    this.profileManager = DependenciesRegistry.profileManager;
 
     this.director = director;
+    this.profile = profile;
     this.homeView = homeView;
-    this.profile = this.profileManager.load(profileName);
-    this.director.setProfile(profile);
-    this.director.bindView(homeView);
-    this.director.restart();
   }
 
   @Override
@@ -67,14 +61,20 @@ public final class BotEngine extends Thread {
 
     while (isRunning) {
       try {
-        homeView.updateStatus("Detecting new game state...");
+        if (homeView != null) homeView.updateStatus("Detecting new game state...");
         final GameStatus gameStatus = detectGameStatus();
-        homeView.updateGameStatus(gameStatus.getGameState());
+        if (homeView != null) homeView.updateGameStatus(gameStatus.getGameState());
+
         director.direct(gameStatus);
-        sleep(1000);
       } catch (final Exception e) {
         e.printStackTrace();
-        homeView.updateStatus("Error in bot loop: " + e.getMessage());
+        if (homeView != null) homeView.updateStatus("Error in bot loop: " + e.getMessage());
+      }
+
+      try {
+        sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
     }
   }

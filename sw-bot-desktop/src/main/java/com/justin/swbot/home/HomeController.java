@@ -3,11 +3,13 @@
  */
 package com.justin.swbot.home;
 
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.Controller;
 import com.justin.swbot.ControllerRegistry;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.director.ScenarioDirector;
+import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.ui.HomeView;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,6 +57,15 @@ public final class HomeController implements Controller, HomeView {
       updateStatus("Select profile to start...");
       return;
     }
+
+    // Profile
+    Profile profile = DependenciesRegistry.profileManager.load(homeModel.getSelectedProfile());
+    if (profile == null) {
+      updateStatus("Invalid profile");
+      return;
+    }
+
+    // Director
     ScenarioDirector selectedDirector = null;
     for (final AbstractMap.SimpleImmutableEntry<String, ScenarioDirector> scenario : homeModel.getScenarios()) {
       if (scenario.getKey().equals(homeModel.getSelectedScenario())) {
@@ -66,9 +77,14 @@ public final class HomeController implements Controller, HomeView {
       updateStatus("Select scenario to start...");
       return;
     }
+    selectedDirector.setProfile(profile);
+    selectedDirector.bindView(this);
+    selectedDirector.restart();
 
-    botEngine = new BotEngine(selectedDirector, homeModel.getSelectedProfile(), this);
+    // Engine
+    botEngine = new BotEngine(selectedDirector, profile, this);
     botEngine.start();
+
     homeUI.getToggeButton().setText("Stop");
   }
 
