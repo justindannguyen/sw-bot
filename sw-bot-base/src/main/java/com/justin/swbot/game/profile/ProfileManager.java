@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.justin.swbot.util.FileUtil.readTextFile;
 import static com.justin.swbot.util.FileUtil.writeTextFile;
@@ -27,11 +29,30 @@ public class ProfileManager {
       throw new IllegalArgumentException("Invalid profile name: " + profileName);
     }
 
+    File containerFolder = getProfilesDir();
+    return new File(containerFolder, profileName);
+  }
+
+  private File getProfilesDir() {
     if (profilesLocation == null || profilesLocation.length() == 0) {
       throw new IllegalStateException("Must set profiles folder first");
     }
 
-    return new File(profilesLocation + "/" + profileName);
+    return new File(profilesLocation);
+  }
+
+  public List<String> getProfileNames() {
+    List<String> list = new ArrayList<String>();
+
+    File[] profilesFolderContent = getProfilesDir().listFiles();
+    if (profilesFolderContent != null) {
+      for (File folder : profilesFolderContent) {
+        if (folder.isDirectory()) {
+          list.add(folder.getName());
+        }
+      }
+    }
+    return list;
   }
 
   public Profile createEmptyProfile() {

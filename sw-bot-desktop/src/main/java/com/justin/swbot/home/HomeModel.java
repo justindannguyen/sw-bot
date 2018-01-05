@@ -3,17 +3,14 @@
  */
 package com.justin.swbot.home;
 
-import java.io.File;
+import com.justin.swbot.dependencies.DependenciesRegistry;
+import com.justin.swbot.game.director.ScenarioDirector;
+
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
-
-import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.director.ScenarioDirector;
 
 /**
  * Central place to store all UI data for the {@link HomeUI}.
@@ -103,11 +100,7 @@ public final class HomeModel extends Observable {
     profiles.clear();
     profiles.add("--Select profile--");
     profiles.add("Configure new profile...");
-    final File profilesFolder = new File(DependenciesRegistry.settings.getProfilesFolderPath());
-    if (profilesFolder.exists()) {
-      profiles.addAll(Arrays.stream(profilesFolder.listFiles(file -> file.isDirectory()))
-          .map(file -> file.getName()).collect(Collectors.toList()));
-    }
+    profiles.addAll(DependenciesRegistry.profileManager.getProfileNames());
     setChanged();
     notifyObservers(PROFILES_LOADED);
 

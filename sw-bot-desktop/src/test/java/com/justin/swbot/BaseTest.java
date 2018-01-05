@@ -1,6 +1,7 @@
 package com.justin.swbot;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
+import com.justin.swbot.game.profile.ProfileManager;
 import com.justin.swbot.util.PcCommandUtil;
 import com.justin.swbot.util.PcOcrUtil;
 
@@ -12,5 +13,7 @@ public abstract class BaseTest {
     DependenciesRegistry.settings = new PcSettings();
     DependenciesRegistry.commandUtil = new PcCommandUtil();
     DependenciesRegistry.ocrUtil = new PcOcrUtil();
+    DependenciesRegistry.profileManager = new ProfileManager();
+    DependenciesRegistry.profileManager.setLocation(DependenciesRegistry.settings.getProfilesFolderPath());
   }
 }

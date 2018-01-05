@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 public class ProfileManagerTest {
   private static final String PROFILES_FOLDER = "src/test/resources/profiles";
@@ -56,6 +57,15 @@ public class ProfileManagerTest {
 
     profileManager.setLocation(".");
     profileManager.load("test");
+  }
+
+  @Test
+  public void testGetListProfileNames() {
+    ProfileManager profileManager = new ProfileManager();
+    profileManager.setLocation(PROFILES_FOLDER);
+
+    List<String> names = profileManager.getProfileNames();
+    Assert.assertEquals(2, names.size());
   }
 
   @Test
