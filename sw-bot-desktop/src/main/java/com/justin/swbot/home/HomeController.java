@@ -4,8 +4,8 @@
 package com.justin.swbot.home;
 
 import com.justin.swbot.game.BotEngine;
-import com.justin.swbot.game.Controller;
-import com.justin.swbot.game.ControllerRegistry;
+import com.justin.swbot.Controller;
+import com.justin.swbot.ControllerRegistry;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.director.ScenarioDirector;
 import com.justin.swbot.ui.HomeView;

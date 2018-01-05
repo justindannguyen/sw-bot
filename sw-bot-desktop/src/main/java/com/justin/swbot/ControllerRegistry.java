@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2017, Justin Nguyen
  */
-package com.justin.swbot.game;
+package com.justin.swbot;
 
 import java.util.HashMap;
 import java.util.Map;

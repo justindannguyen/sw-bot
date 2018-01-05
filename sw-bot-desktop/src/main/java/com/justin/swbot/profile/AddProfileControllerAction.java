@@ -26,8 +26,8 @@ import javax.swing.event.ChangeListener;
 
 import com.justin.swbot.component.event.ValueListener;
 import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.Controller;
-import com.justin.swbot.game.ControllerRegistry;
+import com.justin.swbot.Controller;
+import com.justin.swbot.ControllerRegistry;
 import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.game.indicator.Indicator;
 import com.justin.swbot.home.HomeController;

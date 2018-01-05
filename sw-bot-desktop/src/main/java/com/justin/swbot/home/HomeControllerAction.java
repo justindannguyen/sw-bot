@@ -16,8 +16,7 @@ import java.util.Observable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
-import com.justin.swbot.game.Controller;
-import com.justin.swbot.game.ControllerRegistry;
+import com.justin.swbot.ControllerRegistry;
 import com.justin.swbot.profile.AddProfileController;
 
 /**
