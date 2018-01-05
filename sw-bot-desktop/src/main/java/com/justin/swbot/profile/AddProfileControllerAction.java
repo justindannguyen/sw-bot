@@ -4,7 +4,6 @@
 package com.justin.swbot.profile;
 
 import static com.justin.swbot.profile.AddProfileModel.MODEL_LOADED;
-import static com.justin.swbot.util.PcConverter.fromAwtPoint;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -17,15 +16,19 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 
+import javax.imageio.ImageIO;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.justin.swbot.component.event.ValueListener;
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
-import com.justin.swbot.game.Profile;
+import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.game.indicator.Indicator;
 import com.justin.swbot.home.HomeController;
 
@@ -149,7 +152,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
   }
 
   @Override
-  public void keyPressed(final KeyEvent e) {}
+  public void keyPressed(final KeyEvent e) {
+  }
 
   @Override
   public void keyReleased(final KeyEvent e) {
@@ -161,7 +165,8 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
   }
 
   @Override
-  public void keyTyped(final KeyEvent e) {}
+  public void keyTyped(final KeyEvent e) {
+  }
 
   @Override
   public void stateChanged(final ChangeEvent e) {
@@ -275,127 +280,43 @@ public class AddProfileControllerAction implements AddProfileModelListener, Acti
     if (model.getProfileName() == null) {
       return;
     }
-    final Profile profile = new Profile();
-    profile.setName(model.getProfileName());
-    profile.setRefillTimes(model.getRefillTimes());
-    if (model.getReplayBattleLocation() != null) {
-      profile.setReplayBattle(fromAwtPoint(model.getReplayBattleLocation()));
-    }
-    if (model.getStartBattleLocation() != null) {
-      profile.setStartBattle(fromAwtPoint(model.getStartBattleLocation()));
-    }
-    if (model.getSellRuneLocation() != null) {
-      profile.setSellRuneLocation(fromAwtPoint(model.getSellRuneLocation()));
-    }
-    if (model.getSellRuneConfirmLocation() != null) {
-      profile.setSellRuneConfirmation(fromAwtPoint(model.getSellRuneConfirmLocation()));
-    }
-    if (model.getGetRuneRewardLocation() != null) {
-      profile.setGetRuneLocation(fromAwtPoint(model.getGetRuneRewardLocation()));
-    }
-    if (model.getGetRewardLocation() != null) {
-      profile.setGetRewardLocation(fromAwtPoint(model.getGetRewardLocation()));
-    }
-    if (model.getEnableAutoAttackLocation() != null) {
-      profile.setEnableAutoMode(fromAwtPoint(model.getEnableAutoAttackLocation()));
-    }
-    if (model.getRechargeEneryYesLocation() != null) {
-      profile.setRechargeEnergyYes(fromAwtPoint(model.getRechargeEneryYesLocation()));
-    }
-    if (model.getRechargeEnergyNoLocation() != null) {
-      profile.setRechargeEnergyNo(fromAwtPoint(model.getRechargeEnergyNoLocation()));
-    }
-    if (model.getEnergyLocationOnShop() != null) {
-      profile.setRechargeEnergy(fromAwtPoint(model.getEnergyLocationOnShop()));
-    }
-    if (model.getConfirmRechargeEnergyLoation() != null) {
-      profile.setConfirmRechargeEnergy(fromAwtPoint(model.getConfirmRechargeEnergyLoation()));
-    }
-    if (model.getAckRefillSuccessLocation() != null) {
-      profile.setAckRechargeEnergyOk(fromAwtPoint(model.getAckRefillSuccessLocation()));
-    }
-    if (model.getCloseRefillShopLocation() != null) {
-      profile.setCloseRechargeEnergy(fromAwtPoint(model.getCloseRefillShopLocation()));
-    }
-    if (model.getConfirmNetworkDelayLocation() != null) {
-      profile.setConfirmNetworkDelay(fromAwtPoint(model.getConfirmNetworkDelayLocation()));
-    }
-    if (model.getResendBattleInfoLocation() != null) {
-      profile.setResendBattleInfoX(fromAwtPoint(model.getResendBattleInfoLocation()));
-    }
-    if (model.getReplayBattleIndicator() != null) {
-      profile.setIndicator(Indicator.replayBattleIndicator, model.getReplayBattleIndicator());
-    }
-    if (model.getStartBattleIndicator() != null) {
-      profile.setIndicator(Indicator.startBattleIndicator, model.getStartBattleIndicator());
-    }
-    if (model.getBattleEndIndicator() != null) {
-      profile.setIndicator(Indicator.battleEndIndicator, model.getBattleEndIndicator());
-    }
-    if (model.getRuneRewardIndiator() != null) {
-      profile.setIndicator(Indicator.runeRewardIndiator, model.getRuneRewardIndiator());
-    }
-    if (model.getConfirmSellRuneIndicator() != null) {
-      profile.setIndicator(Indicator.confirmSellRuneIndicator, model.getConfirmSellRuneIndicator());
-    }
-    if (model.getOtherRewardIndicator() != null) {
-      profile.setIndicator(Indicator.otherRewardIndicator, model.getOtherRewardIndicator());
-    }
-    if (model.getManualAttackIndicator() != null) {
-      profile.setIndicator(Indicator.manualAttackIndicator, model.getManualAttackIndicator());
-    }
-    if (model.getNoEnergyIndicator() != null) {
-      profile.setIndicator(Indicator.noEnergyIndicator, model.getNoEnergyIndicator());
-    }
-    if (model.getNetworkDelayIndicator() != null) {
-      profile.setIndicator(Indicator.networkDelayIndicator, model.getNetworkDelayIndicator());
-    }
-    if (model.getNetworkUnstableIndicator() != null) {
-      profile.setIndicator(Indicator.networkUnstableIndicator, model.getNetworkUnstableIndicator());
-    }
-    if (model.getStoneRewardIndicator() != null) {
-      profile.setIndicator(Indicator.stoneRewardIndicator, model.getStoneRewardIndicator());
-    }
-    if (model.getInBattleIndicator() != null) {
-      profile.setIndicator(Indicator.inBattleIndicator, model.getInBattleIndicator());
-    }
-    if (model.getConfirmSellStoneIndicator() != null) {
-      profile.setIndicator(Indicator.confirmSellStoneIndicator, model.getConfirmSellStoneIndicator());
-    }
-    if (model.getGetStoneRewardLocation() != null) {
-      profile.setGetGemLocation(fromAwtPoint(model.getGetStoneRewardLocation()));
-    }
-    if (model.getSellStoneLocation() != null) {
-      profile.setSellGemLocation(fromAwtPoint(model.getSellStoneLocation()));
-    }
-    if (model.getSellStoneConfirmLocation() != null) {
-      profile.setSellStoneConfirmation(fromAwtPoint(model.getSellStoneConfirmLocation()));
-    }
-    profile.setClickRandom(model.isRandomClick());
-    profile.setSellAllRune(model.isSellAllRune());
-    profile.setRuneLog(model.isRunLog());
-    profile.setPickAllRune(model.isPickAllRune());
-    profile.setPickLegendRune(model.isPickLegendRune());
-    profile.setPickHeroRune(model.isPickHeroRune());
-    Rectangle box = model.getRareLevelArea();
-    profile.setRareLevelArea(box.x, box.y, box.width, box.height);
-    profile.setPick5StarRune(model.isPickFiveStarRune());
-    profile.setPick6StarRune(model.isPickSixStarRune());
-    profile.setIndicator(Indicator.sixStarRuneIndicator, model.getSixStarRuneIndicator());
-    profile.setIndicator(Indicator.fiveStarRuneIndicator, model.getFiveStarRuneIndicator());
-    profile.setPickSpdPercentGridstone(model.isPickGrindSpdPercent());
-    box = model.getGrindStatArea();
-    profile.setGrindstoneStatArea(box.x, box.y, box.width, box.height);
-    profile.setIndicator(Indicator.reviveIndicator, model.getReviveIndicator());
-    profile.setReviveNoLocation(fromAwtPoint(model.getReviveNoLocation()));
-    profile.setIndicator(Indicator.noCrysIndicator, model.getNoCrysIndicator());
-    profile.setRechargeCrysNo(fromAwtPoint(model.getRechargeCrysNoLocation()));
 
-    profile.save();
+    // Save profile
+    Profile profile = model.toProfile();
+    DependenciesRegistry.profileManager.saveProfile(profile);
+
+    // Save images
+    saveImage(model.getSixStarRuneIndicator(), profile.getIndicatorFile(Indicator.sixStarRuneIndicator));
+    saveImage(model.getFiveStarRuneIndicator(), profile.getIndicatorFile(Indicator.fiveStarRuneIndicator));
+    saveImage(model.getReplayBattleIndicator(), profile.getIndicatorFile(Indicator.replayBattleIndicator));
+    saveImage(model.getStartBattleIndicator(), profile.getIndicatorFile(Indicator.startBattleIndicator));
+    saveImage(model.getBattleEndIndicator(), profile.getIndicatorFile(Indicator.battleEndIndicator));
+    saveImage(model.getRuneRewardIndiator(), profile.getIndicatorFile(Indicator.runeRewardIndiator));
+    saveImage(model.getConfirmSellRuneIndicator(), profile.getIndicatorFile(Indicator.confirmSellRuneIndicator));
+    saveImage(model.getOtherRewardIndicator(), profile.getIndicatorFile(Indicator.otherRewardIndicator));
+    saveImage(model.getManualAttackIndicator(), profile.getIndicatorFile(Indicator.manualAttackIndicator));
+    saveImage(model.getNoEnergyIndicator(), profile.getIndicatorFile(Indicator.noEnergyIndicator));
+    saveImage(model.getNetworkDelayIndicator(), profile.getIndicatorFile(Indicator.networkDelayIndicator));
+    saveImage(model.getNetworkUnstableIndicator(), profile.getIndicatorFile(Indicator.networkUnstableIndicator));
+    saveImage(model.getStoneRewardIndicator(), profile.getIndicatorFile(Indicator.stoneRewardIndicator));
+    saveImage(model.getInBattleIndicator(), profile.getIndicatorFile(Indicator.inBattleIndicator));
+    saveImage(model.getConfirmSellStoneIndicator(), profile.getIndicatorFile(Indicator.confirmSellStoneIndicator));
+    saveImage(model.getReviveIndicator(), profile.getIndicatorFile(Indicator.reviveIndicator));
+    saveImage(model.getNoCrysIndicator(), profile.getIndicatorFile(Indicator.noCrysIndicator));
 
     controller.unlaunchUI();
     final Controller homeController = ControllerRegistry.get(HomeController.class);
     homeController.launchUI();
+  }
+
+  private void saveImage(BufferedImage image, File file) {
+    if (image != null) {
+      try {
+        ImageIO.write(image, "png", file);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   private void reloadUIFromModel() {

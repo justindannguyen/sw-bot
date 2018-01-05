@@ -13,7 +13,6 @@ import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.Profile;
 import com.justin.swbot.game.director.ScenarioDirector;
 
 /**

@@ -7,7 +7,7 @@ import java.util.ServiceLoader;
 
 import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.game.GameStatus;
-import com.justin.swbot.game.Profile;
+import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.ui.HomeView;
 
 /**

@@ -9,8 +9,9 @@ import com.justin.swbot.util.OcrUtil;
 import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;
-import com.justin.swbot.game.Profile;
+import com.justin.swbot.game.profile.Profile;
 import com.justin.swbot.ui.HomeView;
+import com.justin.swbot.util.Point;
 
 import java.io.File;
 import java.io.IOException;
@@ -120,17 +121,17 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void ackBattleResult() {
     progressMessage("Ending battle...");
-    tapScreen("400", "900");
+    tapScreen(new Point(400, 900));
     sleep(1000);
-    tapScreen("400", "900");
+    tapScreen(new Point(400, 900));
   }
 
   protected void ackBattleResultFailure() {
     progressMessage("Battle fail!!! Not revive...");
-    tapScreen(profile.getReviveNoX(), profile.getReviveNoY());
+    tapScreen(profile.getReviveNo());
 
     sleep(100);
-    tapScreen("400", "900");
+    tapScreen(new Point(400, 900));
     sleep(100);
     replayBattle();
     deadCount++;
@@ -140,14 +141,14 @@ public abstract class AbstractDirector implements ScenarioDirector {
    * Collect rune on battle result screen.
    */
   protected void collectRune(final GameStatus gameStatus) throws IOException {
-    boolean pickRune = profile.isPickAllRune();
-    if (!profile.isPickAllRune()) {
+    boolean pickRune = profile.isPickAllRunes();
+    if (!profile.isPickAllRunes()) {
       pickRune = applyRuneFilter(gameStatus);
     }
     if (pickRune) {
       progressMessage("Collecting rune...");
-      tapScreen(profile.getGetRuneLocationX(), profile.getGetRuneLocationY());
-      if (profile.isRuneLog()) {
+      tapScreen(profile.getGetRuneLocation());
+      if (profile.isRunLogging()) {
         commandUtil.screenLog(gameStatus, new File("runeLog"));
       }
     } else {
@@ -157,14 +158,14 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void collectStone(final GameStatus gameStatus) throws IOException {
-    boolean pickRune = profile.isPickAllRune();
-    if (!profile.isPickAllRune()) {
+    boolean pickRune = profile.isPickAllRunes();
+    if (!pickRune) {
       pickRune = applyStoneFilter(gameStatus);
     }
     if (pickRune) {
       progressMessage("Collecting stone...");
-      tapScreen(profile.getGetGemLocationX(), profile.getGetGemLocationY());
-      if (profile.isRuneLog()) {
+      tapScreen(profile.getGetGemLocation());
+      if (profile.isRunLogging()) {
         commandUtil.screenLog(gameStatus, new File("runeLog"));
       }
     } else {
@@ -175,7 +176,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void confirmSellRune() {
     progressMessage("Confirm to sell rune...");
-    tapScreen(profile.getSellRuneConfirmationX(), profile.getSellRuneConfirmationY());
+    tapScreen(profile.getSellRuneConfirmation());
 
     sleep(100);
     replayBattle();
@@ -183,7 +184,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void confirmSellStone() {
     progressMessage("Confirm to sell stone...");
-    tapScreen(profile.getSellStoneConfirmationX(), profile.getSellStoneConfirmationY());
+    tapScreen(profile.getSellStoneConfirmation());
 
     sleep(100);
     replayBattle();
@@ -194,17 +195,17 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void enableAutoAttackMode() {
     progressMessage("Enabling auto mode...");
-    tapScreen(profile.getEnableAutoModeX(), profile.getEnableAutoModeY());
+    tapScreen(profile.getEnableAutoMode());
   }
 
   protected void notRefillCrys() {
     progressMessage("Not refill crys, wait for energy instead...");
-    tapScreen(profile.getRechargeCrysNoX(), profile.getRechargeCrysNoY());
+    tapScreen(profile.getRechargeCrysNo());
     availableRefillTime = 0;
   }
 
   protected void proceedGemReward(final GameStatus gameStatus) {
-    if (profile.isSellAllRune()) {
+    if (profile.isSellAllRunes()) {
       sellStone(gameStatus);
     } else {
       try {
@@ -217,11 +218,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void proceedOtherReward() {
     progressMessage("Collecting rewards...");
-    tapScreen(profile.getGetRewardLocationX(), profile.getGetRewardLocationY());
+    tapScreen(profile.getGetRewardLocation());
   }
 
   protected void proceedRuneReward(final GameStatus gameStatus) {
-    if (profile.isSellAllRune()) {
+    if (profile.isSellAllRunes()) {
       sellRune(gameStatus);
     } else {
       try {
@@ -239,24 +240,24 @@ public abstract class AbstractDirector implements ScenarioDirector {
   protected void refillEnergy() {
     progressMessage("Refilling energy...");
     // On screen of not enough energy, select YES on to recharges energy
-    tapScreen(profile.getRechargeEnergyYesX(), profile.getRechargeEnergyYesY());
+    tapScreen(profile.getRechargeEnergyYes());
     sleep(500);
     // On shop screen, select energy
-    tapScreen(profile.getRechargeEnergyX(), profile.getRechargeEnergyY());
+    tapScreen(profile.getRechargeEnergy());
     sleep(500);
     // On shop screen, confirm to purchase energy with 30 crystals
-    tapScreen(profile.getConfirmRechargeEnergyX(), profile.getConfirmRechargeEnergyY());
+    tapScreen(profile.getConfirmRechargeEnergy());
     sleep(2000);
     // On shop screen, click OK confirm purchase successful
-    tapScreen(profile.getAckRechargeEnergyOkX(), profile.getAckRechargeEnergyOkY());
+    tapScreen(profile.getAckRechargeEnergyOk());
     sleep(500);
     // Close the shop screen
-    tapScreen(profile.getCloseRechargeEnergyX(), profile.getCloseRechargeEnergyY());
+    tapScreen(profile.getCloseRechargeEnergy());
   }
 
   protected void replayBattle() {
     progressMessage("Replaying battle...");
-    tapScreen(profile.getReplayBattleX(), profile.getReplayBattleY());
+    tapScreen(profile.getReplayBattle());
 
     sleep(100);
     startBattle();
@@ -267,18 +268,18 @@ public abstract class AbstractDirector implements ScenarioDirector {
    */
   protected void sellRune(final GameStatus gameStatus) {
     progressMessage("Selling rune...");
-    tapScreen(profile.getSellRuneLocationX(), profile.getSellRuneLocationY());
+    tapScreen(profile.getSellRuneLocation());
 
-    if (profile.isRuneLog()) {
+    if (profile.isRunLogging()) {
       commandUtil.screenLog(gameStatus, new File("runeLog", "sold"));
     }
   }
 
   protected void sellStone(final GameStatus gameStatus) {
     progressMessage("Selling stone...");
-    tapScreen(profile.getSellGemLocationX(), profile.getSellGemLocationY());
+    tapScreen(profile.getSellGemLocation());
 
-    if (profile.isRuneLog()) {
+    if (profile.isRunLogging()) {
       commandUtil.screenLog(gameStatus, new File("runeLog", "sold"));
     }
   }
@@ -293,7 +294,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void startBattle() {
     progressMessage("Starting new battle...");
-    tapScreen(profile.getStartBattleX(), profile.getStartBattleY());
+    tapScreen(profile.getStartBattle());
     battleCount++;
     sleep(5000);
   }
@@ -306,7 +307,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   protected void waitForEnergy() {
     progressMessage("Insuffience energy and waiting...");
-    tapScreen(profile.getRechargeEnergyNoX(), profile.getRechargeEnergyNoY());
+    tapScreen(profile.getRechargeEnergyNo());
 
     // Wait for 10 minutes
     final long time = System.currentTimeMillis();
@@ -323,25 +324,25 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private boolean applyRuneFilter(final GameStatus gameStatus) throws IOException {
-    if (profile.isPickLegendRune() || profile.isPickHeroRune()) {
-      final String rareLevel = ocrUtil.text(new File(gameStatus.getScreenFile()), profile.getRareLevelAreaBox());
+    if (profile.isPickLegendRunes() || profile.isPickHeroRunes()) {
+      final String rareLevel = ocrUtil.text(new File(gameStatus.getScreenFile()), profile.getRareLevelBox());
       final boolean legend = rareLevel.equals("Legend");
       if (legend) {
         return true;
       }
       final boolean hero = rareLevel.equals("Hero");
-      if (hero && profile.isPickHeroRune()) {
+      if (hero && profile.isPickHeroRunes()) {
         return true;
       }
     }
-    if (profile.isPick6StarRune()) {
+    if (profile.isPickSixStarRunes()) {
       final boolean sixStar = ImageUtil.contains(gameStatus.getScreenFile(),
           profile.getIndicatorFile(sixStarRuneIndicator).getAbsolutePath(), 98) != null;
       if (sixStar) {
         return true;
       }
     }
-    if (profile.isPick5StarRune()) {
+    if (profile.isPickFiveStarRunes()) {
       final boolean fiveStar = ImageUtil.contains(gameStatus.getScreenFile(),
           profile.getIndicatorFile(fiveStarRuneIndicator).getAbsolutePath(), 98) != null;
       if (fiveStar) {
@@ -357,8 +358,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   private boolean applyStoneFilter(final GameStatus gameStatus) throws IOException {
-    if (profile.isPickSpdPercentGrindstone()) {
-      final String grindOptions = ocrUtil.text(new File(gameStatus.getScreenFile()), profile.getGrindstoneStatAreaBox());
+    if (profile.isPickSpdPercentGrind()) {
+      final String grindOptions = ocrUtil.text(new File(gameStatus.getScreenFile()), profile.getGrindstoneStatBox());
       final boolean percentOption = grindOptions.contains("°/o") || grindOptions.contains("%");
       final boolean spdOption = grindOptions.contains("SPD");
       if (percentOption || spdOption) {
@@ -370,7 +371,7 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   private void confirmNetworkDelay() {
     progressMessage("Network delay!");
-    tapScreen(profile.getConfirmNetworkDelayX(), profile.getConfirmNetworkDelayY());
+    tapScreen(profile.getConfirmNetworkDelay());
   }
 
   private void proceedNotEnoughEnergy() {
@@ -384,15 +385,15 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
   private void resendBattleInfo() {
     progressMessage("Network unstable! resending information...");
-    tapScreen(profile.getResendBattleInfoX(), profile.getResendBattleInfoY());
+    tapScreen(profile.getResendBattleInfo());
   }
 
-  private void tapScreen(final String x, final String y) {
-    String tapX = x;
-    String tapY = y;
-    if (profile.isClickRandom()) {
-      tapX = String.valueOf(Integer.valueOf(x) + (int) (10 * (Math.random() - Math.random())));
-      tapY = String.valueOf(Integer.valueOf(y) + (int) (10 * (Math.random() - Math.random())));
+  private void tapScreen(Point point) {
+    String tapX = String.valueOf(point.x);
+    String tapY = String.valueOf(point.y);
+    if (profile.isRandomClick()) {
+      tapX = String.valueOf(point.x + (int) (10 * (Math.random() - Math.random())));
+      tapY = String.valueOf(point.y + (int) (10 * (Math.random() - Math.random())));
     }
     commandUtil.tapScreen(tapX, tapY);
   }

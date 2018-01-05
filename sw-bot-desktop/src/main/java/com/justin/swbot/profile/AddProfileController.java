@@ -3,22 +3,30 @@
  */
 package com.justin.swbot.profile;
 
+import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.Controller;
 import com.justin.swbot.game.ControllerRegistry;
+import com.justin.swbot.game.profile.Profile;
+import com.justin.swbot.game.profile.ProfileManager;
+import lombok.Setter;
 
 /**
  * @author tuan3.nguyen@gmail.com
  */
 public class AddProfileController implements Controller {
   private AddProfileUI ui;
-  private AddProfileModel model;
+  private final AddProfileModel model;
   private AddProfileControllerAction controllerAction;
+  private ProfileManager profileManager;
 
-  public void initialize(String profileName) {
+  @Setter
+  private String profileName; // editing profile name, null: create new profile
+
+  public AddProfileController() {
+    super();
     ControllerRegistry.register(this);
-    if (model == null) {
-      model = new AddProfileModel(profileName);
-    }
+    model = new AddProfileModel();
+    profileManager = DependenciesRegistry.profileManager;
   }
 
   @Override
@@ -33,7 +41,15 @@ public class AddProfileController implements Controller {
       controllerAction = new AddProfileControllerAction(this);
       controllerAction.initialize();
     }
-    model.loadData();
+
+    if (profileName == null) {
+      model.populateDataFromProfile(profileManager.createEmptyProfile());
+    } else {
+      Profile profile = profileManager.load(profileName);
+      if (profile != null) model.populateDataFromProfile(profile);
+
+      model.setProfileName(profileName);
+    }
   }
 
   @Override

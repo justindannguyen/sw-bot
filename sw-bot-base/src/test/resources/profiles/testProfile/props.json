@@ -1,0 +1,13 @@
+{
+  "name": "testProfile",
+  "refillTimes": 10,
+  "randomClick": false,
+  "sellAllRunes": false,
+  "runLogging": true,
+  "pickAllRunes": true,
+  "pickLegendRunes": false,
+  "pickHeroRunes": false,
+  "pickSixStarRunes": false,
+  "pickFiveStarRunes": false,
+  "pickSpdPercentGrind": false
+}

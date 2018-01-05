@@ -4,7 +4,8 @@
 package com.justin.swbot.game;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.director.AbstractDirector;
+import com.justin.swbot.game.profile.Profile;
+import com.justin.swbot.game.profile.ProfileManager;
 import com.justin.swbot.util.CommandUtil;
 import com.justin.swbot.util.ImageUtil;
 import com.justin.swbot.game.director.ScenarioDirector;
@@ -39,6 +40,7 @@ import static com.justin.swbot.game.indicator.Indicator.stoneRewardIndicator;
  */
 public final class BotEngine extends Thread {
   private final CommandUtil commandUtil;
+  private final ProfileManager profileManager;
 
   private final ScenarioDirector director;
   private final HomeView homeView;
@@ -49,12 +51,11 @@ public final class BotEngine extends Thread {
     super();
 
     this.commandUtil = DependenciesRegistry.commandUtil;
+    this.profileManager = DependenciesRegistry.profileManager;
 
     this.director = director;
     this.homeView = homeView;
-    this.profile = new Profile();
-    this.profile.setName(profileName);
-    this.profile.load();
+    this.profile = this.profileManager.load(profileName);
     this.director.setProfile(profile);
     this.director.bindView(homeView);
     this.director.restart();
