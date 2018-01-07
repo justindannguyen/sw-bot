@@ -3,21 +3,20 @@
  */
 package com.justin.swbot.home;
 
-import static com.justin.swbot.home.HomeModel.PROFILES_LOADED;
-import static com.justin.swbot.home.HomeModel.PROFILE_SELECTED;
-import static com.justin.swbot.home.HomeModel.SCENARIOS_LOADED;
+import com.justin.swbot.ControllerRegistry;
+import com.justin.swbot.profile.AddProfileController;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Observable;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.SwingUtilities;
-
-import com.justin.swbot.ControllerRegistry;
-import com.justin.swbot.profile.AddProfileController;
+import static com.justin.swbot.home.HomeModel.DIRECTORS_LOADED;
+import static com.justin.swbot.home.HomeModel.PROFILES_LOADED;
+import static com.justin.swbot.home.HomeModel.PROFILE_SELECTED;
 
 /**
  * Action handling for the {@link HomeUI} as well as establish a link between model and view.
@@ -77,7 +76,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
         }
       }
     } else if (e.getSource() == homeUI.getScenarioCombobox()) {
-      homeModel.setSelectedScenario((String) e.getItem());
+      homeModel.setSelectedDirector((String) e.getItem());
     }
   }
 
@@ -85,7 +84,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
   public void update(final Observable o, final Object arg) {
     if (PROFILES_LOADED.equals(arg)) {
       updateProfileComboBox();
-    } else if (SCENARIOS_LOADED.equals(arg)) {
+    } else if (DIRECTORS_LOADED.equals(arg)) {
       updateScenarioComboBox();
     } else if (PROFILE_SELECTED.equals(arg)) {
       final HomeUI homeUI = homeController.getHomeUI();
@@ -130,7 +129,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
       final DefaultComboBoxModel<String> model =
           (DefaultComboBoxModel<String>) homeUI.getProfileComboBox().getModel();
       model.removeAllElements();
-      homeModel.getProfiles().stream().forEach(profile -> model.addElement(profile));
+      homeModel.getProfiles().forEach(model::addElement);
     };
     if (!SwingUtilities.isEventDispatchThread()) {
       SwingUtilities.invokeLater(runnable);
@@ -150,8 +149,7 @@ public final class HomeControllerAction implements HomeModelListener, ActionList
       final DefaultComboBoxModel<String> model =
           (DefaultComboBoxModel<String>) homeUI.getScenarioCombobox().getModel();
       model.removeAllElements();
-      homeModel.getScenarios().stream().map(pair -> pair.getKey())
-          .forEach(key -> model.addElement(key));
+      homeModel.getDirectors().keySet().forEach(model::addElement);
     };
     if (!SwingUtilities.isEventDispatchThread()) {
       SwingUtilities.invokeLater(runnable);

@@ -3,9 +3,6 @@
  */
 package com.justin.swbot.home;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.List;
-
 import com.justin.swbot.BaseTest;
 import org.junit.After;
 import org.junit.Assert;
@@ -14,7 +11,7 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-import com.justin.swbot.game.director.ScenarioDirector;
+import java.util.List;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -47,11 +44,11 @@ public class HomeModelTest extends BaseTest {
   }
 
   /**
-   * Test method for {@link com.justin.swbot.home.HomeModel#getScenarios()}.
+   * Test method for {@link HomeModel#getDirectors()} ()}.
    */
   @Test
   public void testGetScenarios_emptyByDefault() {
-    Assert.assertTrue(instanceUnderTest.getScenarios().isEmpty());
+    Assert.assertTrue(instanceUnderTest.getDirectors().isEmpty());
   }
 
   @Test
@@ -67,23 +64,14 @@ public class HomeModelTest extends BaseTest {
     instanceUnderTest.loadData();
     instanceUnderTest.loadData();
     final List<String> profiles = instanceUnderTest.getProfiles();
-    final String duplicatedProfile = profiles.stream().reduce(null, (duplicated,
-        profile) -> duplicated != null ? duplicated : searchDuplicatedProfile(profiles, profile));
+    final String duplicatedProfile = profiles.stream()
+        .reduce(null,
+            (duplicated, profile) -> duplicated != null ?
+                duplicated
+                :
+                searchDuplicatedProfile(profiles, profile));
 
     Assert.assertNull(duplicatedProfile);
-  }
-
-  @Test
-  public void testLoadData_oldScenariosAreCleared_onReloaded() {
-    instanceUnderTest.loadData();
-    instanceUnderTest.loadData();
-    final List<SimpleImmutableEntry<String, ScenarioDirector>> scenarios =
-        instanceUnderTest.getScenarios();
-    final SimpleImmutableEntry<?, ?> duplicatedScenario =
-        scenarios.stream().reduce(null, (duplicated, scenario) -> duplicated != null ? duplicated
-            : searchDuplicatedScenario(scenarios, scenario));
-
-    Assert.assertNull(duplicatedScenario);
   }
 
   /**
@@ -107,7 +95,7 @@ public class HomeModelTest extends BaseTest {
   @Test
   public void testLoadData_scenarios() {
     instanceUnderTest.loadData();
-    Assert.assertFalse(instanceUnderTest.getScenarios().isEmpty());
+    Assert.assertFalse(instanceUnderTest.getDirectors().isEmpty());
   }
 
   @Test
@@ -116,36 +104,19 @@ public class HomeModelTest extends BaseTest {
     instanceUnderTest.addObserver(observer);
     instanceUnderTest.loadData();
 
-    Mockito.verify(observer).update(instanceUnderTest, HomeModel.SCENARIOS_LOADED);
+    Mockito.verify(observer).update(instanceUnderTest, HomeModel.DIRECTORS_LOADED);
   }
 
   /**
    * Search in the profiles store to check if given profile exist twice or not.
    *
-   * @param profiles profile store.
+   * @param profiles        profile store.
    * @param profileToSearch profile to search
    * @return the duplicated profile if exist twice in store
    */
-  private String searchDuplicatedProfile(final List<String> profiles,
-      final String profileToSearch) {
+  private String searchDuplicatedProfile(final List<String> profiles, final String profileToSearch) {
     final boolean duplicated =
         profiles.stream().filter(profile -> profile.equals(profileToSearch)).count() > 1;
     return duplicated ? profileToSearch : null;
-  }
-
-  /**
-   * Search in the scenario store to check if given scenario exist twice or not.
-   *
-   * @param scenarios scenario store.
-   * @param scenarioToSearch scenario to search
-   * @return the duplicated scenario if exist twice in store
-   */
-  private SimpleImmutableEntry<String, ScenarioDirector> searchDuplicatedScenario(
-      final List<SimpleImmutableEntry<String, ScenarioDirector>> scenarios,
-      final SimpleImmutableEntry<String, ScenarioDirector> scenarioToSearch) {
-    final Object scenarioId = scenarioToSearch.getKey();
-    final boolean duplicated =
-        scenarios.stream().filter(scenario -> scenario.getKey().equals(scenarioId)).count() > 1;
-    return duplicated ? scenarioToSearch : null;
   }
 }

@@ -3,24 +3,23 @@
  */
 package com.justin.swbot.home;
 
-import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.BotEngine;
 import com.justin.swbot.Controller;
 import com.justin.swbot.ControllerRegistry;
+import com.justin.swbot.dependencies.DependenciesRegistry;
+import com.justin.swbot.game.AutoSession;
 import com.justin.swbot.game.GameState;
-import com.justin.swbot.game.director.ScenarioDirector;
+import com.justin.swbot.game.director.Director;
 import com.justin.swbot.game.profile.Profile;
-import com.justin.swbot.ui.HomeView;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.SwingUtilities;
-import java.util.AbstractMap;
+import java.util.Map;
 
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public final class HomeController implements Controller, HomeView {
+public final class HomeController implements Controller, AutoSession.Listener {
   private HomeUI homeUI;
   private HomeModel homeModel;
   private HomeControllerAction homeControllerAction;
@@ -30,7 +29,7 @@ public final class HomeController implements Controller, HomeView {
   @Getter
   private String lastSelectedProfile;
 
-  private BotEngine botEngine;
+  private AutoSession autoSession;
 
   public void initialize() {
     ControllerRegistry.register(this);
@@ -39,12 +38,12 @@ public final class HomeController implements Controller, HomeView {
     }
   }
 
-  private boolean isBotEngineRunning() {
-    return botEngine != null && botEngine.isAlive();
+  private boolean isSessionRunning() {
+    return autoSession != null && autoSession.getState().equals(AutoSession.State.RUNNING);
   }
 
   public void onBtnStartClicked() {
-    if (isBotEngineRunning()) {
+    if (isSessionRunning()) {
       stopAuto();
     } else {
       startAuto();
@@ -65,11 +64,11 @@ public final class HomeController implements Controller, HomeView {
       return;
     }
 
-    // Director
-    ScenarioDirector selectedDirector = null;
-    for (final AbstractMap.SimpleImmutableEntry<String, ScenarioDirector> scenario : homeModel.getScenarios()) {
-      if (scenario.getKey().equals(homeModel.getSelectedScenario())) {
-        selectedDirector = scenario.getValue();
+    // Find Director
+    Class<? extends Director> selectedDirector = null;
+    for (Map.Entry<String, Class<? extends Director>> entry : homeModel.getDirectors().entrySet()) {
+      if (entry.getKey().equals(homeModel.getSelectedDirector())) {
+        selectedDirector = entry.getValue();
         break;
       }
     }
@@ -77,22 +76,19 @@ public final class HomeController implements Controller, HomeView {
       updateStatus("Select scenario to start...");
       return;
     }
-    selectedDirector.setProfile(profile);
-    selectedDirector.bindView(this);
-    selectedDirector.restart();
 
-    // Engine
-    botEngine = new BotEngine(selectedDirector, profile, this);
-    botEngine.start();
+    // Start session
+    autoSession = new AutoSession(this, profile, selectedDirector);
+    autoSession.start();
 
     homeUI.getToggeButton().setText("Stop");
   }
 
   private void stopAuto() {
-    if (!isBotEngineRunning()) return;
+    if (!isSessionRunning()) return;
 
-    botEngine.stopEngine();
-    botEngine = null;
+    autoSession.stop();
+    autoSession = null;
     homeUI.getToggeButton().setText("Start");
   }
 
@@ -116,15 +112,7 @@ public final class HomeController implements Controller, HomeView {
     homeUI.setVisible(false);
   }
 
-  @Override
-  public void updateGameStatus(final GameState state) {
-    SwingUtilities
-        .invokeLater(() -> homeUI.getStatusBar().getGameStatusLabel()
-            .setText(state == null ? "" : state.name()));
-  }
-
-  @Override
-  public void updateStatus(final String message) {
+  private void updateStatus(final String message) {
     SwingUtilities.invokeLater(() -> homeUI.getStatusBar().getStatusLabel().setText(message));
   }
 
@@ -134,5 +122,22 @@ public final class HomeController implements Controller, HomeView {
 
   protected HomeUI getHomeUI() {
     return homeUI;
+  }
+
+  @Override
+  public void onGameStateUpdate(GameState gameState) {
+    SwingUtilities
+        .invokeLater(() -> homeUI.getStatusBar().getGameStatusLabel()
+            .setText(gameState == null ? "" : gameState.name()));
+  }
+
+  @Override
+  public void onMessageUpdate(String message) {
+    updateStatus(message);
+  }
+
+  @Override
+  public void onSessionStopped() {
+    updateStatus("Stopped");
   }
 }

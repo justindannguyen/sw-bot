@@ -3,14 +3,10 @@
  */
 package com.justin.swbot.game.director;
 
-import com.justin.swbot.util.CommandUtil;
-import com.justin.swbot.util.ImageUtil;
-import com.justin.swbot.util.OcrUtil;
-import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.GameState;
 import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.game.profile.Profile;
-import com.justin.swbot.ui.HomeView;
+import com.justin.swbot.util.ImageUtil;
 import com.justin.swbot.util.Point;
 import lombok.Getter;
 
@@ -23,37 +19,22 @@ import static com.justin.swbot.game.indicator.Indicator.sixStarRuneIndicator;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public abstract class AbstractDirector implements ScenarioDirector {
-  private final CommandUtil commandUtil;
-  private final OcrUtil ocrUtil;
-  private HomeView homeView;
-
+public abstract class GenericDirector extends Director {
   @Getter
   private int availableRefillTime;
   @Getter
-  private int battleCount;
-  @Getter
-  private int deadCount;
-  private Profile profile;
+  private int availableRuns;
 
-  public AbstractDirector() {
-    this.commandUtil = DependenciesRegistry.commandUtil;
-    this.ocrUtil = DependenciesRegistry.ocrUtil;
+  public GenericDirector(Listener listener, Profile profile) {
+    super(listener, profile);
+
+    availableRefillTime = profile.getRefillTimes();
+    availableRuns = profile.getMaxRuns();
   }
 
   @Override
-  public void bindView(HomeView homeView) {
-    this.homeView = homeView;
-  }
-
-  @Override
-  public void setProfile(Profile profile) {
-    this.profile = profile;
-  }
-
-  @Override
-  public boolean direct(final GameStatus gameStatus) {
-    final GameState gameState = gameStatus.getGameState();
+  public boolean direct() {
+    final GameState gameState = currentGameStatus.getGameState();
     if (gameState == GameState.BATTLE_MANUAL) {
       enableAutoAttackMode();
       return true;
@@ -64,10 +45,10 @@ public abstract class AbstractDirector implements ScenarioDirector {
       ackBattleResultFailure();
       return true;
     } else if (gameState == GameState.RUNE_REWARD) {
-      proceedRuneReward(gameStatus);
+      proceedRuneReward();
       return true;
     } else if (gameState == GameState.GEM_REWARD) {
-      proceedGemReward(gameStatus);
+      proceedGemReward();
       return true;
     } else if (gameState == GameState.OTHER_REWARD) {
       proceedOtherReward();
@@ -101,23 +82,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
       return true;
     } else if (gameState == GameState.UNKNOWN) {
       // Log unknown situation where directive can't handle
-      commandUtil.screenLog(gameStatus, new File("unknownStates"));
+      commandUtil.screenLog(currentGameStatus, new File("unknownStates"));
       sleep(10000);
       return true;
     }
     return false;
-  }
-
-  @Override
-  public String getName() {
-    return getClass().getSimpleName();
-  }
-
-  @Override
-  public void restart() {
-    availableRefillTime = Integer.valueOf(profile.getRefillTimes());
-    battleCount = 0;
-    deadCount = 0;
   }
 
   /**
@@ -128,6 +97,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
     tapScreen(new Point(400, 900));
     sleep(1000);
     tapScreen(new Point(400, 900));
+
+    availableRuns--;
   }
 
   protected void ackBattleResultFailure() {
@@ -136,9 +107,8 @@ public abstract class AbstractDirector implements ScenarioDirector {
 
     sleep(100);
     tapScreen(new Point(400, 900));
-    sleep(100);
-    replayBattle();
-    deadCount++;
+
+    availableRuns--;
   }
 
   /**
@@ -181,17 +151,11 @@ public abstract class AbstractDirector implements ScenarioDirector {
   protected void confirmSellRune() {
     progressMessage("Confirm to sell rune...");
     tapScreen(profile.getSellRuneConfirmation());
-
-    sleep(100);
-    replayBattle();
   }
 
   protected void confirmSellStone() {
     progressMessage("Confirm to sell stone...");
     tapScreen(profile.getSellStoneConfirmation());
-
-    sleep(100);
-    replayBattle();
   }
 
   /**
@@ -208,12 +172,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
     availableRefillTime = 0;
   }
 
-  protected void proceedGemReward(final GameStatus gameStatus) {
+  protected void proceedGemReward() {
     if (profile.isSellAllRunes()) {
-      sellStone(gameStatus);
+      sellStone(currentGameStatus);
     } else {
       try {
-        collectStone(gameStatus);
+        collectStone(currentGameStatus);
       } catch (final IOException ex) {
         throw new RuntimeException("Error when collect stone", ex);
       }
@@ -225,12 +189,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
     tapScreen(profile.getGetRewardLocation());
   }
 
-  protected void proceedRuneReward(final GameStatus gameStatus) {
+  protected void proceedRuneReward() {
     if (profile.isSellAllRunes()) {
-      sellRune(gameStatus);
+      sellRune(currentGameStatus);
     } else {
       try {
-        collectRune(gameStatus);
+        collectRune(currentGameStatus);
       } catch (final IOException ex) {
         throw new RuntimeException("Error when collect rune", ex);
       }
@@ -238,10 +202,10 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void progressMessage(final String message, final Object... args) {
-    homeView.updateStatus(String.format(message, args));
   }
 
   protected void refillEnergy() {
+    listener.onTryingToRefillEnergy();
     progressMessage("Refilling energy...");
     // On screen of not enough energy, select YES on to recharges energy
     tapScreen(profile.getRechargeEnergyYes());
@@ -260,11 +224,12 @@ public abstract class AbstractDirector implements ScenarioDirector {
   }
 
   protected void replayBattle() {
+    if (availableRuns <= 0) {
+      listener.onNoMoreRun();
+    }
+
     progressMessage("Replaying battle...");
     tapScreen(profile.getReplayBattle());
-
-    sleep(100);
-    startBattle();
   }
 
   /**
@@ -299,13 +264,10 @@ public abstract class AbstractDirector implements ScenarioDirector {
   protected void startBattle() {
     progressMessage("Starting new battle...");
     tapScreen(profile.getStartBattle());
-    battleCount++;
     sleep(5000);
   }
 
   protected void wait4Battle() {
-    progressMessage("Wait for result of battle (%s/%s), refill remain %s...", deadCount,
-        battleCount, availableRefillTime);
     sleep(10000);
   }
 

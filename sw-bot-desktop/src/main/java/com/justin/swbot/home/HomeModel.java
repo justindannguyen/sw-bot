@@ -4,13 +4,15 @@
 package com.justin.swbot.home;
 
 import com.justin.swbot.dependencies.DependenciesRegistry;
-import com.justin.swbot.game.director.ScenarioDirector;
+import com.justin.swbot.game.director.Director;
+import com.justin.swbot.game.director.SupportedDirectors;
+import lombok.Getter;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
-import java.util.ServiceLoader;
 
 /**
  * Central place to store all UI data for the {@link HomeUI}.
@@ -25,11 +27,11 @@ public final class HomeModel extends Observable {
   /**
    * Notification event key.
    */
-  public static final String SCENARIOS_LOADED = "SCENARIOS_LOADED";
+  public static final String DIRECTORS_LOADED = "DIRECTORS_LOADED";
 
   public static final String PROFILE_SELECTED = "PROFILE_SELECTED";
 
-  public static final String SCENARIO_SELECTED = "SCENARIO_SELECTED";
+  public static final String DIRECTOR_SELECTED = "DIRECTOR_SELECTED";
 
   /**
    * Store the target phone to run the bot e.g. samsung galaxy s3, sony z1, etc. User has to
@@ -38,13 +40,14 @@ public final class HomeModel extends Observable {
    */
   private final List<String> profiles = new ArrayList<>();
   /**
-   * Store all the available {@link ScenarioDirector}.
+   * Store all the available {@link Director}.
    */
-  private final List<SimpleImmutableEntry<String, ScenarioDirector>> scenarios = new ArrayList<>();
+  @Getter
+  private final Map<String, Class<? extends Director>> directors = new HashMap<>();
 
   private String selectedProfile;
 
-  private String selectedScenario;
+  private String selectedDirector;
 
   /**
    * Get all available profiles.
@@ -55,28 +58,19 @@ public final class HomeModel extends Observable {
     return profiles;
   }
 
-  /**
-   * Get all available scenario director
-   *
-   * @return the scenarios
-   */
-  public List<SimpleImmutableEntry<String, ScenarioDirector>> getScenarios() {
-    return scenarios;
-  }
-
   public String getSelectedProfile() {
     return selectedProfile;
   }
 
-  public String getSelectedScenario() {
-    return selectedScenario;
+  public String getSelectedDirector() {
+    return selectedDirector;
   }
 
   /**
    * (Re)load all data for home screen.
    */
   public void loadData() {
-    loadScenarios();
+    loadDirectorNames();
     loadProfiles();
   }
 
@@ -87,10 +81,10 @@ public final class HomeModel extends Observable {
     return profiles.indexOf(profile);
   }
 
-  public void setSelectedScenario(final String selectedScenario) {
-    this.selectedScenario = selectedScenario;
+  public void setSelectedDirector(final String selectedDirector) {
+    this.selectedDirector = selectedDirector;
     setChanged();
-    notifyObservers(PROFILE_SELECTED);
+    notifyObservers(DIRECTOR_SELECTED);
   }
 
   /**
@@ -113,12 +107,10 @@ public final class HomeModel extends Observable {
   /**
    * Load all installed scenario director in system class path.
    */
-  private void loadScenarios() {
-    scenarios.clear();
-    scenarios.add(new SimpleImmutableEntry<>("--Select scenario--", null));
-    ServiceLoader.load(ScenarioDirector.class).forEach(director -> scenarios
-        .add(new SimpleImmutableEntry<>(director.getName(), director)));
+  private void loadDirectorNames() {
+    directors.clear();
+    directors.putAll(SupportedDirectors.get());
     setChanged();
-    notifyObservers(SCENARIOS_LOADED);
+    notifyObservers(DIRECTORS_LOADED);
   }
 }

@@ -22,6 +22,8 @@ public class Profile {
   private String name;
   private int refillTimes;
   @Builder.Default
+  private int maxRuns = Integer.MAX_VALUE;
+  @Builder.Default
   private boolean randomClick = true;
   private boolean sellAllRunes;
   @Builder.Default

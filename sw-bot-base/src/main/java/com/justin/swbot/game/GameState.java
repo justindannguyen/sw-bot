@@ -12,7 +12,6 @@ package com.justin.swbot.game;
  * The respective bot engine is required to identify the game state base on the configuration.
  *
  * @author tuan3.nguyen@gmail.com
- * @see BotEngine
  */
 public enum GameState {
   /**
