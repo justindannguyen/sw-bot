@@ -18,12 +18,37 @@ public class AutoSessionTest {
   private AutoSession.Listener listener = new AutoSession.Listener() {
 
     @Override
-    public void onGameStateUpdate(GameState gameState) {
+    public void onStartDetectingGameStatus() {
 
     }
 
     @Override
-    public void onMessageUpdate(String message) {
+    public void onGameStatusDetected(GameStatus gameStatus) {
+
+    }
+
+    @Override
+    public void onStartGivingDirection() {
+
+    }
+
+    @Override
+    public void onGameStatusProcessed(GameStatus gameStatus, boolean success) {
+
+    }
+
+    @Override
+    public void onException(Exception e) {
+
+    }
+
+    @Override
+    public void onTryingToRefillEnergy() {
+
+    }
+
+    @Override
+    public void onNoMoreRun() {
 
     }
 

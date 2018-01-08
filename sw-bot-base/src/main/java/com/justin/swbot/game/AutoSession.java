@@ -77,24 +77,21 @@ public class AutoSession implements Director.Listener {
 
   @Override
   public void onStartDetectingGameStatus() {
-    listener.onMessageUpdate("Detecting GameStatus...");
+    listener.onStartDetectingGameStatus();
   }
 
   @Override
   public void onGameStatusDetected(GameStatus gameStatus) {
-    listener.onMessageUpdate("Detected: " + gameStatus.getGameState().name());
-    listener.onGameStateUpdate(gameStatus.getGameState());
+    listener.onGameStatusDetected(gameStatus);
   }
 
   @Override
   public void onStartGivingDirection() {
-    listener.onMessageUpdate("Processing " + director.getCurrentGameStatus().getGameState().name());
+    listener.onStartGivingDirection();
   }
 
   @Override
   public void onGameStatusProcessed(GameStatus gameStatus, boolean success) {
-    listener.onMessageUpdate(director.getCurrentGameStatus().getGameState().name() + (success ? " SUCCESS" : " ERROR"));
-
     GameState gameState = gameStatus.getGameState();
     switch (gameState) {
       case BATTLE_ENDED:
@@ -107,11 +104,13 @@ public class AutoSession implements Director.Listener {
         report.setRefillTimes(report.getRefillTimes() - 1);
         break;
     }
+
+    listener.onGameStatusProcessed(gameStatus, success);
   }
 
   @Override
   public void onException(Exception e) {
-    listener.onMessageUpdate("Exception: " + e.getMessage());
+    listener.onException(e);
   }
 
   @Override
@@ -121,7 +120,7 @@ public class AutoSession implements Director.Listener {
 
   @Override
   public void onNoMoreRun() {
-    stop();
+    listener.onNoMoreRun();
   }
 
   private class Loop extends Thread {
@@ -164,11 +163,7 @@ public class AutoSession implements Director.Listener {
     private int refillTimes;
   }
 
-  public interface Listener {
-    void onGameStateUpdate(GameState gameState);
-
-    void onMessageUpdate(String message);
-
+  public interface Listener extends Director.Listener {
     void onSessionStopped();
   }
 }

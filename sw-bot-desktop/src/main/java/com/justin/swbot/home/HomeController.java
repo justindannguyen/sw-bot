@@ -8,6 +8,7 @@ import com.justin.swbot.ControllerRegistry;
 import com.justin.swbot.dependencies.DependenciesRegistry;
 import com.justin.swbot.game.AutoSession;
 import com.justin.swbot.game.GameState;
+import com.justin.swbot.game.GameStatus;
 import com.justin.swbot.game.director.Director;
 import com.justin.swbot.game.profile.Profile;
 import lombok.Getter;
@@ -53,14 +54,14 @@ public final class HomeController implements Controller, AutoSession.Listener {
   private void startAuto() {
     // Check condition so that we can start the auto
     if (homeModel.getProfiles().indexOf(homeModel.getSelectedProfile()) <= 1) {
-      updateStatus("Select profile to start...");
+      updateMessage("Select profile to start...");
       return;
     }
 
     // Profile
     Profile profile = DependenciesRegistry.profileManager.load(homeModel.getSelectedProfile());
     if (profile == null) {
-      updateStatus("Invalid profile");
+      updateMessage("Invalid profile");
       return;
     }
 
@@ -73,7 +74,7 @@ public final class HomeController implements Controller, AutoSession.Listener {
       }
     }
     if (selectedDirector == null) {
-      updateStatus("Select scenario to start...");
+      updateMessage("Select scenario to start...");
       return;
     }
 
@@ -112,8 +113,14 @@ public final class HomeController implements Controller, AutoSession.Listener {
     homeUI.setVisible(false);
   }
 
-  private void updateStatus(final String message) {
+  private void updateMessage(final String message) {
     SwingUtilities.invokeLater(() -> homeUI.getStatusBar().getStatusLabel().setText(message));
+  }
+
+  private void updateGameState(GameState gameState) {
+    SwingUtilities
+        .invokeLater(() -> homeUI.getStatusBar().getGameStatusLabel()
+            .setText(gameState == null ? "" : gameState.name()));
   }
 
   protected HomeModel getHomeModel() {
@@ -125,19 +132,44 @@ public final class HomeController implements Controller, AutoSession.Listener {
   }
 
   @Override
-  public void onGameStateUpdate(GameState gameState) {
-    SwingUtilities
-        .invokeLater(() -> homeUI.getStatusBar().getGameStatusLabel()
-            .setText(gameState == null ? "" : gameState.name()));
-  }
-
-  @Override
-  public void onMessageUpdate(String message) {
-    updateStatus(message);
-  }
-
-  @Override
   public void onSessionStopped() {
-    updateStatus("Stopped");
+    updateMessage("Stopped");
+  }
+
+  @Override
+  public void onStartDetectingGameStatus() {
+    updateMessage("Detecting...");
+  }
+
+  @Override
+  public void onGameStatusDetected(GameStatus gameStatus) {
+    updateMessage("Matched: " + gameStatus.getGameState().name());
+    updateGameState(gameStatus.getGameState());
+  }
+
+  @Override
+  public void onStartGivingDirection() {
+
+  }
+
+  @Override
+  public void onGameStatusProcessed(GameStatus gameStatus, boolean success) {
+    updateMessage("Done direct for " + gameStatus.getGameState().name());
+  }
+
+  @Override
+  public void onException(Exception e) {
+    updateMessage("Exception: " + e.getMessage());
+  }
+
+  @Override
+  public void onTryingToRefillEnergy() {
+    updateMessage("Trying to refill energy...");
+  }
+
+  @Override
+  public void onNoMoreRun() {
+    updateMessage("No more run");
+    autoSession.stop();
   }
 }

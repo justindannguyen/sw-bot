@@ -226,10 +226,10 @@ public abstract class GenericDirector extends Director {
   protected void replayBattle() {
     if (availableRuns <= 0) {
       listener.onNoMoreRun();
+    } else {
+      progressMessage("Replaying battle...");
+      tapScreen(profile.getReplayBattle());
     }
-
-    progressMessage("Replaying battle...");
-    tapScreen(profile.getReplayBattle());
   }
 
   /**
