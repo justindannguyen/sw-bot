@@ -1,0 +1,160 @@
+/**
+ * Copyright (C) 2017, Justin Nguyen
+ */
+package com.justin.swbot.home;
+
+import com.justin.swbot.ControllerRegistry;
+import com.justin.swbot.profile.AddProfileController;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Observable;
+
+import static com.justin.swbot.home.HomeModel.DIRECTORS_LOADED;
+import static com.justin.swbot.home.HomeModel.PROFILES_LOADED;
+import static com.justin.swbot.home.HomeModel.PROFILE_SELECTED;
+
+/**
+ * Action handling for the {@link HomeUI} as well as establish a link between model and view.
+ *
+ * @author tuan3.nguyen@gmail.com
+ */
+public final class HomeControllerAction implements HomeModelListener, ActionListener, ItemListener {
+  private final HomeController homeController;
+
+  public HomeControllerAction(final HomeController initialHomeController) {
+    this.homeController = initialHomeController;
+  }
+
+  @Override
+  public void actionPerformed(final ActionEvent e) {
+    final HomeUI homeUI = homeController.getHomeUI();
+    final Object source = e.getSource();
+    if (source == homeUI.getToggeButton()) {
+      homeController.onBtnStartClicked();
+    }
+  }
+
+  public void deinitialize() {
+    homeController.getHomeModel().deleteObserver(this);
+  }
+
+  public void initialize() {
+    final HomeModel homeModel = homeController.getHomeModel();
+    final HomeUI homeUI = homeController.getHomeUI();
+
+    // Add model listeners
+    homeModel.addObserver(this);
+
+    // Add UI listeners
+    homeUI.getToggeButton().addActionListener(this);
+    homeUI.getProfileComboBox().addItemListener(this);
+    homeUI.getScenarioCombobox().addItemListener(this);
+  }
+
+  @Override
+  public void itemStateChanged(final ItemEvent e) {
+    if (e.getStateChange() != ItemEvent.SELECTED) {
+      return;
+    }
+    final HomeUI homeUI = homeController.getHomeUI();
+    final HomeModel homeModel = homeController.getHomeModel();
+    if (e.getSource() == homeUI.getProfileComboBox()) {
+      final int selectedIndex = homeModel.setSelectedProfile((String) e.getItem());
+      if (selectedIndex == 1) {
+        createNewProfile();
+      } else if (selectedIndex > 1) {
+        // Workaround to remember last selected profile, to prevent popup edit profile dialog
+        String last = homeController.getLastSelectedProfile();
+        if (last == null || !last.equalsIgnoreCase(homeModel.getSelectedProfile())) {
+          homeController.setLastSelectedProfile(homeModel.getSelectedProfile());
+          editProfile(homeModel.getSelectedProfile());
+        }
+      }
+    } else if (e.getSource() == homeUI.getScenarioCombobox()) {
+      homeModel.setSelectedDirector((String) e.getItem());
+    }
+  }
+
+  @Override
+  public void update(final Observable o, final Object arg) {
+    if (PROFILES_LOADED.equals(arg)) {
+      updateProfileComboBox();
+    } else if (DIRECTORS_LOADED.equals(arg)) {
+      updateScenarioComboBox();
+    } else if (PROFILE_SELECTED.equals(arg)) {
+      final HomeUI homeUI = homeController.getHomeUI();
+      final HomeModel homeModel = homeController.getHomeModel();
+      homeUI.getProfileComboBox().setSelectedItem(homeModel.getSelectedProfile());
+    }
+  }
+
+  /**
+   * Open dialog to create new profile.
+   */
+  private void createNewProfile() {
+    homeController.unlaunchUI();
+
+    AddProfileController controller = (AddProfileController) ControllerRegistry.get(AddProfileController.class);
+    if (controller == null) {
+      controller = new AddProfileController();
+    }
+    controller.setProfileName(null);
+    controller.launchUI();
+  }
+
+  private void editProfile(final String selectedProfile) {
+    homeController.unlaunchUI();
+
+    AddProfileController controller = (AddProfileController) ControllerRegistry.get(AddProfileController.class);
+    if (controller == null) {
+      controller = new AddProfileController();
+    }
+    controller.setProfileName(selectedProfile);
+    controller.launchUI();
+  }
+
+  /**
+   * Update profile combobox with new data from model.
+   */
+  private void updateProfileComboBox() {
+    final HomeModel homeModel = homeController.getHomeModel();
+    final HomeUI homeUI = homeController.getHomeUI();
+
+    final Runnable runnable = () -> {
+      final DefaultComboBoxModel<String> model =
+          (DefaultComboBoxModel<String>) homeUI.getProfileComboBox().getModel();
+      model.removeAllElements();
+      homeModel.getProfiles().forEach(model::addElement);
+    };
+    if (!SwingUtilities.isEventDispatchThread()) {
+      SwingUtilities.invokeLater(runnable);
+    } else {
+      runnable.run();
+    }
+  }
+
+  /**
+   * Update scenario combobox with new data from model.
+   */
+  private void updateScenarioComboBox() {
+    final HomeModel homeModel = homeController.getHomeModel();
+    final HomeUI homeUI = homeController.getHomeUI();
+
+    final Runnable runnable = () -> {
+      final DefaultComboBoxModel<String> model =
+          (DefaultComboBoxModel<String>) homeUI.getScenarioCombobox().getModel();
+      model.removeAllElements();
+      homeModel.getDirectors().keySet().forEach(model::addElement);
+    };
+    if (!SwingUtilities.isEventDispatchThread()) {
+      SwingUtilities.invokeLater(runnable);
+    } else {
+      runnable.run();
+    }
+  }
+}

@@ -3,5 +3,8 @@
 /.classpath
 /.project
 /.settings/
+profiles/
+runeLog/
+unknownStates/
 .idea
 *.iml
