@@ -131,8 +131,8 @@ public class AddProfileUI extends JFrame {
   public AddProfileUI() {
     initGUI();
 
-    setSize(new Dimension(600, 580));
-    setPreferredSize(new Dimension(600, 580));
+    setSize(new Dimension(650, 700));
+    setPreferredSize(new Dimension(650, 700));
     setLocationRelativeTo(null);
   }
 

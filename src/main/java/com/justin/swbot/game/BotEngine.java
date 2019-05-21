@@ -73,7 +73,6 @@ public final class BotEngine extends Thread {
         director.direct(gameStatus);
         sleep(1000);
       } catch (final Exception e) {
-        e.printStackTrace();
         homeController.updateStatus("Error in bot loop: " + e.getMessage());
       }
     }

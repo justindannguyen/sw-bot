@@ -2,6 +2,8 @@
 [![codecov](https://codecov.io/gh/justindannguyen/sw-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/justindannguyen/sw-bot)
 [![Build Status](https://travis-ci.org/justindannguyen/sw-bot.svg?branch=master)](https://travis-ci.org/justindannguyen/sw-bot)
 
+**Discontinued**: Updated in 21 May, 2019 that I stopped playing SW for long time and the project was not maintained along with game patches. You may try your luck with this or alternative https://github.com/swarauto/swarauto-desktop 
+
 # sw-bot
 
 ### Introduction
@@ -51,4 +53,4 @@ This is the fun project and use it as your own risk. We will not responsible for
 * [ ] Full runes warehouse
 * [ ] Wifi ADB.
 * [ ] 3G ADB
-* [x] Auto on android phone itself, no PC. -> https://github.com/akivamu/sw-bot-android
+* [x] Auto on android phone itself -> https://github.com/swarauto/swarauto-desktop/

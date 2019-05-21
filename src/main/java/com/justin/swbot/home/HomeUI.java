@@ -29,8 +29,8 @@ public final class HomeUI extends JFrame {
 
   public HomeUI() {
     initGUI();
-    setPreferredSize(new Dimension(600, 100));
-    setSize(new Dimension(600, 100));
+    setPreferredSize(new Dimension(600, 120));
+    setSize(new Dimension(600, 120));
     setLocationRelativeTo(null);
   }
 
